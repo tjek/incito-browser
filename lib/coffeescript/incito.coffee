@@ -10,17 +10,18 @@ class Incito
         return
     
     start: ->
+        incito = @options.incito or {}
         frag = document.createDocumentFragment()
 
-        @loadFonts()
-        @render frag, @options.incito.root_view
+        @loadFonts incito.font_assets
+        @render frag, incito.root_view
 
-        @el.setAttribute 'lang', @options.incito.locale if @options.incito.locale?
+        @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.appendChild frag
         
         @
 
-    render: (el, view) ->
+    render: (el, view = {}) ->
         match = null
         viewName = view.view_name
 
@@ -52,9 +53,9 @@ class Incito
         
             viewEl
 
-    loadFonts: ->
+    loadFonts: (fontAssets = {}) ->
         if 'FontFace' of window
-            for key, value of @options.incito.font_assets
+            for key, value of fontAssets
                 urls = value.src.map((src) -> "url(#{src[1]})").join ', '
                 font = new FontFace key, urls,
                     style: value.style ? 'normal'
@@ -66,7 +67,7 @@ class Incito
         else
             styleEl = document.createElement 'style'
 
-            for key, value of @options.incito.font_assets
+            for key, value of fontAssets
                 urls = value.src.map((src) -> "url('#{src[1]}') format('#{src[0]}')").join ', '
                 text = """
                     @font-face {

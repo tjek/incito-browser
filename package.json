@@ -1,10 +1,10 @@
 {
   "name": "incito-browser",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/incito.js",
   "watch": {
-    "build-coffee": {
+    "build:js": {
       "patterns": [
         "lib/coffeescript"
       ],
@@ -12,7 +12,7 @@
         "coffee"
       ]
     },
-    "build-styl": {
+    "build:css": {
       "patterns": [
         "lib/stylus"
       ],
