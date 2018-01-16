@@ -22,7 +22,7 @@ module.exports = class TextView extends View
         @el.innerHTML = text.join ''
 
         # Font family.
-        if Array.isArray(@attrs.font_family)
+        if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0
             @el.style.fontFamily = @attrs.font_family.join(', ')
 
         # Text size.

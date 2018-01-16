@@ -14,8 +14,9 @@ class Incito
         frag = document.createDocumentFragment()
 
         @loadFonts incito.font_assets
+        @applyTheme incito.theme
         @render frag, incito.root_view
-
+        
         @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.appendChild frag
         
@@ -52,6 +53,12 @@ class Incito
             el.appendChild viewEl
         
             viewEl
+    
+    applyTheme: (theme = {}) ->
+        if theme.font_family?
+            @el.style.fontFamily = theme.font_family.join(', ')
+        
+        return
 
     loadFonts: (fontAssets = {}) ->
         if 'FontFace' of window
