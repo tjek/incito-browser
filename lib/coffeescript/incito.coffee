@@ -64,7 +64,7 @@ class Incito
 
                 font.load()
         else
-            style = document.createElement 'style'
+            styleEl = document.createElement 'style'
 
             for key, value of @options.incito.font_assets
                 urls = value.src.map((src) -> "url('#{src[1]}') format('#{src[0]}')").join ', '
@@ -75,9 +75,9 @@ class Incito
                     }
                 """
                 
-                style.appendChild document.createTextNode(text)
+                styleEl.appendChild document.createTextNode(text)
 
-            document.head.appendChild style
+            document.head.appendChild styleEl
         
         return
 
