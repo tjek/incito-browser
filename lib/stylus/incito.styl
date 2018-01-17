@@ -8,6 +8,10 @@
     *,
     *:after
         box-sizing inherit
+    
+    &[data-debug="true"]
+        .incito__view
+            border 1px solid red !important
 
 @require './view'
 @require './absolute-layout'
