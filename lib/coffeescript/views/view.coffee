@@ -1,3 +1,5 @@
+utils = require '../utils'
+
 module.exports = class View
     tagName: 'div'
 
@@ -38,7 +40,7 @@ module.exports = class View
         else if @attrs.layout_width is 'wrap_content'
             @el.style.display = 'inline-block'
         else if @attrs.layout_width?
-            @el.style.width = @attrs.layout_width.replace 'dp', 'px'
+            @el.style.width = utils.formatUnit @attrs.layout_width
 
         # Height.
         if @attrs.layout_height is 'match_parent'
@@ -46,33 +48,33 @@ module.exports = class View
         else if @attrs.layout_height is 'wrap_content'
             @el.style.height = 'auto'
         else if @attrs.layout_height?
-            @el.style.height = @attrs.layout_height.replace 'dp', 'px'
+            @el.style.height = utils.formatUnit @attrs.layout_height
 
         # Min width.
         if @attrs.min_width?
-            @el.style.minWidth = @attrs.min_width.replace 'dp', 'px'
+            @el.style.minWidth = utils.formatUnit @attrs.min_width
         
         # Max width.
         if @attrs.max_width?
-            @el.style.maxWidth = @attrs.max_width.replace 'dp', 'px'
+            @el.style.maxWidth = utils.formatUnit @attrs.max_width
 
         # Min height.
         if @attrs.min_height?
-            @el.style.minHeight = @attrs.min_height.replace 'dp', 'px'
+            @el.style.minHeight = utils.formatUnit @attrs.min_height
 
         # Max height.
         if @attrs.max_height?
-            @el.style.maxHeight = @attrs.max_height.replace 'dp', 'px'
+            @el.style.maxHeight = utils.formatUnit @attrs.max_height
         
         # Position in relation to parent.
         if @attrs.layout_top?
-            @el.style.top = @attrs.layout_top.replace 'dp', 'px'
+            @el.style.top = utils.formatUnit @attrs.layout_top
         if @attrs.layout_left?
-            @el.style.left = @attrs.layout_left.replace 'dp', 'px'
+            @el.style.left = utils.formatUnit @attrs.layout_left
         if @attrs.layout_right?
-            @el.style.right = @attrs.layout_right.replace 'dp', 'px'
+            @el.style.right = utils.formatUnit @attrs.layout_right
         if @attrs.layout_bottom?
-            @el.style.bottom = @attrs.layout_bottom.replace 'dp', 'px'
+            @el.style.bottom = utils.formatUnit @attrs.layout_bottom
         
         # Background.
         if @attrs.background_color?
@@ -95,9 +97,9 @@ module.exports = class View
             dropShadowBlurRadius = @attrs.drop_shadow.blur_radius or '0dp'
             dropShadowColor = @attrs.drop_shadow.color or 'transparent'
             dropShadowValues = [
-                dropShadowLeft.replace('dp', 'px'),
-                dropShadowTop.replace('dp', 'px'),
-                dropShadowBlurRadius.replace('dp', 'px'),
+                utils.formatUnit(dropShadowLeft),
+                utils.formatUnit(dropShadowTop),
+                utils.formatUnit(dropShadowBlurRadius),
                 dropShadowColor
             ].join(' ')
 
@@ -105,33 +107,33 @@ module.exports = class View
 
         # Margin.
         if @attrs.layout_margin?
-            @el.style.margin = @attrs.layout_margin.replace 'dp', 'px'
+            @el.style.margin = utils.formatUnit @attrs.layout_margin
         else
             if @attrs.layout_margin_top?
-                @el.style.marginTop = @attrs.layout_margin_top.replace 'dp', 'px'
+                @el.style.marginTop = utils.formatUnit @attrs.layout_margin_top
             if @attrs.layout_margin_left?
-                @el.style.marginLeft = @attrs.layout_margin_left.replace 'dp', 'px'
+                @el.style.marginLeft = utils.formatUnit @attrs.layout_margin_left
             if @attrs.layout_margin_right?
-                @el.style.marginRight = @attrs.layout_margin_right.replace 'dp', 'px'
+                @el.style.marginRight = utils.formatUnit @attrs.layout_margin_right
             if @attrs.layout_margin_bottom?
-                @el.style.marginBottom = @attrs.layout_margin_bottom.replace 'dp', 'px'
+                @el.style.marginBottom = utils.formatUnit @attrs.layout_margin_bottom
 
         # Padding.
         if @attrs.padding?
-            @el.style.padding = @attrs.padding.replace 'dp', 'px'
+            @el.style.padding = utils.formatUnit @attrs.padding
         else
             if @attrs.padding_top?
-                @el.style.paddingTop = @attrs.padding_top.replace 'dp', 'px'
+                @el.style.paddingTop = utils.formatUnit @attrs.padding_top
             if @attrs.padding_left?
-                @el.style.paddingLeft = @attrs.padding_left.replace 'dp', 'px'
+                @el.style.paddingLeft = utils.formatUnit @attrs.padding_left
             if @attrs.padding_right?
-                @el.style.paddingRight = @attrs.padding_right.replace 'dp', 'px'
+                @el.style.paddingRight = utils.formatUnit @attrs.padding_right
             if @attrs.padding_bottom?
-                @el.style.paddingBottom = @attrs.padding_bottom.replace 'dp', 'px'
+                @el.style.paddingBottom = utils.formatUnit @attrs.padding_bottom
         
         # Corner radius.
         if @attrs.corner_radius?
-            @el.style.borderRadius = @attrs.corner_radius + 'px'
+            @el.style.borderRadius = utils.formatUnit @attrs.corner_radius
         else
             if @attrs.corner_top_left_radius?
                 @el.style.borderTopleftRadius = @attrs.corner.corner_top_left_radius
@@ -150,35 +152,35 @@ module.exports = class View
         strokeStyles = ['solid', 'dotted', 'dashed']
 
         if @attrs.stroke_width?
-            @el.style.borderWidth = @attrs.stroke_width.replace 'dp', 'px'
+            @el.style.borderWidth = utils.formatUnit @attrs.stroke_width
         if @attrs.stroke_color?
             @el.style.borderColor = @attrs.stroke_color
         if @attrs.stroke_style in strokeStyles
             @el.style.borderStyle = @attrs.stroke_style
 
         if @attrs.stroke_top_width?
-            @el.style.borderTopWidth = @attrs.stroke_top_width.replace 'dp', 'px'
+            @el.style.borderTopWidth = utils.formatUnit @attrs.stroke_top_width
         if @attrs.stroke_top_color?
             @el.style.borderTopColor = @attrs.stroke_top_color
         if @attrs.stroke_top_style in strokeStyles
             @el.style.borderTopStyle = @attrs.stroke_top_style
 
         if @attrs.stroke_left_width?
-            @el.style.borderLeftWidth = @attrs.stroke_left_width.replace 'dp', 'px'
+            @el.style.borderLeftWidth = utils.formatUnit @attrs.stroke_left_width
         if @attrs.stroke_left_color?
             @el.style.borderLeftColor = @attrs.stroke_left_color
         if @attrs.stroke_left_style in strokeStyles
             @el.style.borderLeftStyle = @attrs.stroke_left_style
 
         if @attrs.stroke_right_width?
-            @el.style.borderRightWidth = @attrs.stroke_right_width.replace 'dp', 'px'
+            @el.style.borderRightWidth = utils.formatUnit @attrs.stroke_right_width
         if @attrs.stroke_right_color?
             @el.style.borderRightColor = @attrs.stroke_right_color
         if @attrs.stroke_right_style in strokeStyles
             @el.style.borderRightStyle = @attrs.stroke_right_style
 
         if @attrs.stroke_bottom_width?
-            @el.style.borderBottomWidth = @attrs.stroke_bottom_width.replace 'dp', 'px'
+            @el.style.borderBottomWidth = utils.formatUnit @attrs.stroke_bottom_width
         if @attrs.stroke_bottom_color?
             @el.style.borderBottomColor = @attrs.stroke_bottom_color
         if @attrs.stroke_bottom_style in strokeStyles
@@ -212,12 +214,12 @@ module.exports = class View
             transforms.push "scale(#{@attrs.transform_scale})"
         
         if @attrs.transform_translate_x?
-            translateX = @attrs.transform_translate_x.replace 'dp', 'px'
+            translateX = utils.formatUnit @attrs.transform_translate_x
 
             transforms.push "translateX(#{translateX})"
 
         if @attrs.transform_translate_y?
-            translateY = @attrs.transform_translate_y.replace 'dp', 'px'
+            translateY = utils.formatUnit @attrs.transform_translate_y
 
             transforms.push "translateY(#{translateY})"
         
