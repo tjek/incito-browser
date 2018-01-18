@@ -1,1 +1,1 @@
-Incito [![Build Status](https://travis-ci.org/shopgun/incito-browser.svg?branch=develop)](https://travis-ci.org/shopgun/incito-browser)
+# Incito [![Build Status](https://travis-ci.org/shopgun/incito-browser.svg?branch=develop)](https://travis-ci.org/shopgun/incito-browser)
