@@ -92,9 +92,9 @@ module.exports = class View
         
         # Drop shadow.
         if @attrs.drop_shadow?
-            dropShadowLeft = @attrs.drop_shadow.left or '0dp'
-            dropShadowTop = @attrs.drop_shadow.top or '0dp'
-            dropShadowBlurRadius = @attrs.drop_shadow.blur_radius or '0dp'
+            dropShadowLeft = @attrs.drop_shadow.left
+            dropShadowTop = @attrs.drop_shadow.top
+            dropShadowBlurRadius = @attrs.drop_shadow.blur_radius
             dropShadowColor = @attrs.drop_shadow.color or 'transparent'
             dropShadowValues = [
                 utils.formatUnit(dropShadowLeft),
