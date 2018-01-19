@@ -1,3 +1,6 @@
+require 'intersection-observer'
+
+lozad = require 'lozad'
 View = require './views/view'
 ImageView = require './views/image'
 TextView = require './views/text'
@@ -20,6 +23,9 @@ class Incito
         @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.setAttribute 'data-debug', true if incito.debug is true
         @el.appendChild frag
+
+        @lazyload = lozad '.incito--lazyload'
+        @lazyload.observe()
         
         @
 
