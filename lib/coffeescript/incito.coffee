@@ -24,7 +24,8 @@ class Incito
         @el.setAttribute 'data-debug', true if incito.debug is true
         @el.appendChild frag
 
-        @lazyload = lozad '.incito--lazyload'
+        @lazyload = lozad '.incito--lazyload',
+            rootMargin: '0px 0px 400px'
         @lazyload.observe()
         
         @
