@@ -4,6 +4,7 @@ lozad = require 'lozad'
 View = require './views/view'
 ImageView = require './views/image'
 TextView = require './views/text'
+VideoEmbedView = require './views/video-embed'
 LinearLayout = require './views/linear-layout'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
@@ -40,6 +41,8 @@ class Incito
             match = ImageView
         else if viewName is 'TextView'
             match = TextView
+        else if viewName is 'VideoEmbedView'
+            match = VideoEmbedView
         else if viewName is 'LinearLayout'
             match = LinearLayout
         else if viewName is 'AbsoluteLayout'

@@ -9,7 +9,10 @@ module.exports = class Image extends View
         # Avoid grey border around image.
         @el.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
-        if @attrs.src?
+        if typeof @attrs.src is 'string'
             @el.setAttribute 'data-src', @attrs.src
+        
+        if typeof @attrs.label is 'string'
+            @el.setAttribute 'alt', @attrs.label
 
         @
