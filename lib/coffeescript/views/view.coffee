@@ -37,6 +37,16 @@ module.exports = class View
         # Gravity.
         if typeof @attrs.gravity is 'string'
             @el.setAttribute 'data-gravity', @attrs.gravity
+        
+        # Link.
+        if typeof @attrs.link is 'string'
+            @el.setAttribute 'data-link', @attrs.link
+            @el.onclick = (e) =>
+                e.stopPropagation()
+
+                window.open @attrs.link, '_blank'
+
+                return
 
         # Width.
         if @attrs.layout_width is 'match_parent'
