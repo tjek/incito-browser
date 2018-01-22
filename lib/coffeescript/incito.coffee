@@ -66,6 +66,9 @@ class Incito
         if theme.font_family?
             @el.style.fontFamily = theme.font_family.join(', ')
         
+        if theme.line_spacing_multiplier?
+            @el.style.lineHeight = theme.line_spacing_multiplier
+        
         return
 
     loadFonts: (fontAssets = {}) ->
