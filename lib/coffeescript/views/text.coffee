@@ -19,7 +19,10 @@ module.exports = class TextView extends View
             else
                 escapedText
 
-        @el.innerHTML = text.join ''
+        if @attrs.text_prevent_widow
+            @el.innerHTML = text.join('').replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
+        else
+            @el.innerHTML = text.join ''
 
         # Font family.
         if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0

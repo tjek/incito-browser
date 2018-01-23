@@ -1,6 +1,7 @@
 require 'intersection-observer'
 
 lozad = require 'lozad'
+vent = require './vent'
 View = require './views/view'
 ImageView = require './views/image'
 TextView = require './views/text'
@@ -10,6 +11,8 @@ AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
 
 class Incito
+    @vent: vent
+
     constructor: (@el, @options = {}) ->
         return
     

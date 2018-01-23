@@ -1,4 +1,5 @@
 utils = require '../utils'
+vent = require '../vent'
 
 module.exports = class View
     tagName: 'div'
@@ -38,13 +39,21 @@ module.exports = class View
         if typeof @attrs.gravity is 'string'
             @el.setAttribute 'data-gravity', @attrs.gravity
         
-        # Link.
+        # Link or callback.
         if typeof @attrs.link is 'string'
             @el.setAttribute 'data-link', @attrs.link
             @el.onclick = (e) =>
                 e.stopPropagation()
 
                 window.open @attrs.link, '_blank'
+
+                return
+        else if typeof @attrs.on_click is 'string'
+            @el.setAttribute 'data-callback', @attrs.on_click
+            @el.onclick = (e) =>
+                e.stopPropagation()
+
+                vent.trigger @attrs.on_click, @attrs
 
                 return
 
@@ -202,10 +211,10 @@ module.exports = class View
             @el.style.borderBottomStyle = @attrs.stroke_bottom_style
 
         # Flex layout.
-        if @attrs.layout_flex_shrink?
+        if typeof @attrs.layout_flex_shrink is 'number'
             @el.style.flexShrink = @attrs.layout_flex_shrink
         
-        if @attrs.layout_flex_grow?
+        if typeof @attrs.layout_flex_grow is 'number'
             @el.style.flexGrow = @attrs.layout_flex_grow
         
         if @attrs.layout_flex_basis?
@@ -213,7 +222,6 @@ module.exports = class View
         
         # Transforms.
         transforms = @getTransforms()
-
         if transforms.length > 0
             @el.style.transform = transforms.join ' '
 
