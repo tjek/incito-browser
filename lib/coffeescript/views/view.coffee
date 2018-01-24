@@ -160,13 +160,13 @@ module.exports = class View
             @el.style.borderRadius = utils.formatUnit @attrs.corner_radius
         else
             if @attrs.corner_top_left_radius?
-                @el.style.borderTopleftRadius = @attrs.corner.corner_top_left_radius
+                @el.style.borderTopLeftRadius = utils.formatUnit @attrs.corner_top_left_radius
             if @attrs.corner_top_right_radius?
-                @el.style.borderTopleftRadius = @attrs.corner.corner_top_right_radius
+                @el.style.borderTopRightRadius = utils.formatUnit @attrs.corner_top_right_radius
             if @attrs.corner_bottom_left_radius?
-                @el.style.borderTopleftRadius = @attrs.corner.corner_bottom_left_radius
+                @el.style.borderBottomLeftRadius = utils.formatUnit @attrs.corner_bottom_left_radius
             if @attrs.corner_bottom_right_radius?
-                @el.style.borderTopleftRadius = @attrs.corner.corner_bottom_right_radius
+                @el.style.borderBottomRightRadius = utils.formatUnit @attrs.corner_bottom_right_radius
         
         # Clip children.
         if @attrs.clip_children is false

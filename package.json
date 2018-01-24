@@ -64,7 +64,7 @@
     "derequire": "^2.0.6",
     "intersection-observer": "^0.5.0",
     "jest": "^22.1.4",
-    "lozad": "^1.1.0",
+    "lozad": "^1.2.0",
     "nib": "^1.1.2",
     "npm-run-all": "^4.1.2",
     "npm-watch": "^0.3.0",
