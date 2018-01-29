@@ -34,6 +34,7 @@ module.exports = class View
         # Accessibility label.
         if typeof @attrs.accessibility_label is 'string'
             @el.setAttribute 'aria-label', @attrs.accessibility_label
+            @el.setAttribute 'title', @attrs.accessibility_label
 
         # Gravity.
         if typeof @attrs.gravity is 'string'
