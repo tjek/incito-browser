@@ -214,10 +214,8 @@ module.exports = class View
         # Flex layout.
         if typeof @attrs.layout_flex_shrink is 'number'
             @el.style.flexShrink = @attrs.layout_flex_shrink
-        
         if typeof @attrs.layout_flex_grow is 'number'
             @el.style.flexGrow = @attrs.layout_flex_grow
-        
         if @attrs.layout_flex_basis?
             @el.style.flexBasis = @attrs.layout_flex_basis
         
@@ -225,17 +223,18 @@ module.exports = class View
         transforms = @getTransforms()
         if transforms.length > 0
             @el.style.transform = transforms.join ' '
+        
+        # Transform origin.
+        if Array.isArray(@attrs.transform_origin) and @attrs.transform_origin.length is 2
+            @el.style.transformOrigin = [
+                utils.formatUnit(@attrs.transform_origin[0]),
+                utils.formatUnit(@attrs.transform_origin[1])
+            ].join ' '
 
         return
     
     getTransforms: ->
         transforms = []
-
-        if @attrs.transform_rotate?
-            transforms.push "rotate(#{@attrs.transform_rotate}deg)"
-        
-        if @attrs.transform_scale?
-            transforms.push "scale(#{@attrs.transform_scale})"
         
         if @attrs.transform_translate_x?
             translateX = utils.formatUnit @attrs.transform_translate_x
@@ -246,5 +245,11 @@ module.exports = class View
             translateY = utils.formatUnit @attrs.transform_translate_y
 
             transforms.push "translateY(#{translateY})"
+
+        if @attrs.transform_scale?
+            transforms.push "scale(#{@attrs.transform_scale})"
+
+        if @attrs.transform_rotate?
+            transforms.push "rotate(#{@attrs.transform_rotate}deg)"
         
         transforms

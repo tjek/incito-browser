@@ -3,6 +3,7 @@ require 'intersection-observer'
 lozad = require 'lozad'
 vent = require './vent'
 View = require './views/view'
+FragView = require './views/frag'
 ImageView = require './views/image'
 TextView = require './views/text'
 VideoEmbedView = require './views/video-embed'
@@ -40,6 +41,8 @@ class Incito
 
         if !viewName or viewName is 'View'
             match = View
+        else if viewName is 'FragView'
+            match = FragView
         else if viewName is 'ImageView'
             match = ImageView
         else if viewName is 'TextView'
