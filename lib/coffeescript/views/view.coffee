@@ -246,10 +246,10 @@ module.exports = class View
 
             transforms.push "translateY(#{translateY})"
 
-        if @attrs.transform_scale?
-            transforms.push "scale(#{@attrs.transform_scale})"
-
         if @attrs.transform_rotate?
             transforms.push "rotate(#{@attrs.transform_rotate}deg)"
+
+        if @attrs.transform_scale?
+            transforms.push "scale(#{@attrs.transform_scale})"
         
         transforms
