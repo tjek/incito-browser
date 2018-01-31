@@ -30,7 +30,7 @@ class Incito
         @el.appendChild frag
 
         @lazyload = lozad '.incito--lazyload',
-            rootMargin: '0px 0px 400px'
+            rootMargin: '500px 0px'
         @lazyload.observe()
         
         @
