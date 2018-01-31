@@ -235,21 +235,16 @@ module.exports = class View
     
     getTransforms: ->
         transforms = []
-        
-        if @attrs.transform_translate_x?
-            translateX = utils.formatUnit @attrs.transform_translate_x
+        translateX = utils.formatUnit @attrs.transform_translate_x
+        translateY = utils.formatUnit @attrs.transform_translate_y
 
-            transforms.push "translateX(#{translateX})"
+        if translateX isnt 0 and translateY isnt 0
+            transforms.push "translate3d(#{translateX}, #{translateY}, 0)"
 
-        if @attrs.transform_translate_y?
-            translateY = utils.formatUnit @attrs.transform_translate_y
+        if typeof @attrs.transform_rotate is 'number' and @attrs.transform_scale isnt 1
+            transforms.push "rotate3d(0, 0, 1, #{@attrs.transform_rotate}deg)"
 
-            transforms.push "translateY(#{translateY})"
-
-        if @attrs.transform_rotate?
-            transforms.push "rotate(#{@attrs.transform_rotate}deg)"
-
-        if @attrs.transform_scale?
-            transforms.push "scale(#{@attrs.transform_scale})"
+        if typeof @attrs.transform_scale is 'number' and @attrs.transform_scale isnt 1
+            transforms.push "scale3d(#{@attrs.transform_scale}, #{@attrs.transform_scale}, 1)"
         
         transforms
