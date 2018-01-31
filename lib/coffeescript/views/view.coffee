@@ -31,6 +31,10 @@ module.exports = class View
         if typeof @attrs.id is 'string'
             @el.setAttribute 'data-id', @attrs.id
         
+        # Role.
+        if typeof @attrs.role is 'string'
+            @el.setAttribute 'role', @attrs.role
+        
         # Accessibility label.
         if typeof @attrs.accessibility_label is 'string'
             @el.setAttribute 'aria-label', @attrs.accessibility_label
