@@ -6,8 +6,6 @@ module.exports = class Image extends View
     className: 'incito__image-view incito--lazyload'
     
     render: ->
-        @el.setAttribute 'src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-        
         if typeof @attrs.src is 'string'
             @el.setAttribute 'data-src', @attrs.src
         
