@@ -44,7 +44,7 @@ module.exports = class View
         if typeof @attrs.gravity is 'string'
             @el.setAttribute 'data-gravity', @attrs.gravity
         
-        # Link or callback.
+        # Link or click callback.
         if typeof @attrs.link is 'string'
             @el.setAttribute 'data-link', @attrs.link
             @el.onclick = (e) =>
@@ -53,18 +53,40 @@ module.exports = class View
                 window.open @attrs.link, '_blank'
 
                 return
-        else if typeof @attrs.on_click is 'string'
-            @el.setAttribute 'data-callback', @attrs.on_click
+        else if typeof @attrs.onclick is 'string'
+            @el.setAttribute 'data-click-callback', @attrs.onclick
             @el.onclick = (e) =>
                 e.stopPropagation()
 
-                vent.trigger @attrs.on_click, @attrs
+                vent.trigger @attrs.onclick, @attrs
 
                 return
 
+        # Context click callback.
+        if typeof @attrs.oncontextclick is 'string'
+            @el.setAttribute 'data-context-click-callback', @attrs.oncontextclick
+            @el.oncontextmenu = (e) =>
+                vent.trigger @attrs.oncontextclick, @attrs
+
+                false
+        
+        # Long click callback.
+        if typeof @attrs.onlongclick is 'string'
+            @el.setAttribute 'data-long-click-callback', @attrs.onlongclick
+            @el.onmouseup = =>
+                clearTimeout @longclickTimer
+
+                false
+            @el.onmousedown = =>
+                @longclickTimer = window.setTimeout =>
+                    vent.trigger @attrs.onlongclick, @attrs
+                , 500
+
+                false
+
         # Width.
         if @attrs.layout_width is 'match_parent'
-            @el.style.display = 'block'
+            @el.style.width = '100%'
         else if @attrs.layout_width is 'wrap_content'
             @el.style.display = 'inline-block'
         else if @attrs.layout_width?
