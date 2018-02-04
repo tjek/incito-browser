@@ -38,7 +38,6 @@ module.exports = class View
         # Accessibility label.
         if typeof @attrs.accessibility_label is 'string'
             @el.setAttribute 'aria-label', @attrs.accessibility_label
-            @el.setAttribute 'title', @attrs.accessibility_label
 
         # Gravity.
         if typeof @attrs.gravity is 'string'
@@ -140,21 +139,6 @@ module.exports = class View
             @el.style.backgroundSize = 'cover'
         else if @attrs.background_image_scale_type is 'center_inside'
             @el.style.backgroundSize = 'contain'
-        
-        # Drop shadow.
-        if @attrs.drop_shadow?
-            dropShadowLeft = @attrs.drop_shadow.left
-            dropShadowTop = @attrs.drop_shadow.top
-            dropShadowBlurRadius = @attrs.drop_shadow.blur_radius
-            dropShadowColor = @attrs.drop_shadow.color or 'transparent'
-            dropShadowValues = [
-                utils.formatUnit(dropShadowLeft),
-                utils.formatUnit(dropShadowTop),
-                utils.formatUnit(dropShadowBlurRadius),
-                dropShadowColor
-            ].join(' ')
-
-            @el.style.filter = "drop-shadow(#{dropShadowValues})"
 
         # Margin.
         if @attrs.layout_margin?
