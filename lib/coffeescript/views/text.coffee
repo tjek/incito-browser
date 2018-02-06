@@ -61,6 +61,10 @@ module.exports = class TextView extends View
         # Single line.
         if @attrs.single_line is true
             @el.setAttribute 'data-single-line', true
+        
+        # All caps.
+        if @attrs.text_all_caps is true
+            @el.style.textTransform = 'uppercase'
 
         @
     
