@@ -76,6 +76,9 @@ class Incito
         if theme.font_family?
             @el.style.fontFamily = theme.font_family.join(', ')
         
+        if theme.background_color?
+            @el.style.backgroundColor = theme.background_color
+        
         if theme.line_spacing_multiplier?
             @el.style.lineHeight = theme.line_spacing_multiplier
         
