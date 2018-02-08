@@ -1,5 +1,5 @@
+MicroEvent = require 'microevent'
 utils = require '../utils'
-vent = require '../vent'
 
 module.exports = class View
     tagName: 'div'
@@ -57,7 +57,7 @@ module.exports = class View
             @el.onclick = (e) =>
                 e.stopPropagation()
 
-                vent.trigger @attrs.onclick, @attrs
+                @trigger @attrs.onclick, @attrs
 
                 return
 
@@ -65,7 +65,7 @@ module.exports = class View
         if typeof @attrs.oncontextclick is 'string'
             @el.setAttribute 'data-context-click-callback', @attrs.oncontextclick
             @el.oncontextmenu = (e) =>
-                vent.trigger @attrs.oncontextclick, @attrs
+                @trigger @attrs.oncontextclick, @attrs
 
                 false
         
@@ -78,7 +78,7 @@ module.exports = class View
                 false
             @el.onmousedown = =>
                 @longclickTimer = window.setTimeout =>
-                    vent.trigger @attrs.onlongclick, @attrs
+                    @trigger @attrs.onlongclick, @attrs
                 , 500
 
                 false
@@ -258,3 +258,7 @@ module.exports = class View
             transforms.push "scale3d(#{@attrs.transform_scale}, #{@attrs.transform_scale}, 1)"
         
         transforms
+
+MicroEvent.mixin View
+
+module.exports = View

@@ -1,7 +1,7 @@
 require 'intersection-observer'
 
+MicroEvent = require 'microevent'
 lozad = require 'lozad'
-vent = require './vent'
 View = require './views/view'
 FragView = require './views/frag'
 ImageView = require './views/image'
@@ -12,8 +12,6 @@ AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
 
 class Incito
-    @vent: vent
-
     constructor: (@el, @options = {}) ->
         return
     
@@ -36,9 +34,9 @@ class Incito
         
         @
 
-    render: (el, view = {}) ->
+    render: (el, attrs = {}) ->
         match = null
-        viewName = view.view_name
+        viewName = attrs.view_name
 
         if !viewName or viewName is 'View'
             match = View
@@ -58,19 +56,27 @@ class Incito
             match = FlexLayout
         
         if match?
-            viewEl = new match(view).render().el
+            view = new match attrs
+            trigger = view.trigger
 
-            if Array.isArray(view.child_views)
-                view.child_views.forEach (childView) =>
-                    childEl = @render(viewEl, childView)
+            view.trigger = (eventName, e) =>
+                trigger eventName, e
+                @trigger eventName, e
 
-                    viewEl.appendChild childEl if childEl?
+                return
+            view.render()
+
+            if Array.isArray(attrs.child_views)
+                attrs.child_views.forEach (childView) =>
+                    childEl = @render(view.el, childView)
+
+                    view.el.appendChild childEl if childEl?
 
                     return
             
-            el.appendChild viewEl
+            el.appendChild view.el
         
-            viewEl
+            view.el
     
     applyTheme: (theme = {}) ->
         if theme.font_family?
@@ -112,5 +118,7 @@ class Incito
             document.head.appendChild styleEl
         
         return
+
+MicroEvent.mixin Incito
 
 module.exports = Incito
