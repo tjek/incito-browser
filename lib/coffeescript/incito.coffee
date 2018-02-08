@@ -59,9 +59,9 @@ class Incito
             view = new match attrs
             trigger = view.trigger
 
-            view.trigger = (eventName, e) =>
-                trigger eventName, e
-                @trigger eventName, e
+            view.trigger = (args...) =>
+                trigger.apply view, args
+                @trigger.apply @, args
 
                 return
             view.render()
