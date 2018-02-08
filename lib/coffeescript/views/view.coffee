@@ -251,7 +251,7 @@ module.exports = class View
         if translateX isnt 0 and translateY isnt 0
             transforms.push "translate3d(#{translateX}, #{translateY}, 0)"
 
-        if typeof @attrs.transform_rotate is 'number' and @attrs.transform_scale isnt 1
+        if typeof @attrs.transform_rotate is 'number' and @attrs.transform_rotate isnt 1
             transforms.push "rotate3d(0, 0, 1, #{@attrs.transform_rotate}deg)"
 
         if typeof @attrs.transform_scale is 'number' and @attrs.transform_scale isnt 1
