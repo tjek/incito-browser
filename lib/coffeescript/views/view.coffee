@@ -220,14 +220,6 @@ module.exports = class View
             @el.style.borderBottomColor = @attrs.stroke_bottom_color
         if @attrs.stroke_bottom_style in strokeStyles
             @el.style.borderBottomStyle = @attrs.stroke_bottom_style
-
-        # Flex layout.
-        if typeof @attrs.layout_flex_shrink is 'number'
-            @el.style.flexShrink = @attrs.layout_flex_shrink
-        if typeof @attrs.layout_flex_grow is 'number'
-            @el.style.flexGrow = @attrs.layout_flex_grow
-        if @attrs.layout_flex_basis?
-            @el.style.flexBasis = @attrs.layout_flex_basis
         
         # Transforms.
         transforms = @getTransforms()
