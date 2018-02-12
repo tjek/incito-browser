@@ -12,10 +12,10 @@ module.exports = class TextView extends View
         text = parsedText.map (item) ->
             escapedText = utils.escapeHTML item.text
 
-            if item.span?
-                tagName = if item.span.type is 'superscript' then 'sup' else 'span'
+            if item.span? && item.span.name?
+                spanName = utils.escapeHTML item.span.name
 
-                "<#{tagName}>" + escapedText + "</#{tagName}>"
+                '<span data-name="' + spanName + '">' + escapedText + '</span>'
             else
                 escapedText
 
