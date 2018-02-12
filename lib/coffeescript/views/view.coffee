@@ -39,6 +39,10 @@ module.exports = class View
         if typeof @attrs.accessibility_label is 'string'
             @el.setAttribute 'aria-label', @attrs.accessibility_label
 
+        # Title.
+        if typeof @attrs.title is 'string'
+            @el.setAttribute 'title', @attrs.title
+
         # Gravity.
         if typeof @attrs.gravity is 'string'
             @el.setAttribute 'data-gravity', @attrs.gravity
@@ -57,7 +61,9 @@ module.exports = class View
             @el.onclick = (e) =>
                 e.stopPropagation()
 
-                @trigger @attrs.onclick, @attrs
+                @trigger @attrs.onclick,
+                    originalEvent: e
+                    incito: @attrs
 
                 return
 
@@ -65,7 +71,9 @@ module.exports = class View
         if typeof @attrs.oncontextclick is 'string'
             @el.setAttribute 'data-context-click-callback', @attrs.oncontextclick
             @el.oncontextmenu = (e) =>
-                @trigger @attrs.oncontextclick, @attrs
+                @trigger @attrs.oncontextclick,
+                    originalEvent: e
+                    incito: @attrs
 
                 false
         
@@ -76,9 +84,11 @@ module.exports = class View
                 clearTimeout @longclickTimer
 
                 false
-            @el.onmousedown = =>
+            @el.onmousedown = (e) =>
                 @longclickTimer = window.setTimeout =>
-                    @trigger @attrs.onlongclick, @attrs
+                    @trigger @attrs.onlongclick,
+                        originalEvent: e
+                        incito: @attrs
                 , 500
 
                 false
