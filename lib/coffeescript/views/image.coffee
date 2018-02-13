@@ -1,4 +1,5 @@
 View = require './view'
+utils = require '../utils'
 
 module.exports = class Image extends View
     tagName: 'img'
@@ -6,10 +7,10 @@ module.exports = class Image extends View
     className: 'incito__image-view incito--lazyload'
     
     render: ->
-        if typeof @attrs.src is 'string'
+        if utils.isDefinedStr @attrs.src
             @el.setAttribute 'data-src', @attrs.src
         
-        if typeof @attrs.label is 'string'
+        if utils.isDefinedStr @attrs.label
             @el.setAttribute 'alt', @attrs.label
 
         @

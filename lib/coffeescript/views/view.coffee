@@ -28,70 +28,38 @@ module.exports = class View
     
     setAttributes: ->
         # Identifier.
-        if typeof @attrs.id is 'string'
+        if utils.isDefinedStr @attrs.id
             @el.setAttribute 'data-id', @attrs.id
         
         # Role.
-        if typeof @attrs.role is 'string'
+        if utils.isDefinedStr @attrs.role
             @el.setAttribute 'role', @attrs.role
         
         # Accessibility label.
-        if typeof @attrs.accessibility_label is 'string'
+        if utils.isDefinedStr @attrs.accessibility_label
             @el.setAttribute 'aria-label', @attrs.accessibility_label
 
         # Title.
-        if typeof @attrs.title is 'string'
+        if utils.isDefinedStr @attrs.title
             @el.setAttribute 'title', @attrs.title
 
         # Gravity.
-        if typeof @attrs.gravity is 'string'
+        if utils.isDefinedStr @attrs.gravity
             @el.setAttribute 'data-gravity', @attrs.gravity
         
-        # Link or click callback.
-        if typeof @attrs.link is 'string'
-            @el.setAttribute 'data-link', @attrs.link
+        # Link or callbacks.
+        if utils.isDefinedStr @attrs.link
+            @el.setAttribute 'data-link', ''
             @el.onclick = (e) =>
                 e.stopPropagation()
 
                 window.open @attrs.link, '_blank'
 
                 return
-        else if typeof @attrs.onclick is 'string'
-            @el.setAttribute 'data-click-callback', @attrs.onclick
-            @el.onclick = (e) =>
-                e.stopPropagation()
+        else if @hasCallback()
+            @el.setAttribute 'data-callback', ''
 
-                @trigger @attrs.onclick,
-                    originalEvent: e
-                    incito: @attrs
-
-                return
-
-        # Context click callback.
-        if typeof @attrs.oncontextclick is 'string'
-            @el.setAttribute 'data-context-click-callback', @attrs.oncontextclick
-            @el.oncontextmenu = (e) =>
-                @trigger @attrs.oncontextclick,
-                    originalEvent: e
-                    incito: @attrs
-
-                false
-        
-        # Long click callback.
-        if typeof @attrs.onlongclick is 'string'
-            @el.setAttribute 'data-long-click-callback', @attrs.onlongclick
-            @el.onmouseup = =>
-                clearTimeout @longclickTimer
-
-                false
-            @el.onmousedown = (e) =>
-                @longclickTimer = window.setTimeout =>
-                    @trigger @attrs.onlongclick,
-                        originalEvent: e
-                        incito: @attrs
-                , 500
-
-                false
+            @setupCallbacks()
 
         # Width.
         if @attrs.layout_width is 'match_parent'
@@ -260,6 +228,67 @@ module.exports = class View
             transforms.push "scale3d(#{@attrs.transform_scale}, #{@attrs.transform_scale}, 1)"
         
         transforms
+    
+    hasCallback: ->
+        if utils.isDefinedStr @attrs.onlongclick
+            true
+        else if utils.isDefinedStr @attrs.onclick
+            true
+        else if utils.isDefinedStr @attrs.oncontextclick
+            true
+        else
+            false
+    
+    setupCallbacks: ->
+        startTime = null
+        endTime = null
+        longclickDelay = 500
+        clickDelay = 300
+        downTimeout = null
+        down = (e) =>
+            e.preventDefault()
+            e.stopPropagation()
+
+            startTime = new Date().getTime()
+
+            if e.which isnt 3 and e.button isnt 2 and utils.isDefinedStr @attrs.onlongclick
+                downTimeout = setTimeout =>
+                    @trigger @attrs.onlongclick,
+                        originalEvent: e
+                        incito: @attrs
+
+                    return
+                , longclickDelay
+
+            false
+        up = (e) =>
+            endTime = new Date().getTime()
+            delta = endTime - startTime
+
+            clearTimeout downTimeout
+
+            if e.which isnt 3 and e.button isnt 2 and delta < clickDelay
+                if utils.isDefinedStr @attrs.onclick
+                    @trigger @attrs.onclick,
+                        originalEvent: e
+                        incito: @attrs
+            
+            false
+
+        @el.ontouchstart = down
+        @el.ontouchend = up
+        @el.onmousedown = down
+        @el.onmouseup = up
+
+        if utils.isDefinedStr @attrs.oncontextclick
+            @el.oncontextmenu = (e) =>
+                @trigger @attrs.oncontextclick,
+                    originalEvent: e
+                    incito: @attrs
+                
+                false
+
+        return
 
 MicroEvent.mixin View
 

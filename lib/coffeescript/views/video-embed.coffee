@@ -1,4 +1,6 @@
 View = require './view'
+utils = require '../utils'
+
 allowedHostnames = ['www.youtube.com', 'www.vimeo.com', 'video.twentythree.net']
 
 module.exports = class FlexLayout extends View
@@ -11,7 +13,7 @@ module.exports = class FlexLayout extends View
         height = @attrs.video_height or 100
         ratio = (height / width) * 100
 
-        if @attrs.src?
+        if utils.isDefinedStr @attrs.src
             linkEl.setAttribute 'href', @attrs.src
 
             if linkEl.hostname in allowedHostnames

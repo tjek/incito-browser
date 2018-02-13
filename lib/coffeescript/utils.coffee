@@ -14,5 +14,8 @@ utils =
             return unit.replace 'dp', 'px'
         else
             return 0
+    
+    isDefinedStr: (value) ->
+        typeof value is 'string' and value.length > 0
 
 module.exports = utils

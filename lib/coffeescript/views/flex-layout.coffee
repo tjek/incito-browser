@@ -1,22 +1,23 @@
 View = require './view'
+utils = require '../utils'
 
 module.exports = class FlexLayout extends View
     className: 'incito__flex-layout-view'
 
     render: ->
-        if @attrs.layout_flex_align_items?
+        if utils.isDefinedStr @attrs.layout_flex_align_items
             @el.style.alignItems = @attrs.layout_flex_align_items
             @el.style.msAlignItems = @attrs.layout_flex_align_items
 
-        if @attrs.layout_flex_align_content?
+        if utils.isDefinedStr @attrs.layout_flex_align_content
             @el.style.alignContent = @attrs.layout_flex_align_content
             @el.style.msAlignContent = @attrs.layout_flex_align_content
 
-        if @attrs.layout_flex_justify_content?
+        if utils.isDefinedStr @attrs.layout_flex_justify_content
             @el.style.justifyContent = @attrs.layout_flex_justify_content
             @el.style.msFlexPack = @attrs.layout_flex_justify_content
 
-        if @attrs.layout_flex_direction?
+        if utils.isDefinedStr @attrs.layout_flex_direction
             @el.style.flexDirection = @attrs.layout_flex_direction
             @el.style.msFlexDirection = @attrs.layout_flex_direction
 
