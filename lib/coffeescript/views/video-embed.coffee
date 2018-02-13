@@ -1,5 +1,5 @@
 View = require './view'
-allowedHostnames = ['www.youtube.com', 'www.vimeo.com']
+allowedHostnames = ['www.youtube.com', 'www.vimeo.com', 'video.twentythree.net']
 
 module.exports = class FlexLayout extends View
     className: 'incito__video-embed-view'
@@ -16,7 +16,6 @@ module.exports = class FlexLayout extends View
 
             if linkEl.hostname in allowedHostnames
                 iframeEl.setAttribute 'src', @attrs.src
-                iframeEl.setAttribute 'allowfullscreen', ''
 
                 @el.style.paddingTop = ratio + '%'
                 @el.appendChild iframeEl
