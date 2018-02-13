@@ -245,6 +245,13 @@ module.exports = class View
         longclickDelay = 500
         clickDelay = 300
         downTimeout = null
+        trigger = (eventName, e) =>
+            @trigger eventName
+                originalEvent: e
+                el: @el
+                incito: @attrs
+            
+            return
         down = (e) =>
             e.preventDefault()
             e.stopPropagation()
@@ -253,9 +260,7 @@ module.exports = class View
 
             if e.which isnt 3 and e.button isnt 2 and utils.isDefinedStr @attrs.onlongclick
                 downTimeout = setTimeout =>
-                    @trigger @attrs.onlongclick,
-                        originalEvent: e
-                        incito: @attrs
+                    trigger @attrs.onlongclick, e
 
                     return
                 , longclickDelay
@@ -269,9 +274,7 @@ module.exports = class View
 
             if e.which isnt 3 and e.button isnt 2 and delta < clickDelay
                 if utils.isDefinedStr @attrs.onclick
-                    @trigger @attrs.onclick,
-                        originalEvent: e
-                        incito: @attrs
+                    trigger @attrs.onclick, e
             
             false
 
@@ -282,9 +285,7 @@ module.exports = class View
 
         if utils.isDefinedStr @attrs.oncontextclick
             @el.oncontextmenu = (e) =>
-                @trigger @attrs.oncontextclick,
-                    originalEvent: e
-                    incito: @attrs
+                trigger @attrs.oncontextclick, e
                 
                 false
 
