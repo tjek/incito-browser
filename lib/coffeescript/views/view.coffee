@@ -246,7 +246,7 @@ module.exports = class View
         clickDelay = 300
         downTimeout = null
         trigger = (eventName, e) =>
-            @trigger eventName
+            @trigger eventName,
                 originalEvent: e
                 el: @el
                 incito: @attrs
