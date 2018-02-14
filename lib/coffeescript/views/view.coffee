@@ -243,11 +243,18 @@ module.exports = class View
             false
     
     setupCallbacks: ->
+        startPos =
+            x: null
+            y: null
         startTime = null
         endTime = null
         longclickDelay = 500
         clickDelay = 300
+        threshold = 20
         downTimeout = null
+        isTouchSupported = 'ontouchend' of document
+        isMouseSupported = window.matchMedia('(pointer: fine)').matches
+        useTouch = isTouchSupported && !isMouseSupported
         trigger = (eventName, e) =>
             @trigger eventName,
                 originalEvent: e
@@ -256,9 +263,10 @@ module.exports = class View
             
             return
         down = (e) =>
-            e.preventDefault()
             e.stopPropagation()
 
+            startPos.x = e.clientX or e.touches[0].clientX
+            startPos.y = e.clientY or e.touches[0].clientY
             startTime = new Date().getTime()
 
             if e.which isnt 3 and e.button isnt 2 and utils.isDefinedStr @attrs.onlongclick
@@ -268,23 +276,32 @@ module.exports = class View
                     return
                 , longclickDelay
 
-            false
+            return
         up = (e) =>
+            x = e.clientX or e.changedTouches[0].clientX
+            y = e.clientY or e.changedTouches[0].clientY
+            deltaX = Math.abs x - startPos.x
+            deltaY = Math.abs y - startPos.y
             endTime = new Date().getTime()
             delta = endTime - startTime
 
             clearTimeout downTimeout
 
             if e.which isnt 3 and e.button isnt 2 and delta < clickDelay
-                if utils.isDefinedStr @attrs.onclick
-                    trigger @attrs.onclick, e
+                if deltaX < threshold and deltaY < threshold
+                    if utils.isDefinedStr @attrs.onclick
+                        trigger @attrs.onclick, e
             
-            false
+            return
 
-        @el.ontouchstart = down
-        @el.ontouchend = up
-        @el.onmousedown = down
-        @el.onmouseup = up
+        if useTouch
+            @el.setAttribute 'data-disable-user-select', ''
+            @el.ontouchstart = down
+            @el.ontouchend = up
+            @el.ontouchcancel = up
+        else
+            @el.onmousedown = down
+            @el.onmouseup = up
 
         if utils.isDefinedStr @attrs.oncontextclick
             @el.oncontextmenu = (e) =>
