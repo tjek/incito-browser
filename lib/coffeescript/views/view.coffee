@@ -263,8 +263,6 @@ module.exports = class View
             
             return
         down = (e) =>
-            e.stopPropagation()
-
             startPos.x = e.clientX or e.touches[0].clientX
             startPos.y = e.clientY or e.touches[0].clientY
             startTime = new Date().getTime()
@@ -275,6 +273,10 @@ module.exports = class View
 
                     return
                 , longclickDelay
+
+            return
+        move = (e) =>
+            clearTimeout downTimeout
 
             return
         up = (e) =>
@@ -297,6 +299,7 @@ module.exports = class View
         if useTouch
             @el.setAttribute 'data-disable-user-select', ''
             @el.ontouchstart = down
+            @el.ontouchmove = move
             @el.ontouchend = up
             @el.ontouchcancel = up
         else
