@@ -1,3 +1,5 @@
+validate = require './validator'
+
 utils =
     escapeHTML: (unsafe = '') ->
         unsafe
@@ -17,5 +19,7 @@ utils =
     
     isDefinedStr: (value) ->
         typeof value is 'string' and value.length > 0
+    
+    validatePayload: validate
 
 module.exports = utils

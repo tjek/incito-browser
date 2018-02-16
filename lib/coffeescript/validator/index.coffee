@@ -27,5 +27,4 @@ for schema in schemas
 validate = (payload) ->
     v.validate payload, incitoSchema
 
-module.exports =
-    validate: validate
+module.exports = validate
