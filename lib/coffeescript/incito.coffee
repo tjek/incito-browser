@@ -2,14 +2,17 @@ require 'intersection-observer'
 
 MicroEvent = require 'microevent'
 lozad = require 'lozad'
-View = require './views/view'
-FragView = require './views/frag'
-ImageView = require './views/image'
-TextView = require './views/text'
-VideoEmbedView = require './views/video-embed'
-LinearLayout = require './views/linear-layout'
-AbsoluteLayout = require './views/absolute-layout'
-FlexLayout = require './views/flex-layout'
+
+# Supported view types
+views =
+    View: require './views/view'
+    FragView: require './views/frag'
+    ImageView: require './views/image'
+    TextView: require './views/text'
+    VideoEmbedView: require './views/video-embed'
+    LinearLayout: require './views/linear-layout'
+    AbsoluteLayout: require './views/absolute-layout'
+    FlexLayout: require './views/flex-layout'
 
 class Incito
     constructor: (@el, @options = {}) ->
@@ -35,27 +38,11 @@ class Incito
 
     render: (el, attrs = {}) ->
         match = null
-        viewName = attrs.view_name
+        viewName = attrs.view_name ? 'View'
+        ViewClass = views[viewName]
 
-        if !viewName or viewName is 'View'
-            match = View
-        else if viewName is 'FragView'
-            match = FragView
-        else if viewName is 'ImageView'
-            match = ImageView
-        else if viewName is 'TextView'
-            match = TextView
-        else if viewName is 'VideoEmbedView'
-            match = VideoEmbedView
-        else if viewName is 'LinearLayout'
-            match = LinearLayout
-        else if viewName is 'AbsoluteLayout'
-            match = AbsoluteLayout
-        else if viewName is 'FlexLayout'
-            match = FlexLayout
-        
-        if match?
-            view = new match attrs
+        if ViewClass?
+            view = new ViewClass attrs
             trigger = view.trigger
 
             view.trigger = (args...) =>
@@ -67,7 +54,7 @@ class Incito
 
             if Array.isArray(attrs.child_views)
                 attrs.child_views.forEach (childView) =>
-                    childEl = @render(view.el, childView)
+                    childEl = @render view.el, childView
 
                     view.el.appendChild childEl if childEl?
 
@@ -79,7 +66,7 @@ class Incito
     
     applyTheme: (theme = {}) ->
         if theme.font_family?
-            @el.style.fontFamily = theme.font_family.join(', ')
+            @el.style.fontFamily = theme.font_family.join ', '
         
         if theme.background_color?
             @el.style.backgroundColor = theme.background_color
@@ -102,6 +89,7 @@ class Incito
                 font.load()
         else
             styleEl = document.createElement 'style'
+            styleEl.id = 'incito-fonts'
 
             for key, value of fontAssets
                 urls = value.src.map((src) -> "url('#{src[1]}') format('#{src[0]}')").join ', '
@@ -112,7 +100,7 @@ class Incito
                     }
                 """
                 
-                styleEl.appendChild document.createTextNode(text)
+                styleEl.appendChild document.createTextNode text
 
             document.head.appendChild styleEl
         
