@@ -32,6 +32,12 @@ class Incito
         @lazyload.observe()
         
         @
+    
+    destroy: ->
+        while @el.firstChild
+            @el.removeChild @el.firstChild
+        
+        return
 
     render: (el, attrs = {}) ->
         match = null
