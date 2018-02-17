@@ -12,9 +12,11 @@ AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
 
 class Incito
-    constructor: (@el, @options = {}) ->
+    constructor: (@containerEl, @options = {}) ->
+        @el = document.createElement 'div'
+
         return
-    
+
     start: ->
         incito = @options.incito or {}
         frag = document.createDocumentFragment()
@@ -23,9 +25,12 @@ class Incito
         @applyTheme incito.theme
         @render frag, incito.root_view
 
+        @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.setAttribute 'data-debug', true if incito.debug is true
         @el.appendChild frag
+
+        @containerEl.appendChild @el
 
         @lazyload = lozad '.incito--lazyload',
             rootMargin: '1500px 0px'
@@ -34,8 +39,7 @@ class Incito
         @
     
     destroy: ->
-        while @el.firstChild
-            @el.removeChild @el.firstChild
+        @containerEl.removeChild @el
         
         return
 
