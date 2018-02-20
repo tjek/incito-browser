@@ -275,7 +275,7 @@ module.exports = class View
                 , longclickDelay
 
             return
-        move = (e) =>
+        move = (e) ->
             clearTimeout downTimeout
 
             return
