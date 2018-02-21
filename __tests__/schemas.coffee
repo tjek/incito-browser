@@ -1,10 +1,17 @@
 validate = require '../lib/coffeescript/validator'
 correctJson = require './stubs/correct'
+testJson = require './stubs/test'
 wrongJson = require './stubs/wrong'
 
 describe 'Schema validation', ->
     it 'should work for correct input', ->
         validation = validate correctJson
+        expect(validation.valid).toEqual(true)
+
+        return
+    
+    it 'should work for test input', ->
+        validation = validate testJson
         expect(validation.valid).toEqual(true)
 
         return
