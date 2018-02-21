@@ -33,7 +33,8 @@
   "jest": {
     "moduleFileExtensions": [
       "coffee",
-      "js"
+      "js",
+      "json"
     ],
     "transform": {
       "^.+\\.(coffee)$": "<rootDir>/jest-preprocessor.js"
