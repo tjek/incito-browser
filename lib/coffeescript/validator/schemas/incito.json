@@ -34,21 +34,21 @@
                 "$ref": "/theme"
             },
             "root_view": {
-                "type":"object",
+                "type": "object",
                 "properties": {
                     "view_name": {
-                        "type":"string",
+                        "type": "string",
                         "format": "viewClass",
                         "minLength": 1,
                         "required": true
                     },
                     "child_views": {
-                        "type":"array",
+                        "type": "array",
                         "items": {
                             "$ref": "/view",
                             "minItems": 1
                         },
-                        "required": true   
+                        "required": true
                     }
                 }
             }
@@ -73,10 +73,10 @@
                             "type": "array",
                             "items": {
                                 "type": "string",
-                                "minLength": 1,
-                                "minItems": 2,
-                                "maxItems": 2
-                            }
+                                "minLength": 1
+                            },
+                            "minItems": 2,
+                            "maxItems": 2
                         },
                         "required": true
                     },
@@ -117,7 +117,10 @@
         "type": "object",
         "properties": {
             "id": {
-                "type": ["string", "integer"],
+                "type": [
+                    "string",
+                    "integer"
+                ],
                 "minLenght": 1
             },
             "view_name": {
@@ -164,7 +167,10 @@
                 "minLenght": 1
             },
             "layout_width": {
-                "type": ["number", "string"],
+                "type": [
+                    "number",
+                    "string"
+                ],
                 "minimum": 0
             },
             "padding": {
@@ -177,6 +183,12 @@
             "layout_flex_justify_content": {
                 "type": "string",
                 "minLenght": 1
+            },
+            "layout_flex_shrink":{
+                "type": "number"
+            },
+            "layout_flex_grow": {
+                "type": "number"
             },
             "text": {
                 "type": "string",
@@ -313,6 +325,9 @@
                 "type": "string",
                 "minLenght": 1
             },
+            "text_style": {
+                "type": "string"
+            },
             "spans": {
                 "type": "array",
                 "items": {
@@ -326,11 +341,12 @@
                         },
                         "name": {
                             "type": "string",
-                            "minLength": 1
+                            "minLength": 1,
+                            "required": true
                         }
-                    },
-                    "minItems": 1
-                }
+                    }
+                },
+                "minItems": 1
             },
             "max_height": {
                 "type": [
@@ -500,10 +516,10 @@
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "minItems": 2,
-                    "maxItems": 2,
                     "minLength": 1
-                }
+                },
+                "minItems": 2,
+                "maxItems": 2
             },
             "layout_margin_bottom": {
                 "type": [
