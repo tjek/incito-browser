@@ -88,11 +88,18 @@ describe 'Incito', ->
         checkStye = (el, property, value) ->
             expect(el.style[property]).toBe(value)
         
-        it 'should add propert style to views', ->
+        it 'should add expected styles to views', ->
             for elemName, css of expectedCss
                 for prop, val of css
                     checkStye elements[elemName][0], prop, val
             
+            return
+
+        it 'should add fonts to document', ->
+            style = document.styleSheets[0].cssRules[0].style
+            expect(style['font-family']).toBe("'Tangerine'")
+            expect(style['src']).toBe("url('https://fonts.gstatic.com/s/tangerine/v9/IurY6Y5j_oScZZow4VOxCZZM.woff2') format('woff2')")
+
             return
 
         return
