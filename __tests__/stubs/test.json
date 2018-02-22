@@ -54,58 +54,53 @@
 				"background_color": "rgb(255, 0, 200)",
 				"child_views": [
 					{
-						"view_name": "FragView",
+						"view_name": "View",
+						"layout_left": 12,
+						"layout_bottom": 12,
+						"layout_width": 400,
+						"layout_height": 180,
+						"background_color": "rgba(0, 0, 0, 0.2)",
+						"corner_radius": "100%",
 						"child_views": [
 							{
-								"view_name": "View",
-								"layout_left": 12,
-								"layout_bottom": 12,
-								"layout_width": 400,
-								"layout_height": 180,
+								"view_name": "FlexLayout",
+								"layout_flex_align_items": "center",
+								"layout_flex_justify_content": "center",
+								"layout_flex_align_content": "center",
+								"layout_flex_direction": "column",
 								"background_color": "rgba(0, 0, 0, 0.2)",
-								"corner_radius": "100%",
+								"padding_top": 1,
+								"layout_height": "30%",
 								"child_views": [
 									{
-										"view_name": "FlexLayout",
-										"layout_flex_align_items": "center",
-										"layout_flex_justify_content": "center",
-										"layout_flex_align_content": "center",
-										"layout_flex_direction": "column",
-										"background_color": "rgba(0, 0, 0, 0.2)",
-										"padding_top": 1,
-										"layout_height": "30%",
-										"child_views": [
-											{
-												"view_name": "TextView",
-												"single_line": false,
-												"clip_children": false,
-												"text_color": "#ffffff",
-												"text_alignment": "center",
-												"text_size": 26,
-												"text": "MANY",
-												"font_stretch": "condensed"
-											},
-											{
-												"view_name": "TextView",
-												"single_line": false,
-												"clip_children": false,
-												"text_color": "#ffffff",
-												"text_alignment": "center",
-												"text_size": 16,
-												"text": "CHILD",
-												"font_stretch": "condensed"
-											},
-											{
-												"view_name": "TextView",
-												"single_line": false,
-												"clip_children": false,
-												"text_color": "#ffffff",
-												"text_alignment": "center",
-												"text_size": 18,
-												"text": "VIEWS",
-												"font_stretch": "condensed"
-											}
-										]
+										"view_name": "TextView",
+										"single_line": false,
+										"clip_children": false,
+										"text_color": "#ffffff",
+										"text_alignment": "center",
+										"text_size": 26,
+										"text": "MANY",
+										"font_stretch": "condensed"
+									},
+									{
+										"view_name": "TextView",
+										"single_line": false,
+										"clip_children": false,
+										"text_color": "#ffffff",
+										"text_alignment": "center",
+										"text_size": 16,
+										"text": "CHILD",
+										"font_stretch": "condensed"
+									},
+									{
+										"view_name": "TextView",
+										"single_line": false,
+										"clip_children": false,
+										"text_color": "#ffffff",
+										"text_alignment": "center",
+										"text_size": 18,
+										"text": "VIEWS",
+										"font_stretch": "condensed"
 									}
 								]
 							}
@@ -119,7 +114,8 @@
 				"layout_width": 200,
 				"layout_height": 200,
 				"transform_translate_x": 50,
-				"transform_translate_y": 0
+				"transform_translate_y": 0,
+				"label": "mb"
 			},
 			{
 				"view_name": "ImageView",
@@ -127,7 +123,8 @@
 				"layout_width": 200,
 				"layout_height": 200,
 				"transform_translate_x": 50,
-				"transform_translate_y": 0
+				"transform_translate_y": 0,
+				"label": "iz"
 			},
 			{
 				"view_name": "LinearLayout",

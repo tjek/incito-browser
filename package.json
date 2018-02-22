@@ -36,12 +36,8 @@
       "js",
       "json"
     ],
-    "transform": {
-      "^.+\\.(coffee)$": "<rootDir>/jest-preprocessor.js"
-    },
-    "testMatch": [
-      "**/__tests__/*.(coffee|js)"
-    ]
+    "testRegex": "__tests__?/.*\\.coffee",
+    "preset": "jest-preset-coffeescript"    
   },
   "repository": {
     "type": "git",
@@ -65,6 +61,7 @@
     "derequire": "^2.0.6",
     "intersection-observer": "^0.5.0",
     "jest": "^22.3.0",
+    "jest-preset-coffeescript": "^1.0.0",
     "jquery": "^3.3.1",
     "lozad": "^1.2.0",
     "microevent": "^1.0.0",
