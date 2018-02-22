@@ -136,8 +136,8 @@
 					{
 						"view_name": "VideoEmbedView",
 						"src": "https://www.youtube.com/embed/96j3lOyfwMs",
-						"video_width": 304,
-						"video_height": 154
+						"video_width": 200,
+						"video_height": 100
 					}
 				],
 				"role": "filler"

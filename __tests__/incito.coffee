@@ -20,10 +20,11 @@ describe 'Incito', ->
         elements.absolute = elements.linear.find '.incito__absolute-layout-view'
         elements.absoluteView = elements.absolute.find '.incito__view'
         elements.absoluteViewFlex = elements.absoluteView.find '.incito__flex-layout-view'
-        elements.absoluteViewTexts = elements.absoluteViewFlex.find '.incito__text-view'
-        elements.images = elements.linear.find '.incito__image-view'
+        elements.absoluteViewTexts = elements.absoluteViewFlex.find 'p.incito__text-view'
+        elements.images = elements.linear.find 'img.incito__image-view'
         elements.videoContainer = elements.linear.find '.incito__linear-layout-view'
         elements.video = elements.videoContainer.find '.incito__video-embed-view'
+        elements.videoFrame = elements.video.find 'iframe'
 
         expectedCss =
             main:
@@ -70,7 +71,7 @@ describe 'Incito', ->
                 height: '400px'
                 backgroundColor: 'red'
             video:
-                paddingTop: '50.6578947368421%'
+                paddingTop: '50%'
             
         it 'should generate all views with proper class names', ->
             expect(elements.linear[0]).toBeDefined()
@@ -87,13 +88,12 @@ describe 'Incito', ->
             expect(elements.videoContainer[0]).toBeDefined()
             expect(elements.video[0]).toBeDefined()
 
-        checkStye = (el, property, value) ->
-            expect(el.style[property]).toBe(value)
+            return
         
         it 'should add expected styles to views', ->
             for elemName, css of expectedCss
                 for prop, val of css
-                    checkStye elements[elemName][0], prop, val
+                    expect(elements[elemName][0].style[prop]).toBe(val)
             
             return
 
@@ -104,4 +104,15 @@ describe 'Incito', ->
 
             return
 
+        it 'should add proper content', ->
+            expect(elements.flexText.html()).toBe('Flex Layout')
+            expect(elements.absoluteViewTexts.eq(0).html()).toBe('MANY')
+            expect(elements.absoluteViewTexts.eq(1).html()).toBe('CHILD')
+            expect(elements.absoluteViewTexts.eq(2).html()).toBe('VIEWS')
+            expect(elements.images.eq(0).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/mr.jpg')
+            expect(elements.images.eq(1).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/iz.jpg')
+            expect(elements.videoFrame.attr('src')).toBe('https://www.youtube.com/embed/96j3lOyfwMs')
+            
+            return
+        
         return
