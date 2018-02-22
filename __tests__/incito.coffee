@@ -13,10 +13,8 @@ describe 'Incito', ->
         expect(init).not.toThrow()
         expect(incito.start.bind incito).not.toThrow()
 
-        # console.info main.innerHTML
-
-        elements = {}
-        elements.linear = $ '#main > .incito__linear-layout-view'
+        elements = main: $ '#main'
+        elements.linear = elements.main.find '.incito__linear-layout-view'
         elements.flex = elements.linear.find '.incito__flex-layout-view'
         elements.flexText = elements.flex.find '.incito__text-view'
         elements.absolute = elements.linear.find '.incito__absolute-layout-view'
@@ -27,7 +25,11 @@ describe 'Incito', ->
         elements.videoContainer = elements.linear.find '.incito__linear-layout-view'
         elements.video = elements.videoContainer.find '.incito__video-embed-view'
 
-        expectedCss = 
+        expectedCss =
+            main:
+                fontFamily: 'Tangerine'
+                backgroundColor: 'black'
+                lineHeight: '1.3'
             flex:
                 width: '300px'
                 backgroundColor: 'rgb(0, 255, 0)'

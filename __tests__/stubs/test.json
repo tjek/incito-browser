@@ -18,7 +18,7 @@
 		"font_family": [
 			"Tangerine"
 		],
-		"background_color": "#000000",
+		"background_color": "black",
 		"line_spacing_multiplier": 1.3
 	},
 	"root_view": {
