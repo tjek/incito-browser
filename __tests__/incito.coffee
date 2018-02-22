@@ -87,6 +87,7 @@ describe 'Incito', ->
             expect(elements.images[1]).toBeDefined()
             expect(elements.videoContainer[0]).toBeDefined()
             expect(elements.video[0]).toBeDefined()
+            expect(elements.videoFrame[0]).toBeDefined()
 
             return
         
@@ -112,7 +113,6 @@ describe 'Incito', ->
             expect(elements.images.eq(0).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/mr.jpg')
             expect(elements.images.eq(1).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/iz.jpg')
             expect(elements.videoFrame.attr('src')).toBe('https://www.youtube.com/embed/96j3lOyfwMs')
-            
             return
         
         return

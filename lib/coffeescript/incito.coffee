@@ -1,10 +1,12 @@
 require 'intersection-observer'
+DOMPurify = require 'dompurify'
+{ sanitize } = new DOMPurify window
 
 MicroEvent = require 'microevent'
 lozad = require 'lozad'
 
 # Supported view types
-views =
+viewsClasses =
     View: require './views/view'
     FragView: require './views/frag'
     ImageView: require './views/image'
@@ -25,9 +27,12 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
+        @sanitize frag
 
         @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.setAttribute 'data-debug', true if incito.debug is true
+
+
         @el.appendChild frag
 
         @lazyload = lozad '.incito--lazyload',
@@ -39,7 +44,7 @@ class Incito
     render: (el, attrs = {}) ->
         match = null
         viewName = attrs.view_name ? 'View'
-        ViewClass = views[viewName]
+        ViewClass = viewsClasses[viewName]
 
         if ViewClass?
             view = new ViewClass attrs
@@ -60,9 +65,14 @@ class Incito
 
                     return
             
+
             el.appendChild view.el
-        
+            
             view.el
+    
+    sanitize: (frag) ->
+        for child in frag.children 
+            child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
     
     applyTheme: (theme = {}) ->
         if theme.font_family?

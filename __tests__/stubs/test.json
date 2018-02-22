@@ -38,7 +38,7 @@
 				"child_views": [
 					{
 						"view_name": "TextView",
-						"text": "Flex Layout",
+						"text": "<script>alert('attack!')</script>Flex Layout",
 						"text_color": "red",
 						"text_alignment": "center",
 						"text_size": 56

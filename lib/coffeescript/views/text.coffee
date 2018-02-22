@@ -10,10 +10,10 @@ module.exports = class TextView extends View
         textStyles = (@attrs.text_style || '').split '|'
         parsedText = @parseSpans @attrs.text, @attrs.spans
         text = parsedText.map (item) ->
-            escapedText = utils.escapeHTML item.text
+            escapedText = item.text
 
             if item.span? && item.span.name?
-                spanName = utils.escapeHTML item.span.name
+                spanName = item.span.name
 
                 '<span data-name="' + spanName + '">' + escapedText + '</span>'
             else
