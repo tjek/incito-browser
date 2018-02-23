@@ -138,8 +138,7 @@ class Incito
 
             for sourceEl in sourceEls
                 sourceEl.src = sourceEl.getAttribute 'data-src'
-            
-            #el.load()
+                
             el.play()
 
         if el.getAttribute('data-src')
