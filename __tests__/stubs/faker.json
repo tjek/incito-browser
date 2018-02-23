@@ -37,15 +37,14 @@
                 "view_name": {
                     "type": "string",
                     "format": "viewClass",
-                    "minLength": 1,
                     "required": true
                 },
                 "child_views": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/view",
-                        "minItems": 1
                     },
+                    "minItems": 1,
                     "required": true
                 }
             }
@@ -123,8 +122,7 @@
                 },
                 "view_name": {
                     "type": "string",
-                    "format": "viewClass",
-                    "minLenght": 1
+                    "format": "viewClass"
                 },
                 "child_views": {
                     "type": "array",
@@ -428,10 +426,10 @@
                     "type": "array",
                     "items": {
                         "type": "string",
-                        "minItems": 1,
-                        "minLength": 1
-                    }
-                },
+                    },
+                    "minItems": 1,
+                    "minLength": 1
+            },
                 "stroke_bottom_width": {
                     "type": [
                         "string",
