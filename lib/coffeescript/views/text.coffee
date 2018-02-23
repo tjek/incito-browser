@@ -46,6 +46,12 @@ module.exports = class TextView extends View
         if 'italic' in textStyles
             @el.style.fontStyle = 'italic'
         
+        # Text shadow.
+        textShadow = @getTextShadow()
+
+        if textShadow?
+            @el.style.textShadow = "#{textShadow.dx}px #{textShadow.dy}px #{textShadow.radius}px #{textShadow.color}"
+        
         # Text alignment.
         if @attrs.text_alignment is 'left'
             @el.style.textAlign = 'left'
@@ -97,3 +103,15 @@ module.exports = class TextView extends View
             return
 
         result
+    
+    getTextShadow: ->
+        if utils.isDefinedStr @attrs.shadow_color
+            dx = if typeof @attrs.shadow_dx is 'number' then @attrs.shadow_dx else 0
+            dy = if typeof @attrs.shadow_dy is 'number' then @attrs.shadow_dy else 0
+            radius = if typeof @attrs.shadow_radius is 'number' then @attrs.shadow_radius else 0
+            color = @attrs.shadow_color
+
+            dx: dx
+            dy: dy
+            radius: radius
+            color: color
