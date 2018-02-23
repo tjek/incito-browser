@@ -7,6 +7,7 @@ FragView = require './views/frag'
 ImageView = require './views/image'
 TextView = require './views/text'
 VideoEmbedView = require './views/video-embed'
+VideoView = require './views/video'
 LinearLayout = require './views/linear-layout'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
@@ -32,9 +33,10 @@ class Incito
 
         @containerEl.appendChild @el
 
-        @lazyload = lozad '.incito--lazyload',
-            rootMargin: '1500px 0px'
-        @lazyload.observe()
+        @lazyloader = lozad '.incito--lazyload',
+            rootMargin: '1500px 0px',
+            load: @lazyload.bind(@)
+        @lazyloader.observe()
         
         @
     
@@ -57,6 +59,8 @@ class Incito
             match = TextView
         else if viewName is 'VideoEmbedView'
             match = VideoEmbedView
+        else if viewName is 'VideoView'
+            match = VideoView
         else if viewName is 'LinearLayout'
             match = LinearLayout
         else if viewName is 'AbsoluteLayout'
@@ -126,6 +130,24 @@ class Incito
 
             document.head.appendChild styleEl
         
+        return
+    
+    lazyload: (el) ->
+        if el.nodeName.toLowerCase() is 'video'
+            sourceEls = el.querySelectorAll 'source'
+
+            for sourceEl in sourceEls
+                sourceEl.src = sourceEl.getAttribute 'data-src'
+            
+            #el.load()
+            el.play()
+
+        if el.getAttribute('data-src')
+            el.src = el.getAttribute 'data-src'
+        
+        if el.getAttribute('data-background-image')
+            el.style.backgroundImage = 'url(' + el.getAttribute('data-background-image') + ')'
+
         return
 
 MicroEvent.mixin Incito
