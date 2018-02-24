@@ -263,6 +263,8 @@ module.exports = class View
             
             return
         down = (e) =>
+            e.stopPropagation()
+
             startPos.x = e.clientX or e.touches[0].clientX
             startPos.y = e.clientY or e.touches[0].clientY
             startTime = new Date().getTime()
@@ -280,6 +282,8 @@ module.exports = class View
 
             return
         up = (e) =>
+            e.stopPropagation()
+
             x = e.clientX or e.changedTouches[0].clientX
             y = e.clientY or e.changedTouches[0].clientY
             deltaX = Math.abs x - startPos.x
