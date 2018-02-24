@@ -50,15 +50,9 @@ module.exports = class View
         # Link or callbacks.
         if utils.isDefinedStr @attrs.link
             @el.setAttribute 'data-link', ''
-            @el.onclick = (e) =>
-                e.stopPropagation()
-
-                window.open @attrs.link, '_blank'
-
-                return
+            @setupCallbacks()
         else if @hasCallback()
             @el.setAttribute 'data-callback', ''
-
             @setupCallbacks()
 
         # Width.
@@ -297,6 +291,8 @@ module.exports = class View
                 if deltaX < threshold and deltaY < threshold
                     if utils.isDefinedStr @attrs.onclick
                         trigger @attrs.onclick, e
+                    else if utils.isDefinedStr @attrs.link
+                        window.open @attrs.link, '_blank'
             
             return
 
