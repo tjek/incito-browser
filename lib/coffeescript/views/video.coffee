@@ -17,7 +17,7 @@ module.exports = class Video extends View
             @el.setAttribute 'controls', ''
         
         @el.setAttribute 'muted', ''
-        @el.setAttribute 'preload', 'none'
+        @el.setAttribute 'preload', 'metadata'
         
         if utils.isDefinedStr @attrs.src
             sourceEl = document.createElement 'source'
