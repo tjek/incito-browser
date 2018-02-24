@@ -133,18 +133,13 @@ class Incito
         return
     
     lazyload: (el) ->
-        if el.nodeName.toLowerCase() is 'video'
-            sourceEls = el.querySelectorAll 'source'
-
-            for sourceEl in sourceEls
-                sourceEl.src = sourceEl.getAttribute 'data-src'
-                
+        if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay')
             el.play()
 
-        if el.getAttribute('data-src')
+        if el.getAttribute 'data-src'
             el.src = el.getAttribute 'data-src'
         
-        if el.getAttribute('data-background-image')
+        if el.getAttribute 'data-background-image'
             el.style.backgroundImage = 'url(' + el.getAttribute('data-background-image') + ')'
 
         return

@@ -8,7 +8,7 @@ module.exports = class Video extends View
 
     render: ->
         if @attrs.autoplay is true
-            @el.setAttribute 'autoplay', ''
+            @el.setAttribute 'data-autoplay', 'true'
         
         if @attrs.loop is true
             @el.setAttribute 'loop', ''
@@ -17,11 +17,12 @@ module.exports = class Video extends View
             @el.setAttribute 'controls', ''
         
         @el.setAttribute 'muted', ''
+        @el.setAttribute 'preload', 'none'
         
         if utils.isDefinedStr @attrs.src
             sourceEl = document.createElement 'source'
 
-            sourceEl.setAttribute 'data-src', @attrs.src
+            sourceEl.setAttribute 'src', @attrs.src
             sourceEl.setAttribute 'type', @attrs.mime
 
             @el.appendChild sourceEl
