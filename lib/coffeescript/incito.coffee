@@ -49,9 +49,7 @@ class Incito
         match = null
         viewName = attrs.view_name
 
-        if !viewName or viewName is 'View'
-            match = View
-        else if viewName is 'FragView'
+        if viewName is 'FragView'
             match = FragView
         else if viewName is 'ImageView'
             match = ImageView
@@ -67,6 +65,8 @@ class Incito
             match = AbsoluteLayout
         else if viewName is 'FlexLayout'
             match = FlexLayout
+        else
+            match = View
         
         if match?
             view = new match attrs
