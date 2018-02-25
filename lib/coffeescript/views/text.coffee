@@ -12,7 +12,9 @@ module.exports = class TextView extends View
         text = parsedText.map (item) ->
             escapedText = utils.escapeHTML item.text or ''
 
-            if item.span? && item.span.name?
+            if item.span? and item.span.name is 'link' and item.span.url?
+                '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
+            else if item.span? and item.span.name?
                 spanName = utils.escapeHTML item.span.name
 
                 '<span data-name="' + spanName + '">' + escapedText + '</span>'
