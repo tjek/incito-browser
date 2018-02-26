@@ -13,7 +13,7 @@ describe 'Incito', ->
         expect(init).not.toThrow()
         expect(incito.start.bind incito).not.toThrow()
 
-        elements = main: $ '#main'
+        elements = main: $ '#main > .incito'
         elements.linear = elements.main.find '.incito__linear-layout-view'
         elements.flex = elements.linear.find '.incito__flex-layout-view'
         elements.flexText = elements.flex.find '.incito__text-view'
@@ -23,8 +23,7 @@ describe 'Incito', ->
         elements.absoluteViewTexts = elements.absoluteViewFlex.find 'p.incito__text-view'
         elements.images = elements.linear.find 'img.incito__image-view'
         elements.videoContainer = elements.linear.find '.incito__linear-layout-view'
-        elements.video = elements.videoContainer.find '.incito__video-embed-view'
-        elements.videoFrame = elements.video.find 'iframe'
+        elements.video = elements.videoContainer.find 'iframe.incito__video-embed-view'
 
         expectedCss =
             main:
@@ -70,8 +69,6 @@ describe 'Incito', ->
                 width: '400px'
                 height: '400px'
                 backgroundColor: 'red'
-            video:
-                paddingTop: '50%'
             
         it 'should generate all views with proper class names', ->
             expect(elements.linear[0]).toBeDefined()
@@ -87,7 +84,6 @@ describe 'Incito', ->
             expect(elements.images[1]).toBeDefined()
             expect(elements.videoContainer[0]).toBeDefined()
             expect(elements.video[0]).toBeDefined()
-            expect(elements.videoFrame[0]).toBeDefined()
 
             return
         
@@ -112,7 +108,8 @@ describe 'Incito', ->
             expect(elements.absoluteViewTexts.eq(2).html()).toBe('VIEWS')
             expect(elements.images.eq(0).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/mr.jpg')
             expect(elements.images.eq(1).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/iz.jpg')
-            expect(elements.videoFrame.attr('src')).toBe('https://www.youtube.com/embed/96j3lOyfwMs')
+            expect(elements.video.attr('data-src')).toBe('https://www.youtube.com/embed/96j3lOyfwMs')
+
             return
         
         return

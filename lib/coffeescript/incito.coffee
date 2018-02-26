@@ -1,25 +1,24 @@
 require 'intersection-observer'
 DOMPurify = require 'dompurify'
-{ sanitize } = new DOMPurify window
-
 MicroEvent = require 'microevent'
 lozad = require 'lozad'
-
-# Supported view types
-viewsClasses =
-    View: require './views/view'
-    FragView: require './views/frag'
-    ImageView: require './views/image'
-    TextView: require './views/text'
-    VideoEmbedView: require './views/video-embed'
-    LinearLayout: require './views/linear-layout'
-    AbsoluteLayout: require './views/absolute-layout'
-    FlexLayout: require './views/flex-layout'
+View = require './views/view'
+FragView = require './views/frag'
+ImageView = require './views/image'
+TextView = require './views/text'
+VideoEmbedView = require './views/video-embed'
+VideoView = require './views/video'
+LinearLayout = require './views/linear-layout'
+AbsoluteLayout = require './views/absolute-layout'
+FlexLayout = require './views/flex-layout'
+{ sanitize } = new DOMPurify window
 
 class Incito
-    constructor: (@el, @options = {}) ->
+    constructor: (@containerEl, @options = {}) ->
+        @el = document.createElement 'div'
+
         return
-    
+
     start: ->
         incito = @options.incito or {}
         frag = document.createDocumentFragment()
@@ -27,27 +26,52 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
-        @sanitize frag
+        Incito.sanitize frag
 
+        @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.setAttribute 'data-debug', true if incito.debug is true
-
-
         @el.appendChild frag
 
-        @lazyload = lozad '.incito--lazyload',
-            rootMargin: '1500px 0px'
-        @lazyload.observe()
+        @containerEl.appendChild @el
+
+        @lazyloader = lozad '.incito--lazyload',
+            rootMargin: '1500px 0px',
+            load: @lazyload.bind(@)
+        @lazyloader.observe()
         
         @
+    
+    destroy: ->
+        @containerEl.removeChild @el
+        
+        return
 
     render: (el, attrs = {}) ->
         match = null
-        viewName = attrs.view_name ? 'View'
-        ViewClass = viewsClasses[viewName]
+        viewName = attrs.view_name
 
-        if ViewClass?
-            view = new ViewClass attrs
+        if viewName is 'FragView'
+            match = FragView
+        else if viewName is 'ImageView'
+            match = ImageView
+        else if viewName is 'TextView'
+            match = TextView
+        else if viewName is 'VideoEmbedView'
+            match = VideoEmbedView
+        else if viewName is 'VideoView'
+            match = VideoView
+        else if viewName is 'LinearLayout'
+            match = LinearLayout
+        else if viewName is 'AbsoluteLayout'
+            match = AbsoluteLayout
+        else if viewName is 'FlexLayout'
+            match = FlexLayout
+        else
+            match = View
+        
+        if match?
+            view = new match attrs
             trigger = view.trigger
 
             view.trigger = (args...) =>
@@ -59,24 +83,19 @@ class Incito
 
             if Array.isArray(attrs.child_views)
                 attrs.child_views.forEach (childView) =>
-                    childEl = @render view.el, childView
+                    childEl = @render(view.el, childView)
 
                     view.el.appendChild childEl if childEl?
 
                     return
             
-
             el.appendChild view.el
-            
+        
             view.el
-    
-    sanitize: (frag) ->
-        for child in frag.children 
-            child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
     
     applyTheme: (theme = {}) ->
         if theme.font_family?
-            @el.style.fontFamily = theme.font_family.join ', '
+            @el.style.fontFamily = theme.font_family.join(', ')
         
         if theme.background_color?
             @el.style.backgroundColor = theme.background_color
@@ -99,7 +118,6 @@ class Incito
                 font.load()
         else
             styleEl = document.createElement 'style'
-            styleEl.id = 'incito-fonts'
 
             for key, value of fontAssets
                 urls = value.src.map((src) -> "url('#{src[1]}') format('#{src[0]}')").join ', '
@@ -110,11 +128,27 @@ class Incito
                     }
                 """
                 
-                styleEl.appendChild document.createTextNode text
+                styleEl.appendChild document.createTextNode(text)
 
             document.head.appendChild styleEl
         
         return
+    
+    lazyload: (el) ->
+        if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay')
+            el.play()
+
+        if el.getAttribute 'data-src'
+            el.src = el.getAttribute 'data-src'
+        
+        if el.getAttribute 'data-background-image'
+            el.style.backgroundImage = 'url(' + el.getAttribute('data-background-image') + ')'
+
+        return
+    
+    @sanitize: (frag) ->
+        for child in frag.children 
+            child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
 
 MicroEvent.mixin Incito
 

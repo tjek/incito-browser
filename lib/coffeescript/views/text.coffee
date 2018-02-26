@@ -10,9 +10,11 @@ module.exports = class TextView extends View
         textStyles = (@attrs.text_style || '').split '|'
         parsedText = @parseSpans @attrs.text, @attrs.spans
         text = parsedText.map (item) ->
-            escapedText = item.text
+            escapedText = item.text or ''
 
-            if item.span? && item.span.name?
+            if item.span? and item.span.name is 'link' and item.span.url?
+                '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
+            else if item.span? and item.span.name?
                 spanName = item.span.name
 
                 '<span data-name="' + spanName + '">' + escapedText + '</span>'
@@ -45,6 +47,12 @@ module.exports = class TextView extends View
             @el.style.fontWeight = 'bold'
         if 'italic' in textStyles
             @el.style.fontStyle = 'italic'
+        
+        # Text shadow.
+        textShadow = @getTextShadow()
+
+        if textShadow?
+            @el.style.textShadow = "#{textShadow.dx}px #{textShadow.dy}px #{textShadow.radius}px #{textShadow.color}"
         
         # Text alignment.
         if @attrs.text_alignment is 'left'
@@ -97,3 +105,15 @@ module.exports = class TextView extends View
             return
 
         result
+    
+    getTextShadow: ->
+        if utils.isDefinedStr @attrs.shadow_color
+            dx = if typeof @attrs.shadow_dx is 'number' then @attrs.shadow_dx else 0
+            dy = if typeof @attrs.shadow_dy is 'number' then @attrs.shadow_dy else 0
+            radius = if typeof @attrs.shadow_radius is 'number' then @attrs.shadow_radius else 0
+            color = @attrs.shadow_color
+
+            dx: dx
+            dy: dy
+            radius: radius
+            color: color

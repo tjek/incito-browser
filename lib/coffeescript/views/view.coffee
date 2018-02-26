@@ -50,15 +50,9 @@ module.exports = class View
         # Link or callbacks.
         if utils.isDefinedStr @attrs.link
             @el.setAttribute 'data-link', ''
-            @el.onclick = (e) =>
-                e.stopPropagation()
-
-                window.open @attrs.link, '_blank'
-
-                return
+            @setupCallbacks()
         else if @hasCallback()
             @el.setAttribute 'data-callback', ''
-
             @setupCallbacks()
 
         # Width.
@@ -104,14 +98,14 @@ module.exports = class View
             @el.style.bottom = utils.formatUnit @attrs.layout_bottom
         
         # Background.
-        if @attrs.background_color?
+        if utils.isDefinedStr @attrs.background_color
             @el.style.backgroundColor = @attrs.background_color
-        if @attrs.background_image?
+        if utils.isDefinedStr @attrs.background_image
             @el.setAttribute 'data-background-image', @attrs.background_image
             @el.className += ' incito--lazyload'
         if @attrs.background_tile_mode in ['repeat_x', 'repeat_y', 'repeat']
             @el.style.backgroundRepeat = @attrs.background_tile_mode.replace '_', '-'
-        if @attrs.background_image_position?
+        if utils.isDefinedStr @attrs.background_image_position
             @el.style.backgroundPosition = @attrs.background_image_position.replace '_', ' '
         if @attrs.background_image_scale_type is 'center_crop'
             @el.style.backgroundSize = 'cover'
@@ -263,6 +257,8 @@ module.exports = class View
             
             return
         down = (e) =>
+            e.stopPropagation()
+
             startPos.x = e.clientX or e.touches[0].clientX
             startPos.y = e.clientY or e.touches[0].clientY
             startTime = new Date().getTime()
@@ -275,11 +271,13 @@ module.exports = class View
                 , longclickDelay
 
             return
-        move = (e) =>
+        move = (e) ->
             clearTimeout downTimeout
 
             return
         up = (e) =>
+            e.stopPropagation()
+
             x = e.clientX or e.changedTouches[0].clientX
             y = e.clientY or e.changedTouches[0].clientY
             deltaX = Math.abs x - startPos.x
@@ -293,6 +291,8 @@ module.exports = class View
                 if deltaX < threshold and deltaY < threshold
                     if utils.isDefinedStr @attrs.onclick
                         trigger @attrs.onclick, e
+                    else if utils.isDefinedStr @attrs.link
+                        window.open @attrs.link, '_blank'
             
             return
 
