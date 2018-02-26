@@ -45,9 +45,9 @@
                     "child_views": {
                         "type": "array",
                         "items": {
-                            "$ref": "/view",
-                            "minItems": 1
+                            "$ref": "/view"
                         },
+                        "minItems": 1,
                         "required": true
                     }
                 }
@@ -98,9 +98,9 @@
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "minItems": 1,
                     "minLength": 1
-                }
+                },
+                "minItems": 1
             },
             "background_color": {
                 "type": "string",
@@ -131,9 +131,9 @@
             "child_views": {
                 "type": "array",
                 "items": {
-                    "$ref": "/view",
-                    "minItems": 2
-                }
+                    "$ref": "/view"
+                },
+                "minItems": 1
             },
             "role": {
                 "type": "string",
@@ -184,7 +184,7 @@
                 "type": "string",
                 "minLenght": 1
             },
-            "layout_flex_shrink":{
+            "layout_flex_shrink": {
                 "type": "number"
             },
             "layout_flex_grow": {
@@ -430,9 +430,9 @@
                 "type": "array",
                 "items": {
                     "type": "string",
-                    "minItems": 1,
                     "minLength": 1
-                }
+                },
+                "minItems": 1
             },
             "stroke_bottom_width": {
                 "type": [
