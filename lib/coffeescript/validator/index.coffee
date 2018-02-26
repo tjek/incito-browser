@@ -3,7 +3,7 @@ isColor = require 'is-color'
 { isUri } = require 'valid-url'
 schemas = require './schemas/incito'
 
-v = new Validator();
+v = new Validator()
 v.customFormats.cssColor = (input) ->
     (input is undefined) or isColor input
 v.customFormats.url = (input) ->

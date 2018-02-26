@@ -147,7 +147,7 @@ class Incito
         return
     
     @sanitize: (frag) ->
-        for child in frag.children 
+        for child in frag.children
             child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
 
 MicroEvent.mixin Incito

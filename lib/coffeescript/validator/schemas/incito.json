@@ -39,8 +39,7 @@
                     "view_name": {
                         "type": "string",
                         "enum": ["View", "FragView", "ImageView", "TextView", "VideoEmbedView", "Video", "LinearLayout", "AbsoluteLayout", "FlexLayout"],
-                        "minLength": 1,
-                        "required": true
+                        "minLength": 1
                     },
                     "child_views": {
                         "type": "array",
