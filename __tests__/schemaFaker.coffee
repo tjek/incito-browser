@@ -5,29 +5,29 @@ incitoSchema = require '../lib/coffeescript/validator/schemas/incito'
 randomEnum = (arr) ->
     arr[Math.floor(Math.random() * arr.length)]
 
-# TODO: Make this better
+# TODO: Make this better, traversing the object instead
 fakerSchema = incitoSchema.shift()
 fakerSchema.definitions = {}
 for schema in incitoSchema
   fakerSchema.definitions[schema.id.substr(1)] = schema
 
-schema = JSON.stringify schema, null, 2
-schema = schema.replace(/\$ref": "/g, '$ref": "#/definitions')
-schema = JSON.parse schema
-console.info  schema
-
+fakerSchema = JSON.stringify fakerSchema, null, 2
+fakerSchema = fakerSchema.replace(/\$ref": "/g, '$ref": "#/definitions')
+fakerSchema = JSON.parse fakerSchema
 
 jsf.format 'viewClass', -> randomEnum ['View', 'FragView', 'ImageView', 'TextView', 'VideoEmbedView', 'LinearLayout', 'AbsoluteLayout', 'FlexLayout']
 jsf.format 'stroke', -> randomEnum ['solid', 'dotted', 'dashed']
 jsf.format 'tileMode', -> randomEnum ['repeat_x', 'repeat_y', 'repeat']
 jsf.format 'cssColor', -> 'red' # TODO: Generate other colors as well, though JSDom does not support much
 jsf.format 'url', -> 'https://www.youtube.com/embed/something'
+jsf.option
+    alwaysFakeOptionals: true   # TODO: Ultimately set to false, this is for debug purposes
+    requiredOnly: false
 
+# TODO: Generation is hitting https://github.com/json-schema-faker/json-schema-faker/issues/345
+# jsf is not generating deep nested views atm
 test 'Faked schema validation', ->
-    expect(true).toBe(true)
     jsf.resolve(fakerSchema).then (data) ->
-            console.info 'data', data
-        .catch (e) ->
-            console.error e
+        validation = validate data
     
     return
