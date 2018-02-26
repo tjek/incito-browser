@@ -15,9 +15,6 @@ fakerSchema = JSON.stringify fakerSchema, null, 2
 fakerSchema = fakerSchema.replace(/\$ref": "/g, '$ref": "#/definitions')
 fakerSchema = JSON.parse fakerSchema
 
-jsf.format 'viewClass', -> randomEnum ['View', 'FragView', 'ImageView', 'TextView', 'VideoEmbedView', 'LinearLayout', 'AbsoluteLayout', 'FlexLayout']
-jsf.format 'stroke', -> randomEnum ['solid', 'dotted', 'dashed']
-jsf.format 'tileMode', -> randomEnum ['repeat_x', 'repeat_y', 'repeat']
 jsf.format 'cssColor', -> 'red' # TODO: Generate other colors as well, though JSDom does not support much
 jsf.format 'url', -> 'https://www.youtube.com/embed/something'
 jsf.option

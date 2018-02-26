@@ -38,7 +38,7 @@
                 "properties": {
                     "view_name": {
                         "type": "string",
-                        "format": "viewClass",
+                        "enum": ["View", "FragView", "ImageView", "TextView", "VideoEmbedView", "Video", "LinearLayout", "AbsoluteLayout", "FlexLayout"],
                         "minLength": 1,
                         "required": true
                     },
@@ -128,7 +128,7 @@
             },
             "view_name": {
                 "type": "string",
-                "format": "viewClass",
+                "enum": ["View", "FragView", "ImageView", "TextView", "VideoEmbedView", "Video", "LinearLayout", "AbsoluteLayout", "FlexLayout"],
                 "minLenght": 1
             },
             "child_views": {
@@ -154,7 +154,7 @@
             },
             "background_tile_mode": {
                 "type": "string",
-                "format": "tileMode",
+                "enum": ["repeat_x", "repeat_y", "repeat"],
                 "minLenght": 1
             },
             "background_image_position": {
@@ -423,7 +423,7 @@
             },
             "stroke_style": {
                 "type": "string",
-                "format": "stroke",
+                "enum": ["solid", "dotted", "dashed"],
                 "minLenght": 1
             },
             "transform_scale": {
@@ -446,7 +446,7 @@
             },
             "stroke_bottom_style": {
                 "type": "string",
-                "format": "stroke",
+                "enum": ["solid", "dotted", "dashed"],
                 "minLenght": 1
             },
             "stroke_bottom_color": {
@@ -463,7 +463,7 @@
             },
             "stroke_right_style": {
                 "type": "string",
-                "format": "stroke",
+                "enum": ["solid", "dotted", "dashed"],
                 "minLenght": 1
             },
             "stroke_right_color": {
