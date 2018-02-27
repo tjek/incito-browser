@@ -18,8 +18,6 @@ module.exports = class Video extends View
         
         @el.setAttribute 'muted', 'true'
         @el.setAttribute 'preload', 'metadata'
-
-        console.log @el
         
         if utils.isDefinedStr @attrs.src
             sourceEl = document.createElement 'source'
