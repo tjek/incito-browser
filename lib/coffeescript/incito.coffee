@@ -1,8 +1,6 @@
-require 'intersection-observer'
-
 DOMPurify = require 'dompurify'
+LazyLoad = require 'vanilla-lazyload'
 MicroEvent = require 'microevent'
-lozad = require 'lozad'
 View = require './views/view'
 FragView = require './views/frag'
 ImageView = require './views/image'
@@ -37,15 +35,19 @@ class Incito
 
         @containerEl.appendChild @el
 
-        @lazyloader = lozad '.incito--lazyload',
-            rootMargin: '1500px 0px',
-            load: @lazyload.bind(@)
-        @lazyloader.observe()
+        @lazyload = new LazyLoad
+            elements_selector: '.incito--lazyload'
+            callback_enter: (el) ->
+                if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay') and el.muted is true
+                    el.play()
+
+                return
         
         @
     
     destroy: ->
         @containerEl.removeChild @el
+        @lazyload.destroy() if @lazyload?
         
         return
 
@@ -126,21 +128,11 @@ class Incito
         
         return
     
-    lazyload: (el) ->
-        if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay')
-            el.play()
-
-        if el.getAttribute 'data-src'
-            el.src = el.getAttribute 'data-src'
-        
-        if el.getAttribute 'data-background-image'
-            el.style.backgroundImage = 'url(' + el.getAttribute('data-background-image') + ')'
-
-        return
-    
     sanitize: (el) ->
         for childNode in el.childNodes
-            childNode.innerHTML = sanitize childNode.innerHTML, ADD_TAGS: ['iframe']
+            childNode.innerHTML = sanitize childNode.innerHTML,
+                ADD_TAGS: ['iframe']
+                ADD_ATTR: ['muted', 'controls', 'loop', 'preload']
         
         return
 

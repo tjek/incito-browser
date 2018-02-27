@@ -101,7 +101,7 @@ module.exports = class View
         if utils.isDefinedStr @attrs.background_color
             @el.style.backgroundColor = @attrs.background_color
         if utils.isDefinedStr @attrs.background_image
-            @el.setAttribute 'data-background-image', @attrs.background_image
+            @el.setAttribute 'data-src', @attrs.background_image
             @el.className += ' incito--lazyload'
         if @attrs.background_tile_mode in ['repeat_x', 'repeat_y', 'repeat']
             @el.style.backgroundRepeat = @attrs.background_tile_mode.replace '_', '-'
@@ -225,7 +225,7 @@ module.exports = class View
         if  translateY isnt 0
             transforms.push "translateY(#{translateY})"
 
-        if typeof @attrs.transform_rotate is 'number' and @attrs.transform_rotate isnt 1
+        if typeof @attrs.transform_rotate is 'number' and @attrs.transform_rotate isnt 0
             transforms.push "rotate(#{@attrs.transform_rotate}deg)"
 
         if typeof @attrs.transform_scale is 'number' and @attrs.transform_scale isnt 1
