@@ -1,0 +1,52 @@
+{
+    "id": "",
+    "version": "",
+    "locale": 100,
+    "debug": "string",
+    "meta": [
+        "array"
+    ],
+    "font_assets": {
+        "wrong-font": {
+            "src": [
+                [
+                    "three",
+                    "strings",
+                    "which is wrong"
+                ],
+                [
+                    "one string which is wrong"
+                ]
+            ]
+        }
+    },
+    "theme": {
+        "font_family": [
+            "list of string and also a number",
+            0
+        ],
+        "background_color": "invalid_color",
+        "line_spacing_multiplier": 1
+    },
+    "root_view": {
+        "view_name": "LinearLayout",
+        "child_views": [
+            {
+                "view_name": "WrongLayout"
+            },
+            {
+                "gravity": 0,
+                "background_image_position": false,
+                "background_color": "rgb(0, 0, 0, 0.2)",
+                "stroke_style": "invalid_mode",
+                "transform_origin": [
+                    "array of just one"
+                ],
+                "src": "not_a_uri",
+                "link": "not_a_uri",
+                "text": false,
+                "text_style": 100
+            }
+        ]
+    }
+}

@@ -1,0 +1,128 @@
+{
+	"id": "incito-id",
+	"version": "0.0.0",
+	"locale": "da_DK",
+	"debug": false,
+	"meta": {
+		"some": "object"
+	},
+	"font_assets": {
+		"some-name-dash-delimited": {
+			"src": [
+				[
+					"two",
+					"strings"
+				],
+				[
+					"multiple",
+					"arrays"
+				]
+			],
+			"weight": "string",
+			"style": "string"
+		},
+		"some-other-name-dash-delimited": {
+			"src": [
+				[
+					"two",
+					"strings"
+				],
+				[
+					"multiple",
+					"arrays"
+				]
+			],
+			"weight": "string",
+			"style": "string"
+		}
+	},
+	"theme": {
+		"font_family": [
+			"list",
+			"of",
+			"strings"
+		],
+		"background_color": "#FF00FF",
+		"line_spacing_multiplier": 1
+	},
+	"root_view": {
+		"view_name": "LinearLayout",
+		"child_views": [{
+			"view_name": "FlexLayout",
+			"background_color": "#00ff00",
+			"background_tile_mode": "repeat",
+			"background_image_position": "center_center",
+			"background_image_scale_type": "center_crop",
+			"gravity": "center_horizontal",
+			"layout_width": 1200,
+			"padding": 50,
+			"layout_flex_align_items": "center",
+			"layout_flex_justify_content": "center",
+			"child_views": [{
+				"view_name": "TextView",
+				"text": "some text",
+				"text_color": "white",
+				"text_alignment": "center",
+				"text_size": 35
+			}],
+			"role": "role"
+		}, {
+			"view_name": "AbsoluteLayout",
+			"layout_width": 1200,
+			"layout_height": 400,
+			"gravity": "center_horizontal",
+			"background_color": "hsl(0, 0%, 100%)",
+			"child_views": [{
+				"view_name": "FragView",
+				"child_views": [{
+					"view_name": "View",
+					"layout_left": 12,
+					"layout_bottom": 12,
+					"layout_width": 180,
+					"layout_height": 180,
+					"background_color": "rgba(0, 0, 0, 0.2)",
+					"corner_radius": "100%",
+					"child_views": [{
+						"view_name": "FlexLayout",
+						"layout_flex_align_items": "center",
+						"layout_flex_justify_content": "center",
+						"layout_flex_align_content": "center",
+						"layout_flex_direction": "column",
+						"background_color": "rgba(0, 0, 0, 0.2)",
+						"padding_top": 8,
+						"layout_height": "30%",
+						"child_views": [{
+							"view_name": "TextView",
+							"single_line": true,
+							"line_spacing_multiplier": 1,
+							"clip_children": false,
+							"text_color": "#ffffff",
+							"text_alignment": "center",
+							"text_size": 26,
+							"text": "1 stk.",
+							"font_stretch": "condensed"
+						}]
+					}]
+				}]
+			}]
+		}, {
+			"view_name": "ImageView",
+			"src": "https://www.example.com/image.png",
+			"layout_width": 128,
+			"layout_height": 20,
+			"transform_translate_x": 80,
+			"transform_translate_y": 150
+		}, {
+			"view_name": "LinearLayout",
+			"layout_width": 1200,
+			"gravity": "center_horizontal",
+			"child_views": [{
+				"view_name": "VideoEmbedView",
+				"src": "https://www.youtube.com/embed/example",
+				"video_width": 560,
+				"video_height": 315
+			}],
+			"role": "filler"
+		}]
+	}
+}

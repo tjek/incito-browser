@@ -1,5 +1,5 @@
 require 'intersection-observer'
-
+DOMPurify = require 'dompurify'
 MicroEvent = require 'microevent'
 lozad = require 'lozad'
 View = require './views/view'
@@ -11,6 +11,7 @@ VideoView = require './views/video'
 LinearLayout = require './views/linear-layout'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
+{ sanitize } = new DOMPurify window
 
 class Incito
     constructor: (@containerEl, @options = {}) ->
@@ -25,6 +26,7 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
+        Incito.sanitize frag
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
@@ -143,6 +145,10 @@ class Incito
             el.style.backgroundImage = 'url(' + el.getAttribute('data-background-image') + ')'
 
         return
+    
+    @sanitize: (frag) ->
+        for child in frag.children
+            child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
 
 MicroEvent.mixin Incito
 

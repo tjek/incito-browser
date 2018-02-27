@@ -10,12 +10,12 @@ module.exports = class TextView extends View
         textStyles = (@attrs.text_style || '').split '|'
         parsedText = @parseSpans @attrs.text, @attrs.spans
         text = parsedText.map (item) ->
-            escapedText = utils.escapeHTML item.text or ''
+            escapedText = item.text or ''
 
             if item.span? and item.span.name is 'link' and item.span.url?
                 '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
             else if item.span? and item.span.name?
-                spanName = utils.escapeHTML item.span.name
+                spanName = item.span.name
 
                 '<span data-name="' + spanName + '">' + escapedText + '</span>'
             else
@@ -28,7 +28,7 @@ module.exports = class TextView extends View
 
         # Font family.
         if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0
-            @el.style.fontFamily = @attrs.font_family.join(', ')
+            @el.style.fontFamily = @attrs.font_family.join ', '
 
         # Text size.
         if @attrs.text_size?

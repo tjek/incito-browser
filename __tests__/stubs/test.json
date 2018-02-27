@@ -1,0 +1,147 @@
+{
+	"id": "test-id",
+	"version": "0.0.0",
+	"locale": "da_DK",
+	"font_assets": {
+		"Tangerine": {
+			"src": [
+				[
+					"woff2",
+					"https://fonts.gstatic.com/s/tangerine/v9/IurY6Y5j_oScZZow4VOxCZZM.woff2"
+				]
+			],
+			"weight": "normal",
+			"style": "normal"
+		}
+	},
+	"theme": {
+		"font_family": [
+			"Tangerine"
+		],
+		"background_color": "black",
+		"line_spacing_multiplier": 1.3
+	},
+	"root_view": {
+		"view_name": "LinearLayout",
+		"child_views": [
+			{
+				"view_name": "FlexLayout",
+				"background_color": "#00ff00",
+				"background_tile_mode": "repeat",
+				"background_image_position": "center_center",
+				"background_image_scale_type": "center_crop",
+				"gravity": "center_horizontal",
+				"layout_width": 300,
+				"padding": 50,
+				"layout_flex_align_items": "center",
+				"layout_flex_justify_content": "center",
+				"child_views": [
+					{
+						"view_name": "TextView",
+						"text": "<script>alert('attack!')</script>Flex Layout",
+						"text_color": "red",
+						"text_alignment": "center",
+						"text_size": 56
+					}
+				],
+				"role": "role"
+			},
+			{
+				"view_name": "AbsoluteLayout",
+				"layout_width": 400,
+				"layout_height": 200,
+				"gravity": "center_horizontal",
+				"background_color": "rgb(255, 0, 200)",
+				"child_views": [
+					{
+						"view_name": "View",
+						"layout_left": 12,
+						"layout_bottom": 12,
+						"layout_width": 400,
+						"layout_height": 180,
+						"background_color": "rgba(0, 0, 0, 0.2)",
+						"corner_radius": "100%",
+						"child_views": [
+							{
+								"view_name": "FlexLayout",
+								"layout_flex_align_items": "center",
+								"layout_flex_justify_content": "center",
+								"layout_flex_align_content": "center",
+								"layout_flex_direction": "column",
+								"background_color": "rgba(0, 0, 0, 0.2)",
+								"padding_top": 1,
+								"layout_height": "30%",
+								"child_views": [
+									{
+										"view_name": "TextView",
+										"single_line": false,
+										"clip_children": false,
+										"text_color": "#ffffff",
+										"text_alignment": "center",
+										"text_size": 26,
+										"text": "MANY",
+										"font_stretch": "condensed"
+									},
+									{
+										"view_name": "TextView",
+										"single_line": false,
+										"clip_children": false,
+										"text_color": "#ffffff",
+										"text_alignment": "center",
+										"text_size": 16,
+										"text": "CHILD",
+										"font_stretch": "condensed"
+									},
+									{
+										"view_name": "TextView",
+										"single_line": false,
+										"clip_children": false,
+										"text_color": "#ffffff",
+										"text_alignment": "center",
+										"text_size": 18,
+										"text": "VIEWS",
+										"font_stretch": "condensed"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"view_name": "ImageView",
+				"src": "https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/mr.jpg",
+				"layout_width": 200,
+				"layout_height": 200,
+				"transform_translate_x": 50,
+				"transform_translate_y": 0,
+				"label": "mb"
+			},
+			{
+				"view_name": "ImageView",
+				"src": "https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/iz.jpg",
+				"layout_width": 200,
+				"layout_height": 200,
+				"transform_translate_x": 50,
+				"transform_translate_y": 0,
+				"label": "iz"
+			},
+			{
+				"view_name": "LinearLayout",
+				"layout_width": 400,
+				"layout_height": 400,
+				"background_color": "red",
+				"gravity": "center_horizontal",
+				"child_views": [
+					{
+						"view_name": "VideoEmbedView",
+						"src": "https://www.youtube.com/embed/96j3lOyfwMs",
+						"video_width": 200,
+						"video_height": 100
+					}
+				],
+				"role": "filler"
+			}
+		]
+	}
+}
