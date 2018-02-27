@@ -28,6 +28,7 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
+        @sanitize frag
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
@@ -71,8 +72,6 @@ class Incito
 
             return
         view.render()
-
-        @sanitize view.el
 
         if Array.isArray(attrs.child_views)
             attrs.child_views.forEach (childView) =>
