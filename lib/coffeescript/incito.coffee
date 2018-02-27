@@ -26,7 +26,7 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
-        Incito.sanitize frag
+        @sanitize frag
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
@@ -146,7 +146,7 @@ class Incito
 
         return
     
-    @sanitize: (frag) ->
+    sanitize: (frag) ->
         for child in frag.children
             child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
 

@@ -9,8 +9,3 @@ describe 'Utils', ->
     test 'isDefinedStr', ->
         expect(isDefinedStr('')).toBe(false)
         expect(isDefinedStr(' ')).toBe(true)
-
-    test 'escapeHTML', ->
-        expect(escapeHTML()).toBe('')
-        expect(-> escapeHTML(false)).toThrow()
-        expect(escapeHTML('<span>"\'span&\'"</span>')).toBe('&lt;span&gt;&quot;&#039;span&amp;&#039;&quot;&lt;/span&gt;')

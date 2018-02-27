@@ -154,6 +154,12 @@ module.exports = class View
         # Clip children.
         if @attrs.clip_children is false
             @el.style.overflow = 'visible'
+
+        # Shadow.
+        shadow = @getShadow()
+
+        if shadow?
+            @el.style.boxShadow = "#{shadow.dx}px #{shadow.dy}px #{shadow.radius}px #{shadow.color}"
         
         # Stroke.
         strokeStyles = ['solid', 'dotted', 'dashed']
@@ -313,6 +319,18 @@ module.exports = class View
                 false
 
         return
+
+    getShadow: ->
+        if utils.isDefinedStr @attrs.shadow_color
+            dx = if typeof @attrs.shadow_dx is 'number' then @attrs.shadow_dx else 0
+            dy = if typeof @attrs.shadow_dy is 'number' then @attrs.shadow_dy else 0
+            radius = if typeof @attrs.shadow_radius is 'number' then @attrs.shadow_radius else 0
+            color = @attrs.shadow_color
+
+            dx: dx
+            dy: dy
+            radius: radius
+            color: color
 
 MicroEvent.mixin View
 

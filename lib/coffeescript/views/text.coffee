@@ -107,11 +107,11 @@ module.exports = class TextView extends View
         result
     
     getTextShadow: ->
-        if utils.isDefinedStr @attrs.shadow_color
-            dx = if typeof @attrs.shadow_dx is 'number' then @attrs.shadow_dx else 0
-            dy = if typeof @attrs.shadow_dy is 'number' then @attrs.shadow_dy else 0
-            radius = if typeof @attrs.shadow_radius is 'number' then @attrs.shadow_radius else 0
-            color = @attrs.shadow_color
+        if utils.isDefinedStr @attrs.text_shadow_color
+            dx = if typeof @attrs.text_shadow_dx is 'number' then @attrs.text_shadow_dx else 0
+            dy = if typeof @attrs.text_shadow_dy is 'number' then @attrs.text_shadow_dy else 0
+            radius = if typeof @attrs.text_shadow_radius is 'number' then @attrs.text_shadow_radius else 0
+            color = @attrs.text_shadow_color
 
             dx: dx
             dy: dy

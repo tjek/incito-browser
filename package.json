@@ -1,6 +1,6 @@
 {
   "name": "incito-browser",
-  "version": "0.0.24",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/incito.js",
   "watch": {
