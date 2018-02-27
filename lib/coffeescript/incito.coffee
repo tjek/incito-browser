@@ -1,4 +1,5 @@
 require 'intersection-observer'
+
 DOMPurify = require 'dompurify'
 MicroEvent = require 'microevent'
 lozad = require 'lozad'
@@ -11,6 +12,7 @@ VideoView = require './views/video'
 LinearLayout = require './views/linear-layout'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
+
 { sanitize } = new DOMPurify window
 
 class Incito
@@ -26,7 +28,6 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
-        @sanitize frag
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
@@ -50,48 +51,40 @@ class Incito
     render: (el, attrs = {}) ->
         match = null
         viewName = attrs.view_name
+        views =
+            View: View
+            FragView: FragView
+            ImageView: ImageView
+            TextView: TextView
+            VideoEmbedView: VideoEmbedView
+            VideoView: VideoView
+            LinearLayout: LinearLayout
+            AbsoluteLayout: AbsoluteLayout
+            FlexLayout: FlexLayout
+        match = views[viewName] ? View
+        view = new match attrs
+        trigger = view.trigger
 
-        if viewName is 'FragView'
-            match = FragView
-        else if viewName is 'ImageView'
-            match = ImageView
-        else if viewName is 'TextView'
-            match = TextView
-        else if viewName is 'VideoEmbedView'
-            match = VideoEmbedView
-        else if viewName is 'VideoView'
-            match = VideoView
-        else if viewName is 'LinearLayout'
-            match = LinearLayout
-        else if viewName is 'AbsoluteLayout'
-            match = AbsoluteLayout
-        else if viewName is 'FlexLayout'
-            match = FlexLayout
-        else
-            match = View
-        
-        if match?
-            view = new match attrs
-            trigger = view.trigger
+        view.trigger = (args...) =>
+            trigger.apply view, args
+            @trigger.apply @, args
 
-            view.trigger = (args...) =>
-                trigger.apply view, args
-                @trigger.apply @, args
+            return
+        view.render()
+
+        @sanitize view.el
+
+        if Array.isArray(attrs.child_views)
+            attrs.child_views.forEach (childView) =>
+                childEl = @render(view.el, childView)
+
+                view.el.appendChild childEl if childEl?
 
                 return
-            view.render()
-
-            if Array.isArray(attrs.child_views)
-                attrs.child_views.forEach (childView) =>
-                    childEl = @render(view.el, childView)
-
-                    view.el.appendChild childEl if childEl?
-
-                    return
-            
-            el.appendChild view.el
         
-            view.el
+        el.appendChild view.el
+    
+        view.el
     
     applyTheme: (theme = {}) ->
         if theme.font_family?
@@ -146,9 +139,11 @@ class Incito
 
         return
     
-    sanitize: (frag) ->
-        for child in frag.children
-            child.innerHTML = sanitize child.innerHTML, ADD_TAGS: ['iframe']
+    sanitize: (el) ->
+        for childNode in el.childNodes
+            childNode.innerHTML = sanitize childNode.innerHTML, ADD_TAGS: ['iframe']
+        
+        return
 
 MicroEvent.mixin Incito
 

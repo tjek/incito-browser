@@ -201,6 +201,7 @@ module.exports = class View
         
         # Transforms.
         transforms = @getTransforms()
+        
         if transforms.length > 0
             @el.style.transform = transforms.join ' '
         

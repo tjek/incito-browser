@@ -8,23 +8,27 @@ module.exports = class TextView extends View
 
     render: ->
         textStyles = (@attrs.text_style || '').split '|'
-        parsedText = @parseSpans @attrs.text, @attrs.spans
-        text = parsedText.map (item) ->
-            escapedText = item.text or ''
+        text = @attrs.text
 
-            if item.span? and item.span.name is 'link' and item.span.url?
-                '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
-            else if item.span? and item.span.name?
-                spanName = item.span.name
+        if Array.isArray(@attrs.spans) and @attrs.spans.length > 0
+            parsedText = @parseSpans text, @attrs.spans
+            text = parsedText.map (item) ->
+                escapedText = item.text or ''
 
-                '<span data-name="' + spanName + '">' + escapedText + '</span>'
-            else
-                escapedText
+                if item.span? and item.span.name is 'link' and item.span.url?
+                    '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
+                else if item.span? and item.span.name?
+                    spanName = item.span.name
+
+                    '<span data-name="' + spanName + '">' + escapedText + '</span>'
+                else
+                    escapedText
+            text = text.join ''
 
         if @attrs.text_prevent_widow
-            @el.innerHTML = text.join('').replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
+            @el.innerHTML = text.replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
         else
-            @el.innerHTML = text.join ''
+            @el.innerHTML = text
 
         # Font family.
         if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0
