@@ -16,8 +16,9 @@ module.exports = class Video extends View
         if @attrs.controls is true
             @el.setAttribute 'controls', ''
         
-        @el.setAttribute 'muted', ''
+        @el.setAttribute 'muted', 'true'
         @el.setAttribute 'preload', 'metadata'
+        @el.setAttribute 'playsinline', ''
         
         if utils.isDefinedStr @attrs.src
             sourceEl = document.createElement 'source'
