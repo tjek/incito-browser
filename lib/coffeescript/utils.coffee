@@ -10,4 +10,12 @@ utils =
     isDefinedStr: (value) ->
         typeof value is 'string' and value.length > 0
 
+    escapeHTML: (unsafe = '') ->
+        unsafe
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace /'/g, '&#039;'
+
 module.exports = utils

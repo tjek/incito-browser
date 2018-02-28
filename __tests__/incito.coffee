@@ -102,7 +102,7 @@ describe 'Incito', ->
             return
 
         it 'should add proper content', ->
-            expect(elements.flexText.html()).toBe('Flex Layout')
+            expect(elements.flexText.html()).toBe("&lt;script&gt;alert('attack!')&lt;/script&gt;Flex Layout")
             expect(elements.absoluteViewTexts.eq(0).html()).toBe('MANY')
             expect(elements.absoluteViewTexts.eq(1).html()).toBe('CHILD')
             expect(elements.absoluteViewTexts.eq(2).html()).toBe('VIEWS')

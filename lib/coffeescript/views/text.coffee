@@ -13,7 +13,7 @@ module.exports = class TextView extends View
         if Array.isArray(@attrs.spans) and @attrs.spans.length > 0
             parsedText = @parseSpans text, @attrs.spans
             text = parsedText.map (item) ->
-                escapedText = item.text or ''
+                escapedText = utils.escapeHTML item.text or ''
 
                 if item.span? and item.span.name is 'link' and item.span.url?
                     '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
@@ -24,6 +24,8 @@ module.exports = class TextView extends View
                 else
                     escapedText
             text = text.join ''
+        else
+            text = utils.escapeHTML text
 
         if @attrs.text_prevent_widow
             @el.innerHTML = text.replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
@@ -77,7 +79,7 @@ module.exports = class TextView extends View
         # All caps.
         if @attrs.text_all_caps is true
             @el.style.textTransform = 'uppercase'
-
+            
         @
     
     parseSpans: (text, spans = []) ->

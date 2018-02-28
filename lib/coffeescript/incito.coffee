@@ -1,6 +1,6 @@
-DOMPurify = require 'dompurify'
 LazyLoad = require 'vanilla-lazyload'
 MicroEvent = require 'microevent'
+utils = require './utils'
 View = require './views/view'
 FragView = require './views/frag'
 ImageView = require './views/image'
@@ -10,8 +10,6 @@ VideoView = require './views/video'
 LinearLayout = require './views/linear-layout'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
-
-{ sanitize } = new DOMPurify window
 
 class Incito
     constructor: (@containerEl, @options = {}) ->
@@ -26,13 +24,11 @@ class Incito
         @loadFonts incito.font_assets
         @applyTheme incito.theme
         @render frag, incito.root_view
-        @sanitize frag
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
         @el.setAttribute 'data-debug', true if incito.debug is true
         @el.appendChild frag
-
         @containerEl.appendChild @el
 
         @lazyload = new LazyLoad
@@ -125,14 +121,6 @@ class Incito
                 styleEl.appendChild document.createTextNode(text)
 
             document.head.appendChild styleEl
-        
-        return
-    
-    sanitize: (el) ->
-        for childNode in el.childNodes
-            childNode.innerHTML = sanitize childNode.innerHTML,
-                ADD_TAGS: ['iframe']
-                ADD_ATTR: ['muted', 'controls', 'loop', 'preload']
         
         return
 

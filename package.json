@@ -1,6 +1,6 @@
 {
   "name": "incito-browser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/incito.js",
   "watch": {
@@ -63,7 +63,6 @@
     "coffeelint": "^2.1.0",
     "coffeescript": "^2.2.2",
     "derequire": "^2.0.6",
-    "dompurify": "^1.0.3",
     "intersection-observer": "^0.5.0",
     "is-color": "^0.2.0",
     "jest": "^22.4.2",

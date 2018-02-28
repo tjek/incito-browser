@@ -1,4 +1,5 @@
 View = require './view'
+utils = require '../utils'
 
 alignItemModes = ['stretch', 'center', 'flex-start', 'flex-end', 'baseline']
 alignContentModes = ['stretch', 'center', 'flex-start', 'flex-end', 'space-between', 'space-around', 'initial', 'inherit']
@@ -34,7 +35,7 @@ module.exports = class FlexLayout extends View
             @el.style.msFlexGrow = @attrs.layout_flex_grow
         
         if @attrs.layout_flex_basis?
-            @el.style.flexBasis = @attrs.layout_flex_basis
-            @el.style.msFlexBasis = @attrs.layout_flex_basis
+            @el.style.flexBasis = utils.parseUnit @attrs.layout_flex_basis
+            @el.style.msFlexBasis = utils.parseUnit @attrs.layout_flex_basis
 
         @
