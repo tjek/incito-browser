@@ -16,7 +16,7 @@ module.exports = class Video extends View
         if @attrs.controls is true
             @el.setAttribute 'controls', ''
         
-        @el.setAttribute 'muted', 'true'
+        @el.setAttribute 'muted', ''
         @el.setAttribute 'preload', 'metadata'
         
         if utils.isDefinedStr @attrs.src
