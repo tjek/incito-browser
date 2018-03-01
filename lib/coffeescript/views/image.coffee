@@ -12,5 +12,7 @@ module.exports = class Image extends View
         
         if utils.isDefinedStr @attrs.label
             @el.setAttribute 'alt', @attrs.label
+        else
+            @el.setAttribute 'alt', ''
 
         @
