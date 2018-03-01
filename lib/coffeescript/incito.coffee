@@ -45,6 +45,8 @@ class Incito
     destroy: ->
         @containerEl.removeChild @el
         @lazyload.destroy() if @lazyload?
+
+        @trigger 'destroyed'
         
         return
 
