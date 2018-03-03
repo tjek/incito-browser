@@ -252,7 +252,7 @@ module.exports = class View
         longclickDelay = 500
         clickDelay = 300
         threshold = 20
-        downTimeout = null
+        longclickTimeout = null
         isTouchSupported = 'ontouchend' of document
         isMouseSupported = window.matchMedia('(pointer: fine)').matches
         useTouch = isTouchSupported && !isMouseSupported
@@ -271,7 +271,7 @@ module.exports = class View
             startTime = new Date().getTime()
 
             if e.which isnt 3 and e.button isnt 2 and utils.isDefinedStr @attrs.onlongclick
-                downTimeout = setTimeout =>
+                longclickTimeout = setTimeout =>
                     trigger @attrs.onlongclick, e
 
                     return
@@ -279,7 +279,7 @@ module.exports = class View
 
             return
         move = (e) ->
-            clearTimeout downTimeout
+            clearTimeout longclickTimeout
 
             return
         up = (e) =>
@@ -292,7 +292,7 @@ module.exports = class View
             endTime = new Date().getTime()
             delta = endTime - startTime
 
-            clearTimeout downTimeout
+            clearTimeout longclickTimeout
 
             if e.which isnt 3 and e.button isnt 2 and delta < clickDelay
                 if deltaX < threshold and deltaY < threshold
@@ -311,6 +311,7 @@ module.exports = class View
             @el.ontouchcancel = up
         else
             @el.onmousedown = down
+            @el.onmousemove = move
             @el.onmouseup = up
 
         if utils.isDefinedStr @attrs.oncontextclick
