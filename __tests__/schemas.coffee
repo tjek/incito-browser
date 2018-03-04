@@ -47,6 +47,6 @@ describe 'Schema validation', ->
             it "should have error in instance.#{expectedError}", ->
                 expect(err).toBeDefined()
 
-        expect(validation.errors.length).toEqual 19
+        expect(validation.errors.length).toEqual 18
 
         return
