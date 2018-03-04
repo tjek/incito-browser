@@ -25,7 +25,6 @@ describe 'Schema validation', ->
             "id"
             "version"
             "locale"
-            "debug"
             "meta"
             "font_assets.wrong-font.src[0]"
             "font_assets.wrong-font.src[1]"

@@ -27,7 +27,6 @@ class Incito
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
-        @el.setAttribute 'data-debug', true if incito.debug is true
         @el.appendChild frag
         @containerEl.appendChild @el
 

@@ -18,10 +18,6 @@
                 "minLength": 1,
                 "description": "Locale"
             },
-            "debug": {
-                "type": "boolean",
-                "description": "Sets data-debug attr in root Incito element"
-            },
             "meta": {
                 "type": "object",
                 "minProperties": 1,

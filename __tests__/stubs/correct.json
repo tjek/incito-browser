@@ -2,7 +2,6 @@
 	"id": "incito-id",
 	"version": "0.0.0",
 	"locale": "da_DK",
-	"debug": false,
 	"meta": {
 		"some": "object"
 	},
