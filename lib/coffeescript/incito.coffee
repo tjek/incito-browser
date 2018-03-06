@@ -30,14 +30,18 @@ class Incito
         @el.appendChild frag
         @containerEl.appendChild @el
 
-        @lazyload = new LazyLoad
-            elements_selector: '.incito--lazyload'
-            threshold: 800
-            callback_enter: (el) ->
-                if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay')
-                    el.play()
+        setTimeout =>
+            @lazyload = new LazyLoad
+                elements_selector: '.incito--lazyload'
+                threshold: 1000
+                callback_enter: (el) ->
+                    if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay')
+                        el.play()
 
-                return
+                    return
+            
+            return
+        , 0
         
         @
     
