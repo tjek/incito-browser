@@ -1,4 +1,5 @@
 LazyLoad = require 'vanilla-lazyload'
+LazyLoadLegacy = require './lazyload-legacy'
 MicroEvent = require 'microevent'
 utils = require './utils'
 View = require './views/view'
@@ -30,18 +31,7 @@ class Incito
         @el.appendChild frag
         @containerEl.appendChild @el
 
-        setTimeout =>
-            @lazyload = new LazyLoad
-                elements_selector: '.incito--lazyload'
-                threshold: 1000
-                callback_enter: (el) ->
-                    if el.nodeName.toLowerCase() is 'video'
-                        el.dispatchEvent new Event('play')
-
-                    return
-            
-            return
-        , 0
+        @lazyLoader = @createLazyLoader()
         
         @
     
@@ -129,6 +119,18 @@ class Incito
             document.head.appendChild styleEl
         
         return
+    
+    createLazyLoader: ->
+        LazyLoader = if 'IntersectionObserver' of window then LazyLoad else LazyLoadLegacy
+
+        return new LazyLoader
+            elements_selector: '.incito .incito--lazyload'
+            threshold: 1000
+            callback_enter: (el) ->
+                if el.nodeName.toLowerCase() is 'video'
+                    el.dispatchEvent new Event('incito-play')
+
+                return
 
 MicroEvent.mixin Incito
 

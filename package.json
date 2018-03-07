@@ -76,6 +76,6 @@
     "npm-watch": "^0.3.0",
     "stylus": "^0.54.5",
     "valid-url": "^1.0.9",
-    "vanilla-lazyload": "8.6.0"
+    "vanilla-lazyload": "10.4.2"
   }
 }
