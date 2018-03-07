@@ -1,6 +1,10 @@
 MicroEvent = require 'microevent'
 utils = require '../utils'
 
+isTouchSupported = 'ontouchend' of document
+isMouseSupported = window.matchMedia('(pointer: fine)').matches
+useTouch = isTouchSupported && !isMouseSupported
+
 module.exports = class View
     tagName: 'div'
 
@@ -10,9 +14,7 @@ module.exports = class View
         @el = @createElement()
 
         @setAttributes()
-        @initialize()
-    
-    initialize: ->
+        
         return
     
     render: ->
@@ -20,9 +22,9 @@ module.exports = class View
 
     createElement: ->
         el = document.createElement @tagName
+        className = @className ? ''
 
-        el.className = 'incito__view'
-        el.className += ' ' + @className if @className?
+        el.className = 'incito__view ' + className
 
         el
     
@@ -253,9 +255,6 @@ module.exports = class View
         clickDelay = 300
         threshold = 20
         longclickTimeout = null
-        isTouchSupported = 'ontouchend' of document
-        isMouseSupported = window.matchMedia('(pointer: fine)').matches
-        useTouch = isTouchSupported && !isMouseSupported
         trigger = (eventName, e) =>
             @trigger eventName,
                 originalEvent: e

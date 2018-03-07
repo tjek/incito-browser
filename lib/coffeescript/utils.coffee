@@ -1,6 +1,8 @@
 utils =
     formatUnit: (unit) ->
-        if typeof unit is 'number'
+        if not unit?
+            return 0
+        else if typeof unit is 'number'
             return "#{unit}px"
         else if typeof unit is 'string'
             return unit.replace 'dp', 'px'

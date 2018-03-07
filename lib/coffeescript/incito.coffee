@@ -20,15 +20,14 @@ class Incito
 
     start: ->
         incito = @options.incito or {}
-        frag = document.createDocumentFragment()
-
-        @loadFonts incito.font_assets
-        @applyTheme incito.theme
-        @render frag, incito.root_view
 
         @el.className = 'incito'
         @el.setAttribute 'lang', incito.locale if incito.locale?
-        @el.appendChild frag
+
+        @loadFonts incito.font_assets
+        @applyTheme incito.theme
+        @render @el, incito.root_view
+
         @containerEl.appendChild @el
 
         @lazyLoader = @createLazyLoader()
@@ -69,9 +68,7 @@ class Incito
 
         if Array.isArray(attrs.child_views)
             attrs.child_views.forEach (childView) =>
-                childEl = @render(view.el, childView)
-
-                view.el.appendChild childEl if childEl?
+                @render(view.el, childView)
 
                 return
         
@@ -127,8 +124,7 @@ class Incito
             elements_selector: '.incito .incito--lazyload'
             threshold: 1000
             callback_enter: (el) ->
-                if el.nodeName.toLowerCase() is 'video'
-                    el.dispatchEvent new Event('incito-play')
+                el.dispatchEvent new Event('incito-lazyload')
 
                 return
 

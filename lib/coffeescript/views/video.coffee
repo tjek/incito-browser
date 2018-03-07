@@ -9,7 +9,7 @@ module.exports = class Video extends View
     render: ->
         return if not utils.isDefinedStr @attrs.src
 
-        @el.addEventListener 'incito-play', @renderVideo.bind(@)
+        @el.addEventListener 'incito-lazyload', @renderVideo.bind(@)
 
         if @attrs.autoplay is true
             @el.setAttribute 'autoplay', ''
