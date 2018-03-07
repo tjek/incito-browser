@@ -7,8 +7,12 @@ module.exports = class Video extends View
     tagName: 'video'
 
     render: ->
+        return if not utils.isDefinedStr @attrs.src
+
+        @el.addEventListener 'play', @renderVideo.bind(@)
+
         if @attrs.autoplay is true
-            @el.setAttribute 'data-autoplay', 'true'
+            @el.setAttribute 'autoplay', ''
         
         if @attrs.loop is true
             @el.setAttribute 'loop', ''
@@ -19,13 +23,15 @@ module.exports = class Video extends View
         @el.setAttribute 'muted', 'true'
         @el.setAttribute 'preload', 'metadata'
         @el.setAttribute 'playsinline', ''
-        
-        if utils.isDefinedStr @attrs.src
-            sourceEl = document.createElement 'source'
 
-            sourceEl.setAttribute 'src', @attrs.src
-            sourceEl.setAttribute 'type', @attrs.mime
+        @
 
-            @el.appendChild sourceEl
+    renderVideo: ->
+        sourceEl = document.createElement 'source'
+
+        sourceEl.setAttribute 'src', @attrs.src
+        sourceEl.setAttribute 'type', @attrs.mime
+
+        @el.appendChild sourceEl
 
         @

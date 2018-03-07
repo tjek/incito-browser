@@ -35,8 +35,8 @@ class Incito
                 elements_selector: '.incito--lazyload'
                 threshold: 1000
                 callback_enter: (el) ->
-                    if el.nodeName.toLowerCase() is 'video' and el.getAttribute('data-autoplay')
-                        el.play()
+                    if el.nodeName.toLowerCase() is 'video'
+                        el.dispatchEvent new Event('play')
 
                     return
             
