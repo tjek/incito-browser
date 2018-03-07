@@ -2,7 +2,7 @@ MicroEvent = require 'microevent'
 utils = require '../utils'
 
 isTouchSupported = 'ontouchend' of document
-isMouseSupported = window.matchMedia('(pointer: fine)').matches
+isMouseSupported = if 'matchMedia' of window then window.matchMedia('(pointer: fine)').matches else true
 useTouch = isTouchSupported && !isMouseSupported
 
 module.exports = class View
