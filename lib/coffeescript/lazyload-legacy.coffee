@@ -74,23 +74,6 @@ createInstance = (classObj, options) ->
   window.dispatchEvent event
   return
 
-### Auto initialization of one or more instances of lazyload, depending on the 
-    options passed in (plain object or an array) 
-###
-
-autoInitialize = (classObj, options) ->
-  optsLength = options.length
-  if !optsLength
-    # Plain object
-    createInstance classObj, options
-  else
-    # Array of objects
-    i = 0
-    while i < optsLength
-      createInstance classObj, options[i]
-      i++
-  return
-
 dataPrefix = 'data-'
 
 getData = (element, attribute) ->
