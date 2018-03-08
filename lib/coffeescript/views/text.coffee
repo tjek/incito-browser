@@ -72,9 +72,13 @@ module.exports = class TextView extends View
         if @attrs.font_stretch in ['condensed', 'normal', 'expanded']
             @el.style.fontStretch = @attrs.font_stretch
         
-        # Single line.
-        if @attrs.single_line is true
+        # Max lines.
+        if @attrs.single_line is true or @attrs.max_lines is 1
             @el.setAttribute 'data-single-line', true
+        else if typeof @attrs.max_lines is 'number'
+            @el.style.display = '-webkit-box'
+            @el.style.webkitLineClamp = @attrs.max_lines
+            @el.style.webkitBoxOrient = 'vertical'
         
         # All caps.
         if @attrs.text_all_caps is true
