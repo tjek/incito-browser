@@ -124,7 +124,17 @@ class Incito
             elements_selector: '.incito .incito--lazyload'
             threshold: 1000
             callback_enter: (el) ->
-                el.dispatchEvent new Event('incito-lazyload')
+                completeEvent = null
+                eventName = 'incito-lazyload'
+
+                if typeof CustomEvent is 'function'
+                    completeEvent = new CustomEvent eventName
+                else
+                    completeEvent = document.createEvent 'CustomEvent'
+
+                    completeEvent.initCustomEvent eventName, false, false, undefined
+                    
+                el.dispatchEvent completeEvent
 
                 return
 
