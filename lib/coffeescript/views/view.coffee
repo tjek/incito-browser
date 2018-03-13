@@ -1,10 +1,6 @@
 MicroEvent = require 'microevent'
 utils = require '../utils'
 
-isTouchSupported = 'ontouchend' of document
-isMouseSupported = if 'matchMedia' of window then window.matchMedia('(pointer: fine)').matches else true
-useTouch = isTouchSupported && !isMouseSupported
-
 module.exports = class View
     tagName: 'div'
 
@@ -301,6 +297,10 @@ module.exports = class View
                         window.open @attrs.link, '_blank'
             
             return
+
+        isTouchSupported = 'ontouchend' of document
+        isMouseSupported = if 'matchMedia' of window then window.matchMedia('(pointer: fine)').matches else true
+        useTouch = isTouchSupported && !isMouseSupported
 
         if useTouch
             @el.setAttribute 'data-disable-user-select', ''
