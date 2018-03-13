@@ -2,5 +2,5 @@ node_modules/
 npm-debug.log
 .DS_Store
 *.swp
-dist/incito.js
-dist/incito.css
+dist/*
+!dist/.gitkeep

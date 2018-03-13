@@ -1,9 +1,16 @@
 language: node_js
 node_js:
-    - "node"
+  - "node"
+  - "lts/*"
 sudo: false
 cache:
   directories:
     - "node_modules"
 notifications:
     email: false
+
+script:
+  - npm run build
+  - npm run test:lint
+  - npm run test:ci
+  - npm run test:size
