@@ -7,21 +7,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 })(this, function () {
     'use strict';
 
-    var defaultSettings = {
-        elements_selector: "img",
-        container: document,
-        threshold: 300,
-        data_src: "src",
-        data_srcset: "srcset",
-        class_loading: "loading",
-        class_loaded: "loaded",
-        class_error: "error",
-        callback_load: null,
-        callback_error: null,
-        callback_set: null,
-        callback_enter: null
-    };
-
     var dataPrefix = "data-";
 
     var getData = function getData(element, attribute) {
@@ -113,10 +98,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    var supportsClassList = "classList" in document.createElement("p");
+    var supportsClassList = () => "classList" in document.createElement("p");
 
     var addClass = function addClass(element, className) {
-        if (supportsClassList) {
+        if (supportsClassList()) {
             element.classList.add(className);
             return;
         }
@@ -124,7 +109,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var removeClass = function removeClass(element, className) {
-        if (supportsClassList) {
+        if (supportsClassList()) {
             element.classList.remove(className);
             return;
         }
@@ -177,7 +162,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var LazyLoad = function LazyLoad(instanceSettings, elements) {
-        this._settings = _extends({}, defaultSettings, instanceSettings);
+        this._settings = _extends({}, {
+            elements_selector: "img",
+            container: document,
+            threshold: 300,
+            data_src: "src",
+            data_srcset: "srcset",
+            class_loading: "loading",
+            class_loaded: "loaded",
+            class_error: "error",
+            callback_load: null,
+            callback_error: null,
+            callback_set: null,
+            callback_enter: null
+        }, instanceSettings);
         this._setObserver();
         this.update(elements);
     };
@@ -242,12 +240,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             this._settings = null;
         }
     };
-
-    /* Automatic instances creation if required (useful for async script loading!) */
-    var autoInitOptions = window.lazyLoadOptions;
-    if (autoInitOptions) {
-        autoInitialize(LazyLoad, autoInitOptions);
-    }
-
     return LazyLoad;
 });
