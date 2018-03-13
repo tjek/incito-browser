@@ -87,7 +87,6 @@
     "serve": "^6.5.3",
     "stylus": "^0.54.5",
     "uglify-es": "^3.3.10",
-    "valid-url": "^1.0.9",
-    "vanilla-lazyload": "10.4.2"
+    "valid-url": "^1.0.9"
   }
 }
