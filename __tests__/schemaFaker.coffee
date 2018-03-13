@@ -9,7 +9,7 @@ randomEnum = (arr) ->
 fakerSchema = incitoSchema.shift()
 fakerSchema.definitions = {}
 for schema in incitoSchema
-  fakerSchema.definitions[schema.id.substr(1)] = schema
+    fakerSchema.definitions[schema.id.substr(1)] = schema
 
 fakerSchema = JSON.stringify fakerSchema, null, 2
 fakerSchema = fakerSchema.replace(/\$ref": "/g, '$ref": "#/definitions')
