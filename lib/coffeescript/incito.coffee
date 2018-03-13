@@ -1,4 +1,4 @@
-LazyLoad = require 'vanilla-lazyload'
+LazyLoad = require './../../vendor/vanilla-lazyload'
 LazyLoadLegacy = require './lazyload-legacy'
 MicroEvent = require 'microevent'
 utils = require './utils'
