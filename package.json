@@ -9,19 +9,19 @@
   "bundlesize": [
     {
       "path": "./dist/incito.js",
-      "maxSize": "50 kB"
-    },
-    {
-      "path": "./dist/incito.min.js",
       "maxSize": "25 kB"
     },
     {
+      "path": "./dist/incito.min.js",
+      "maxSize": "15 kB"
+    },
+    {
       "path": "./dist/incito.cjs.js",
-      "maxSize": "10 kB"
+      "maxSize": "15 kB"
     },
     {
       "path": "./dist/incito.es.js",
-      "maxSize": "10 kB"
+      "maxSize": "15 kB"
     }
   ],
   "scripts": {
