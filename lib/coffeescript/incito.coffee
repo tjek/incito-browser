@@ -15,6 +15,8 @@ FlexLayout = require './views/flex-layout'
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
+        @touchSupport = 'ontouchend' of document
+        @mouseSupport = if 'matchMedia' of window then window.matchMedia('(pointer: fine)').matches else true
 
         return
 
@@ -56,7 +58,9 @@ class Incito
             AbsoluteLayout: AbsoluteLayout
             FlexLayout: FlexLayout
         match = views[viewName] ? View
-        view = new match attrs
+        view = new match attrs,
+            touchSupport: @touchSupport
+            mouseSupport: @mouseSupport
         trigger = view.trigger
 
         view.trigger = (args...) =>
@@ -77,13 +81,16 @@ class Incito
         view.el
     
     applyTheme: (theme = {}) ->
-        if theme.font_family?
+        if Array.isArray theme.font_family
             @el.style.fontFamily = theme.font_family.join(', ')
         
-        if theme.background_color?
+        if utils.isDefinedStr theme.background_color
             @el.style.backgroundColor = theme.background_color
+
+        if utils.isDefinedStr theme.text_color
+            @el.style.color = theme.text_color
         
-        if theme.line_spacing_multiplier?
+        if typeof theme.line_spacing_multiplier is 'number'
             @el.style.lineHeight = theme.line_spacing_multiplier
         
         return

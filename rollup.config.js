@@ -56,7 +56,7 @@ let configs = [
     output: {
       file: outputs.UMD,
       format: "umd",
-      name: "Verso"
+      name: "Incito"
     },
     plugins: [
       coffeescript(),

@@ -6,7 +6,7 @@ module.exports = class View
 
     className: null
     
-    constructor: (@attrs = {}) ->
+    constructor: (@attrs = {}, @options = {}) ->
         @el = @createElement()
 
         @setAttributes()
@@ -298,11 +298,7 @@ module.exports = class View
             
             return
 
-        isTouchSupported = 'ontouchend' of document
-        isMouseSupported = if 'matchMedia' of window then window.matchMedia('(pointer: fine)').matches else true
-        useTouch = isTouchSupported && !isMouseSupported
-
-        if useTouch
+        if @options.touchSupport and !@options.mouseSupport
             @el.setAttribute 'data-disable-user-select', ''
             @el.ontouchstart = down
             @el.ontouchmove = move
