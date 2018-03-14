@@ -2,32 +2,41 @@
   "name": "incito-browser",
   "version": "1.0.15",
   "description": "",
-  "main": "dist/incito.js",
-  "watch": {
-    "build:js": {
-      "patterns": [
-        "lib/coffeescript"
-      ],
-      "extensions": [
-        "coffee"
-      ]
+  "main": "dist/incito.cjs.js",
+  "browser": "dist/incito.js",
+  "module": "dist/incito.es.js",
+  "jsnext:main": "dist/incito.es.js",
+  "bundlesize": [
+    {
+      "path": "./dist/incito.js",
+      "maxSize": "25 kB"
     },
-    "build:css": {
-      "patterns": [
-        "lib/stylus"
-      ],
-      "extensions": [
-        "styl"
-      ]
+    {
+      "path": "./dist/incito.min.js",
+      "maxSize": "15 kB"
+    },
+    {
+      "path": "./dist/incito.cjs.js",
+      "maxSize": "15 kB"
+    },
+    {
+      "path": "./dist/incito.es.js",
+      "maxSize": "15 kB"
     }
-  },
+  ],
   "scripts": {
-    "test": "./node_modules/coffeelint/bin/coffeelint lib/coffeescript/ -r lib/coffeescript/ && jest",
-    "build:js": "browserify lib/coffeescript/incito.coffee -t coffeeify -t [ babelify --extensions .coffee --presets [ es2015 ] ] -p browserify-derequire -s Incito --extension=coffee -o dist/incito.js -d",
-    "build:css": "stylus lib/stylus/incito.styl -u nib -o dist/incito.css",
-    "build": "run-p -l build:js build:css",
-    "dev": "npm-watch",
-    "serve": "python -m SimpleHTTPServer 8001",
+    "test": "npm run test:lint && npm run test:ci && npm run test:size",
+    "test:lint": "coffeelint lib/coffeescript __tests__",
+    "test:ci": "jest --ci",
+    "test:size": "bundlesize",
+    "build:js": "rollup -c -m --environment NODE_ENV:production",
+    "build:css": "stylus lib/stylus/incito.styl -o dist/incito.css --include-css -m",
+    "build:css-min": "stylus lib/stylus/incito.styl -o dist/incito.min.css --include-css -m -c",
+    "build": "run-p -l build:js build:css build:css-min",
+    "dev:js": "rollup -c -m inline --no-treeshake --environment NODE_ENV:development --watch",
+    "dev:css": "stylus lib/stylus/incito.styl -o dist/incito.css --include-css --sourcemap-inline --watch",
+    "dev": "run-p -l dev:js dev:css serve",
+    "serve": "serve --port 8001",
     "prepublishOnly": "npm run build"
   },
   "jest": {
@@ -54,28 +63,30 @@
   },
   "homepage": "https://github.com/shopgun/incito-browser#readme",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babelify": "^8.0.0",
-    "browserify": "^16.1.1",
-    "browserify-derequire": "^0.9.4",
-    "coffeeify": "^3.0.1",
-    "coffeelint": "^2.1.0",
-    "coffeescript": "^2.2.2",
-    "derequire": "^2.0.6",
-    "intersection-observer": "^0.5.0",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "bundlesize": "^0.15.3",
+    "coffeelint": "^2.0.7",
+    "coffeescript": "^2.2.3",
     "is-color": "^0.2.0",
-    "jest": "^22.4.2",
+    "jest": "^21.2.1",
     "jquery": "^3.3.1",
+    "jsdom": "^9.12.0",
     "json-schema-faker": "^0.5.0-rc13",
     "jsonschema": "^1.2.2",
-    "lozad": "^1.3.0",
     "microevent": "^1.0.0",
     "nib": "^1.1.2",
     "npm-run-all": "^4.1.2",
-    "npm-watch": "^0.3.0",
+    "rollup": "^0.56.5",
+    "rollup-plugin-babel": "^4.0.0-beta.2",
+    "rollup-plugin-coffee-script": "^2.0.0",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-globals": "^1.1.0",
+    "rollup-plugin-node-resolve": "^3.2.0",
+    "rollup-plugin-uglify": "^3.0.0",
+    "serve": "^6.5.3",
     "stylus": "^0.54.5",
-    "valid-url": "^1.0.9",
-    "vanilla-lazyload": "10.4.2"
+    "uglify-es": "^3.3.10",
+    "valid-url": "^1.0.9"
   }
 }

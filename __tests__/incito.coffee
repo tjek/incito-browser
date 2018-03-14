@@ -97,7 +97,8 @@ describe 'Incito', ->
         it 'should add fonts to document', ->
             style = document.styleSheets[0].cssRules[0].style
             expect(style['font-family']).toBe("'Tangerine'")
-            expect(style['src']).toBe("url('https://fonts.gstatic.com/s/tangerine/v9/IurY6Y5j_oScZZow4VOxCZZM.woff2') format('woff2')")
+            expect(style['src'])
+                .toBe("url('https://fonts.gstatic.com/s/tangerine/v9/IurY6Y5j_oScZZow4VOxCZZM.woff2') format('woff2')")
 
             return
 
@@ -106,8 +107,10 @@ describe 'Incito', ->
             expect(elements.absoluteViewTexts.eq(0).html()).toBe('MANY')
             expect(elements.absoluteViewTexts.eq(1).html()).toBe('CHILD')
             expect(elements.absoluteViewTexts.eq(2).html()).toBe('VIEWS')
-            expect(elements.images.eq(0).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/mr.jpg')
-            expect(elements.images.eq(1).attr('data-src')).toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/iz.jpg')
+            expect(elements.images.eq(0).attr('data-src'))
+                .toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/mr.jpg')
+            expect(elements.images.eq(1).attr('data-src'))
+                .toBe('https://ddvcgkeorgbdk.cloudfront.net/assets/8f26f2af/img/team/iz.jpg')
             #expect(elements.video.attr('data-src')).toBe('https://www.youtube.com/embed/96j3lOyfwMs')
 
             return
