@@ -226,18 +226,6 @@
                 ],
                 "minLenght": 1
             },
-            "onclick": {
-                "type": "string",
-                "minLenght": 1
-            },
-            "onlongclick": {
-                "type": "string",
-                "minLenght": 1
-            },
-            "oncontextclick": {
-                "type": "string",
-                "minLenght": 1
-            },
             "accessibility_label": {
                 "type": "string",
                 "minLenght": 1

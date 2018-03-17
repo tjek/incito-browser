@@ -45,13 +45,14 @@ module.exports = class View
         if utils.isDefinedStr @attrs.gravity
             @el.setAttribute 'data-gravity', @attrs.gravity
         
-        # Link or callbacks.
+        # Link.
         if utils.isDefinedStr @attrs.link
             @el.setAttribute 'data-link', ''
-            @setupCallbacks()
-        else if @hasCallback()
-            @el.setAttribute 'data-callback', ''
-            @setupCallbacks()
+            @el.addEventListener 'click', =>
+                window.open @attrs.link, '_blank'
+
+                return
+            , false
 
         # Width.
         if @attrs.layout_width is 'match_parent'
@@ -230,92 +231,6 @@ module.exports = class View
             transforms.push "scale(#{@attrs.transform_scale})"
         
         transforms
-    
-    hasCallback: ->
-        if utils.isDefinedStr @attrs.onlongclick
-            true
-        else if utils.isDefinedStr @attrs.onclick
-            true
-        else if utils.isDefinedStr @attrs.oncontextclick
-            true
-        else
-            false
-    
-    setupCallbacks: ->
-        startPos =
-            x: null
-            y: null
-        startTime = null
-        endTime = null
-        longclickDelay = 500
-        clickDelay = 300
-        threshold = 20
-        longclickTimeout = null
-        trigger = (eventName, e) =>
-            @trigger eventName,
-                originalEvent: e
-                el: @el
-                incito: @attrs
-            
-            return
-        down = (e) =>
-            e.stopPropagation()
-
-            startPos.x = e.clientX or e.touches[0].clientX
-            startPos.y = e.clientY or e.touches[0].clientY
-            startTime = new Date().getTime()
-
-            if e.which isnt 3 and e.button isnt 2 and utils.isDefinedStr @attrs.onlongclick
-                longclickTimeout = setTimeout =>
-                    trigger @attrs.onlongclick, e
-
-                    return
-                , longclickDelay
-
-            return
-        move = (e) ->
-            clearTimeout longclickTimeout
-
-            return
-        up = (e) =>
-            e.stopPropagation()
-
-            x = e.clientX or e.changedTouches[0].clientX
-            y = e.clientY or e.changedTouches[0].clientY
-            deltaX = Math.abs x - startPos.x
-            deltaY = Math.abs y - startPos.y
-            endTime = new Date().getTime()
-            delta = endTime - startTime
-
-            clearTimeout longclickTimeout
-
-            if e.which isnt 3 and e.button isnt 2 and delta < clickDelay
-                if deltaX < threshold and deltaY < threshold
-                    if utils.isDefinedStr @attrs.onclick
-                        trigger @attrs.onclick, e
-                    else if utils.isDefinedStr @attrs.link
-                        window.open @attrs.link, '_blank'
-            
-            return
-
-        if @options.touchSupport and !@options.mouseSupport
-            @el.setAttribute 'data-disable-user-select', ''
-            @el.ontouchstart = down
-            @el.ontouchmove = move
-            @el.ontouchend = up
-            @el.ontouchcancel = up
-        else
-            @el.onmousedown = down
-            @el.onmousemove = move
-            @el.onmouseup = up
-
-        if utils.isDefinedStr @attrs.oncontextclick
-            @el.oncontextmenu = (e) =>
-                trigger @attrs.oncontextclick, e
-                
-                false
-
-        return
 
     getShadow: ->
         if utils.isDefinedStr @attrs.shadow_color
