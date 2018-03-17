@@ -15,8 +15,7 @@ FlexLayout = require './views/flex-layout'
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
-        @touchSupport = 'ontouchend' of document
-        @mouseSupport = if 'matchMedia' of window then window.matchMedia('(pointer: fine)').matches else true
+        @ids = {}
 
         return
 
@@ -58,17 +57,10 @@ class Incito
             AbsoluteLayout: AbsoluteLayout
             FlexLayout: FlexLayout
         match = views[viewName] ? View
-        view = new match attrs,
-            touchSupport: @touchSupport
-            mouseSupport: @mouseSupport
-        trigger = view.trigger
+        view = new match(attrs).render()
 
-        view.trigger = (args...) =>
-            trigger.apply view, args
-            @trigger.apply @, args
-
-            return
-        view.render()
+        if attrs.id? and typeof attrs.meta is 'object'
+            @ids[attrs.id] = attrs.meta
 
         if Array.isArray(attrs.child_views)
             attrs.child_views.forEach (childView) =>

@@ -1,4 +1,3 @@
-MicroEvent = require 'microevent'
 utils = require '../utils'
 
 module.exports = class View
@@ -6,7 +5,7 @@ module.exports = class View
 
     className: null
     
-    constructor: (@attrs = {}, @options = {}) ->
+    constructor: (@attrs = {}) ->
         @el = @createElement()
 
         @setAttributes()
@@ -243,7 +242,5 @@ module.exports = class View
             dy: dy
             radius: radius
             color: color
-
-MicroEvent.mixin View
 
 module.exports = View
