@@ -128,6 +128,7 @@ class Incito
         LazyLoader = if 'IntersectionObserver' of window then LazyLoad else LazyLoadLegacy
 
         return new LazyLoader
+            container: @options.scrollEl ? window
             elements_selector: '.incito .incito--lazyload'
             threshold: 1000
             callback_enter: (el) ->
