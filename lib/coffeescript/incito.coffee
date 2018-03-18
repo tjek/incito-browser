@@ -1,5 +1,3 @@
-LazyLoad = require './../../vendor/vanilla-lazyload'
-LazyLoadLegacy = require './lazyload-legacy'
 MicroEvent = require 'microevent'
 utils = require './utils'
 View = require './views/view'
@@ -15,6 +13,7 @@ FlexLayout = require './views/flex-layout'
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
+        @entries = []
         @ids = {}
 
         return
@@ -31,13 +30,16 @@ class Incito
 
         @containerEl.appendChild @el
 
-        @lazyLoader = @createLazyLoader()
+        @lazyload()
         
         @
     
     destroy: ->
         @containerEl.removeChild @el
-        @lazyload.destroy() if @lazyload?
+
+        if @lazyloadCheck?
+            window.removeEventListener 'scroll', @lazyloadCheck, false
+            window.removeEventListener 'resize', @lazyloadCheck, false
 
         @trigger 'destroyed'
         
@@ -59,8 +61,9 @@ class Incito
         match = views[viewName] ? View
         view = new match(attrs).render()
 
-        if attrs.id? and typeof attrs.meta is 'object'
-            @ids[attrs.id] = attrs.meta
+        @entries.push view.el if view.lazyload is true
+
+        @ids[attrs.id] = attrs.meta if attrs.id? and typeof attrs.meta is 'object'
 
         if Array.isArray(attrs.child_views)
             attrs.child_views.forEach (childView) =>
@@ -116,32 +119,74 @@ class Incito
         
         return
     
-    createLazyLoader: ->
-        supportsIntersectionObserver = 'IntersectionObserver' of window
-        LazyLoader = if supportsIntersectionObserver then LazyLoad else LazyLoadLegacy
-        container = @options.scrollEl
+    lazyload: ->
+        threshold = 1000
 
-        if not container?
-            container = if supportsIntersectionObserver then document else window
+        if 'IntersectionObserver' of window
+            observer = new IntersectionObserver (entries) =>
+                entries.forEach (entry) =>
+                    if entry.isIntersecting or entry.intersectionRatio > 0
+                        @revealElement entry.target
+                        observer.unobserve entry.target
 
-        return new LazyLoader
-            container: container
-            elements_selector: '.incito .incito--lazyload'
-            threshold: 1000
-            callback_enter: (el) ->
-                completeEvent = null
-                eventName = 'incito-lazyload'
-
-                if typeof CustomEvent is 'function'
-                    completeEvent = new CustomEvent eventName
-                else
-                    completeEvent = document.createEvent 'CustomEvent'
-
-                    completeEvent.initCustomEvent eventName, false, false, undefined
-                    
-                el.dispatchEvent completeEvent
+                    return
 
                 return
+            ,
+                rootMargin: "#{threshold}px"
+
+            @entries.forEach observer.observe.bind(observer)
+        else
+            isInsideViewport = (el) =>
+                rect = el.getBoundingClientRect()
+
+                rect.top >= -threshold and rect.bottom <= window.innerHeight + threshold
+            check = =>
+                @entries = @entries.filter (el) =>
+                    if isInsideViewport el
+                        @revealElement el
+
+                        false
+                    else
+                        true
+                
+                return
+            
+            @lazyloadCheck = utils.throttle check, 150
+
+            window.addEventListener 'scroll', @lazyloadCheck, false
+            window.addEventListener 'resize', @lazyloadCheck, false
+
+            setTimeout check, 0
+
+        return
+    
+    revealElement: (el) ->
+        src = el.getAttribute 'data-src'
+
+        if el.tagName.toLowerCase() is 'img'
+            el.addEventListener 'load', ->
+                el.className += ' incito--loaded'
+
+                return
+            el.setAttribute 'src', src
+        else if el.tagName.toLowerCase() is 'video'
+            sourceEl = document.createElement 'source'
+
+            sourceEl.setAttribute 'src', src
+            sourceEl.setAttribute 'type', el.getAttribute('data-mime')
+
+            el.appendChild sourceEl
+        else if /incito__video-embed-view/gi.test(el.className)
+            iframeEl = document.createElement 'iframe'
+
+            iframeEl.setAttribute 'src', src
+
+            el.appendChild iframeEl
+        else
+            el.style.backgroundImage = "url(#{src})"
+
+        return
 
 MicroEvent.mixin Incito
 

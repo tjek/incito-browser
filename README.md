@@ -16,6 +16,11 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.1.3
+
+- Custom lazyloader
+- Removed `scrollEl` parameter
+
 ### Version 1.1.0
 
 - Removed click, longclick and contextclick handlers. This is no longer the responsibility of the library. Instead, delegate whatever events you want on top of Incito. It's just plain old HTML after all.

@@ -2,14 +2,14 @@ View = require './view'
 utils = require '../utils'
 
 module.exports = class Video extends View
-    className: 'incito__video-view incito--lazyload'
+    className: 'incito__video-view'
 
     tagName: 'video'
 
+    lazyload: true
+
     render: ->
         return if not utils.isDefinedStr @attrs.src
-
-        @el.addEventListener 'incito-lazyload', @renderVideo.bind(@)
 
         if @attrs.autoplay is true
             @el.setAttribute 'autoplay', ''
@@ -23,15 +23,7 @@ module.exports = class Video extends View
         @el.setAttribute 'muted', 'true'
         @el.setAttribute 'preload', 'metadata'
         @el.setAttribute 'playsinline', ''
-
-        @
-
-    renderVideo: ->
-        sourceEl = document.createElement 'source'
-
-        sourceEl.setAttribute 'src', @attrs.src
-        sourceEl.setAttribute 'type', @attrs.mime
-
-        @el.appendChild sourceEl
+        @el.setAttribute 'data-src', @attrs.src
+        @el.setAttribute 'data-mime', @attrs.mime
 
         @
