@@ -30,11 +30,15 @@ module.exports = class View
         
         # Role.
         if utils.isDefinedStr @attrs.role
-            @el.setAttribute 'role', @attrs.role
+            @el.setAttribute 'data-role', @attrs.role
         
         # Accessibility label.
         if utils.isDefinedStr @attrs.accessibility_label
             @el.setAttribute 'aria-label', @attrs.accessibility_label
+
+        # Accessibility visibility.
+        if @attrs.accessibility_hidden is true
+            @el.setAttribute 'aria-hidden', true
 
         # Title.
         if utils.isDefinedStr @attrs.title
