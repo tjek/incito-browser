@@ -139,8 +139,9 @@ class Incito
         else
             isInsideViewport = (el) =>
                 rect = el.getBoundingClientRect()
+                windowHeight = window.innerHeight ? document.documentElement.clientHeight
 
-                rect.top >= -threshold and rect.bottom <= window.innerHeight + threshold
+                rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
             check = =>
                 @entries = @entries.filter (el) =>
                     if isInsideViewport el
