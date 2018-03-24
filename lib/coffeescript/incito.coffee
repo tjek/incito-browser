@@ -137,7 +137,7 @@ class Incito
 
             @entries.forEach observer.observe.bind(observer)
         else
-            isInsideViewport = (el) =>
+            isInsideViewport = (el) ->
                 rect = el.getBoundingClientRect()
                 windowHeight = window.innerHeight ? document.documentElement.clientHeight
 

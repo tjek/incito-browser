@@ -7,6 +7,8 @@ module.exports = class TextView extends View
     className: 'incito__text-view'
 
     render: ->
+        return @ if typeof @attrs.text isnt 'string'
+
         textStyles = (@attrs.text_style || '').split '|'
         text = @attrs.text
 
