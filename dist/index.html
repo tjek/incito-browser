@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Incito</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="./incito.css">
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+
+        <script src="./incito.js"></script>
+        <script>
+            fetch('./example.json')
+                .then(function (res) {
+                    return res.json();
+                })
+                .then(function (data) {
+                    var incito = new Incito(document.getElementById('container'), {
+                        incito: data
+                    });
+
+                    incito.start();
+                });
+        </script>
+    </body>
+</html>
