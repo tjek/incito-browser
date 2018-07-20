@@ -35,7 +35,7 @@ module.exports = class FlexLayout extends View
             @el.style.msFlexGrow = @attrs.layout_flex_grow
         
         if @attrs.layout_flex_basis?
-            @el.style.flexBasis = utils.parseUnit @attrs.layout_flex_basis
-            @el.style.msFlexBasis = utils.parseUnit @attrs.layout_flex_basis
+            @el.style.flexBasis = utils.formatUnit @attrs.layout_flex_basis
+            @el.style.msFlexBasis = utils.formatUnit @attrs.layout_flex_basis
 
         @

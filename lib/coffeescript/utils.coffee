@@ -20,23 +20,24 @@ utils =
             .replace(/"/g, '&quot;')
             .replace /'/g, '&#039;'
 
-    throttle: (func, limit) ->
-        inThrottle = undefined
-  
-        ->
-            args = arguments
-            context = this
+    throttle: (fn, delay) ->
+        return fn if delay is 0
 
-            if !inThrottle
-                func.apply context, args
-                inThrottle = true
+        timer = false
+        
+        return ->
+            return if timer
+        
+            timer = true
+        
+            setTimeout ->
+                timer = false
+
+                fn arguments...
                 
-                setTimeout ->
-                    inThrottle = false
-                    
-                    return
-                , limit
-
-            return
+                return
+            , delay
+        
+            
 
 module.exports = utils
