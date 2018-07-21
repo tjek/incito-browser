@@ -16,6 +16,11 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.1.5
+
+- Resolved issue where lazyloading didn't trigger when scrolling rapidly in browsers that don't support `IntersectionObserver`
+- Updated dependencies
+
 ### Version 1.1.3
 
 - Custom lazyloader
