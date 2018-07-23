@@ -2,7 +2,7 @@ View = require './view'
 utils = require '../utils'
 
 alignItemModes = ['stretch', 'center', 'flex-start', 'flex-end', 'baseline']
-alignContentModes = ['stretch', 'center', 'flex-start', 'flex-end', 'space-between', 'space-around', 'initial', 'inherit']
+alignContentModes = ['stretch', 'center', 'flex-start', 'flex-end', 'space-between', 'space-around', 'initial']
 flexJustifyModes = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around']
 flexDirectionModes = ['row', 'column']
 
