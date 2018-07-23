@@ -63,7 +63,8 @@ class Incito
 
         @entries.push view.el if view.lazyload is true
 
-        @ids[attrs.id] = attrs.meta if attrs.id? and typeof attrs.meta is 'object'
+        if attrs.id? and typeof attrs.meta is 'object'
+            @ids[attrs.id] = attrs.meta
 
         if Array.isArray(attrs.child_views)
             attrs.child_views.forEach (childView) =>

@@ -177,29 +177,21 @@ module.exports = class View
             @el.style.borderTopWidth = utils.formatUnit @attrs.stroke_top_width
         if @attrs.stroke_top_color?
             @el.style.borderTopColor = @attrs.stroke_top_color
-        if @attrs.stroke_top_style in strokeStyles
-            @el.style.borderTopStyle = @attrs.stroke_top_style
 
         if @attrs.stroke_left_width?
             @el.style.borderLeftWidth = utils.formatUnit @attrs.stroke_left_width
         if @attrs.stroke_left_color?
             @el.style.borderLeftColor = @attrs.stroke_left_color
-        if @attrs.stroke_left_style in strokeStyles
-            @el.style.borderLeftStyle = @attrs.stroke_left_style
 
         if @attrs.stroke_right_width?
             @el.style.borderRightWidth = utils.formatUnit @attrs.stroke_right_width
         if @attrs.stroke_right_color?
             @el.style.borderRightColor = @attrs.stroke_right_color
-        if @attrs.stroke_right_style in strokeStyles
-            @el.style.borderRightStyle = @attrs.stroke_right_style
 
         if @attrs.stroke_bottom_width?
             @el.style.borderBottomWidth = utils.formatUnit @attrs.stroke_bottom_width
         if @attrs.stroke_bottom_color?
             @el.style.borderBottomColor = @attrs.stroke_bottom_color
-        if @attrs.stroke_bottom_style in strokeStyles
-            @el.style.borderBottomStyle = @attrs.stroke_bottom_style
         
         # Transforms.
         transforms = @getTransforms()
@@ -246,5 +238,3 @@ module.exports = class View
             dy: dy
             radius: radius
             color: color
-
-module.exports = View
