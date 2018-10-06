@@ -11,19 +11,20 @@ module.exports = class Video extends View
     render: ->
         return if not utils.isDefinedStr @attrs.src
 
-        if @attrs.autoplay is true
-            @el.setAttribute 'autoplay', ''
-        
-        if @attrs.loop is true
-            @el.setAttribute 'loop', ''
-        
-        if @attrs.controls is true
-            @el.setAttribute 'controls', ''
-        
-        @el.setAttribute 'muted', 'true'
-        @el.setAttribute 'preload', 'metadata'
-        @el.setAttribute 'playsinline', ''
+        @el.muted = true
+        @el.preload = 'metadata'
+        @el.setAttribute 'playsinline', 'true'
+        @el.setAttribute 'webkit-playsinline', 'true'
         @el.setAttribute 'data-src', @attrs.src
         @el.setAttribute 'data-mime', @attrs.mime
+
+        if @attrs.autoplay is true
+            @el.autoplay = true
+        
+        if @attrs.loop is true
+            @el.loop = true
+        
+        if @attrs.controls is true
+            @el.controls = true
 
         @
