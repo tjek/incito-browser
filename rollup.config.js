@@ -1,7 +1,7 @@
 import coffeescript from 'rollup-plugin-coffee-script';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
-import {uglify} from 'rollup-plugin-uglify';
+import {terser} from 'rollup-plugin-terser';
 import path from 'path';
 import {minify} from 'uglify-es';
 import babel from 'rollup-plugin-babel';
@@ -18,6 +18,12 @@ var outputs = {
   UMDMin: path.join(__dirname, 'dist', 'incito.min.js'),
 };
 
+const getBabelPlugin = () =>
+  babel({
+    exclude: ['node_modules/**'],
+    extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.coffee']
+  });
+
 let configs = [
   {
     input,
@@ -30,9 +36,7 @@ let configs = [
       commonjs({
         extensions: ['.js', '.coffee']
       }),
-      babel({
-        exclude: 'node_modules/**',
-      })
+      getBabelPlugin()
     ]
   },
   {
@@ -46,9 +50,7 @@ let configs = [
       commonjs({
         extensions: ['.js', '.coffee']
       }),
-      babel({
-        exclude: 'node_modules/**',
-      })
+      getBabelPlugin()
     ]
   },
   {
@@ -70,9 +72,7 @@ let configs = [
         extensions: ['.js', '.coffee']
       }),
       globals(),
-      babel({
-        exclude: 'node_modules/**',
-      }),
+      getBabelPlugin()
     ]
   },
   {
@@ -94,10 +94,8 @@ let configs = [
         extensions: ['.js', '.coffee']
       }),
       globals(),
-      babel({
-        exclude: 'node_modules/**',
-      }),
-      uglify({}, minify),
+      getBabelPlugin(),
+      terser()
     ]
   }
 ];
