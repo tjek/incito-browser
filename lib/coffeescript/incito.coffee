@@ -6,7 +6,6 @@ ImageView = require './views/image'
 TextView = require './views/text'
 VideoEmbedView = require './views/video-embed'
 VideoView = require './views/video'
-LinearLayout = require './views/linear-layout'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
 
@@ -55,7 +54,6 @@ class Incito
             TextView: TextView
             VideoEmbedView: VideoEmbedView
             VideoView: VideoView
-            LinearLayout: LinearLayout
             AbsoluteLayout: AbsoluteLayout
             FlexLayout: FlexLayout
         match = views[viewName] ? View

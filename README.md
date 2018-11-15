@@ -16,6 +16,10 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.1.9
+
+- Removed support for LinearLayout as it's the same as View
+
 ### Version 1.1.5
 
 - Resolved issue where lazyloading didn't trigger when scrolling rapidly in browsers that don't support `IntersectionObserver`
