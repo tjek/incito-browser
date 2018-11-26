@@ -1,7 +1,6 @@
 MicroEvent = require 'microevent'
 utils = require './utils'
 View = require './views/view'
-FragView = require './views/frag'
 ImageView = require './views/image'
 TextView = require './views/text'
 VideoEmbedView = require './views/video-embed'
@@ -49,7 +48,6 @@ class Incito
         viewName = attrs.view_name
         views =
             View: View
-            FragView: FragView
             ImageView: ImageView
             TextView: TextView
             VideoEmbedView: VideoEmbedView
