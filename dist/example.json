@@ -27,6 +27,7 @@
     "root_view": {
         "layout_width": 1200,
         "gravity": "center_horizontal",
+        "layout_margin": 10,
         "child_views": [
             {
                 "role": "section",
