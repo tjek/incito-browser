@@ -192,6 +192,17 @@ module.exports = class View
             @el.style.borderBottomWidth = utils.formatUnit @attrs.stroke_bottom_width
         if @attrs.stroke_bottom_color?
             @el.style.borderBottomColor = @attrs.stroke_bottom_color
+
+        # Flex.
+        if typeof @attrs.layout_flex_shrink is 'number'
+            @el.style.flexShrink = @attrs.layout_flex_shrink
+            @el.style.msFlexShrink = @attrs.layout_flex_shrink
+        if typeof @attrs.layout_flex_grow is 'number'
+            @el.style.flexGrow = @attrs.layout_flex_grow
+            @el.style.msFlexGrow = @attrs.layout_flex_grow
+        if @attrs.layout_flex_basis?
+            @el.style.flexBasis = utils.formatUnit @attrs.layout_flex_basis
+            @el.style.msFlexBasis = utils.formatUnit @attrs.layout_flex_basis
         
         # Transforms.
         transforms = @getTransforms()
