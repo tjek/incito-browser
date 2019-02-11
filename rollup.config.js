@@ -3,7 +3,6 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import {terser} from 'rollup-plugin-terser';
 import path from 'path';
-import {minify} from 'uglify-es';
 import babel from 'rollup-plugin-babel';
 import globals from 'rollup-plugin-node-globals';
 
