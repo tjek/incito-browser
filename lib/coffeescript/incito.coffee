@@ -178,6 +178,7 @@ class Incito
         else if /incito__video-embed-view/gi.test(el.className)
             iframeEl = document.createElement 'iframe'
 
+            iframeEl.setAttribute 'allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
             iframeEl.setAttribute 'src', src
 
             el.appendChild iframeEl
