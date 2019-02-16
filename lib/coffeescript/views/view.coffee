@@ -117,41 +117,38 @@ module.exports = class View
         # Margin.
         if @attrs.layout_margin?
             @el.style.margin = utils.formatUnit @attrs.layout_margin
-        else
-            if @attrs.layout_margin_top?
-                @el.style.marginTop = utils.formatUnit @attrs.layout_margin_top
-            if @attrs.layout_margin_left?
-                @el.style.marginLeft = utils.formatUnit @attrs.layout_margin_left
-            if @attrs.layout_margin_right?
-                @el.style.marginRight = utils.formatUnit @attrs.layout_margin_right
-            if @attrs.layout_margin_bottom?
-                @el.style.marginBottom = utils.formatUnit @attrs.layout_margin_bottom
+        if @attrs.layout_margin_top?
+            @el.style.marginTop = utils.formatUnit @attrs.layout_margin_top
+        if @attrs.layout_margin_left?
+            @el.style.marginLeft = utils.formatUnit @attrs.layout_margin_left
+        if @attrs.layout_margin_right?
+            @el.style.marginRight = utils.formatUnit @attrs.layout_margin_right
+        if @attrs.layout_margin_bottom?
+            @el.style.marginBottom = utils.formatUnit @attrs.layout_margin_bottom
 
         # Padding.
         if @attrs.padding?
             @el.style.padding = utils.formatUnit @attrs.padding
-        else
-            if @attrs.padding_top?
-                @el.style.paddingTop = utils.formatUnit @attrs.padding_top
-            if @attrs.padding_left?
-                @el.style.paddingLeft = utils.formatUnit @attrs.padding_left
-            if @attrs.padding_right?
-                @el.style.paddingRight = utils.formatUnit @attrs.padding_right
-            if @attrs.padding_bottom?
-                @el.style.paddingBottom = utils.formatUnit @attrs.padding_bottom
+        if @attrs.padding_top?
+            @el.style.paddingTop = utils.formatUnit @attrs.padding_top
+        if @attrs.padding_left?
+            @el.style.paddingLeft = utils.formatUnit @attrs.padding_left
+        if @attrs.padding_right?
+            @el.style.paddingRight = utils.formatUnit @attrs.padding_right
+        if @attrs.padding_bottom?
+            @el.style.paddingBottom = utils.formatUnit @attrs.padding_bottom
         
         # Corner radius.
         if @attrs.corner_radius?
             @el.style.borderRadius = utils.formatUnit @attrs.corner_radius
-        else
-            if @attrs.corner_top_left_radius?
-                @el.style.borderTopLeftRadius = utils.formatUnit @attrs.corner_top_left_radius
-            if @attrs.corner_top_right_radius?
-                @el.style.borderTopRightRadius = utils.formatUnit @attrs.corner_top_right_radius
-            if @attrs.corner_bottom_left_radius?
-                @el.style.borderBottomLeftRadius = utils.formatUnit @attrs.corner_bottom_left_radius
-            if @attrs.corner_bottom_right_radius?
-                @el.style.borderBottomRightRadius = utils.formatUnit @attrs.corner_bottom_right_radius
+        if @attrs.corner_top_left_radius?
+            @el.style.borderTopLeftRadius = utils.formatUnit @attrs.corner_top_left_radius
+        if @attrs.corner_top_right_radius?
+            @el.style.borderTopRightRadius = utils.formatUnit @attrs.corner_top_right_radius
+        if @attrs.corner_bottom_left_radius?
+            @el.style.borderBottomLeftRadius = utils.formatUnit @attrs.corner_bottom_left_radius
+        if @attrs.corner_bottom_right_radius?
+            @el.style.borderBottomRightRadius = utils.formatUnit @attrs.corner_bottom_right_radius
         
         # Clip children.
         if @attrs.clip_children is false
