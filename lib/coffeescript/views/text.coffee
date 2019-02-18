@@ -70,10 +70,6 @@ module.exports = class TextView extends View
         else if @attrs.text_alignment is 'right'
             @el.style.textAlign = 'right'
         
-        # Font stretch.
-        if @attrs.font_stretch in ['condensed', 'normal', 'expanded']
-            @el.style.fontStretch = @attrs.font_stretch
-        
         # Max lines.
         if @attrs.single_line is true or @attrs.max_lines is 1
             @el.setAttribute 'data-single-line', true
