@@ -6,6 +6,12 @@ describe 'Utils', ->
         expect(formatUnit('32dp')).toBe('32px')
         expect(formatUnit()).toBe(0)
 
+        return
+
     test 'isDefinedStr', ->
         expect(isDefinedStr('')).toBe(false)
         expect(isDefinedStr(' ')).toBe(true)
+    
+        return
+
+    return

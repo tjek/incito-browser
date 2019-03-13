@@ -1,7 +1,7 @@
 {
   "name": "incito-browser",
-  "version": "1.1.16",
-  "description": "",
+  "version": "1.1.17",
+  "description": "The browser implementation of the Incito format.",
   "main": "dist/incito.cjs.js",
   "browser": "dist/incito.js",
   "module": "dist/incito.es.js",
@@ -41,9 +41,10 @@
   },
   "jest": {
     "moduleFileExtensions": [
-      "coffee",
       "js",
-      "json"
+      "json",
+      "coffee",
+      "node"
     ],
     "transform": {
       "^.+\\.(coffee)$": "<rootDir>/jest-preprocessor.js"
@@ -63,27 +64,27 @@
   },
   "homepage": "https://github.com/shopgun/incito-browser#readme",
   "devDependencies": {
-    "@babel/core": "^7.3.3",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "bundlesize": "^0.17.1",
     "coffeelint": "^2.1.0",
     "coffeescript": "^2.3.2",
     "incito": "git+https://github.com/shopgun/incito.git",
     "is-color": "^1.0.2",
-    "jest": "^24.1.0",
+    "jest": "^24.5.0",
     "jquery": "^3.3.1",
-    "jsdom": "^13.2.0",
+    "jsdom": "^14.0.0",
     "json-schema-faker": "^0.5.0-rc16",
     "jsonschema": "^1.2.4",
     "microevent": "^1.0.0",
     "nib": "^1.1.2",
     "npm-run-all": "^4.1.5",
-    "rollup": "^1.2.1",
+    "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-coffee-script": "^2.0.0",
-    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-node-globals": "^1.4.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
     "serve": "^10.1.2",
     "stylus": "^0.54.5",
     "uglify-es": "^3.3.10",
