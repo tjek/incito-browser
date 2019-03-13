@@ -37,6 +37,8 @@ module.exports = class TextView extends View
         # Font family.
         if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0
             @el.style.fontFamily = @attrs.font_family.join ', '
+        else
+            @el.style.fontFamily = 'inherit'
 
         # Text size.
         if @attrs.text_size?
