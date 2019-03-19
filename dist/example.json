@@ -192,6 +192,7 @@
                                     "view_name": "AbsoluteLayout",
                                     "role": "offer",
                                     "id": "16670",
+                                    "feature_labels": ["x", "y"],
                                     "meta": {
                                         "ids": [
                                             {

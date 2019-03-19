@@ -39,6 +39,12 @@ module.exports = class View
         # Accessibility visibility.
         if @attrs.accessibility_hidden is true
             @el.setAttribute 'aria-hidden', true
+        
+        # Feature labels.
+        if Array.isArray(@attrs.feature_labels)
+            featureLabels = @attrs.feature_labels.filter (featureLabel) -> /^[a-z_-]{1,14}$/.test featureLabel
+            
+            @el.setAttribute 'data-feature-labels', featureLabels.join(',') if featureLabels.length
 
         # Title.
         if utils.isDefinedStr @attrs.title
