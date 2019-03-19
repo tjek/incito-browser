@@ -94,6 +94,7 @@ class Incito
                 font = new FontFace key, urls,
                     style: value.style ? 'normal'
                     weight: value.weight ? 'normal'
+                    display: 'swap'
 
                 document.fonts.add font
 
@@ -106,6 +107,7 @@ class Incito
                 text = """
                     @font-face {
                         font-family: '#{key}';
+                        font-display: swap;
                         src: #{urls};
                     }
                 """
