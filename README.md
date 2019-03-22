@@ -16,6 +16,10 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.1.20
+- Update dependencies
+- Fix missing core-js runtime dependency
+
 ### Version 1.1.9
 
 - Removed support for LinearLayout as it's the same as View
