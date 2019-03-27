@@ -16,7 +16,12 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+## Version 1.1.21
+
+- Revert to core-js 2 for now
+
 ### Version 1.1.20
+
 - Update dependencies
 - Fix missing core-js runtime dependency
 
