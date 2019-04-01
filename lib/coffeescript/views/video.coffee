@@ -13,6 +13,7 @@ module.exports = class Video extends View
 
         @el.muted = true
         @el.preload = 'metadata'
+        @el.setAttribute 'muted', ''
         @el.setAttribute 'playsinline', 'true'
         @el.setAttribute 'webkit-playsinline', 'true'
         @el.setAttribute 'data-src', @attrs.src
