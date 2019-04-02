@@ -6,18 +6,16 @@ module.exports = class Video extends View
 
     tagName: 'video'
 
-    lazyload: true
-
     render: ->
         return if not utils.isDefinedStr @attrs.src
+
+        sourceEl = document.createElement 'source'
 
         @el.muted = true
         @el.preload = 'metadata'
         @el.setAttribute 'muted', ''
         @el.setAttribute 'playsinline', 'true'
         @el.setAttribute 'webkit-playsinline', 'true'
-        @el.setAttribute 'data-src', @attrs.src
-        @el.setAttribute 'data-mime', @attrs.mime
 
         if @attrs.autoplay is true
             @el.autoplay = true
@@ -27,5 +25,10 @@ module.exports = class Video extends View
         
         if @attrs.controls is true
             @el.controls = true
+
+        sourceEl.setAttribute 'src', @attrs.src
+        sourceEl.setAttribute 'type', @attrs.mime
+
+        @el.appendChild sourceEl
 
         @

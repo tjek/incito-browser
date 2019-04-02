@@ -109,8 +109,7 @@ module.exports = class View
         if utils.isDefinedStr @attrs.background_color
             @el.style.backgroundColor = @attrs.background_color
         if utils.isDefinedStr @attrs.background_image
-            @el.setAttribute 'data-src', @attrs.background_image
-            @lazyload = true
+            @el.style.backgroundImage = "url(#{@attrs.background_image})"
         if @attrs.background_tile_mode in ['repeat_x', 'repeat_y', 'repeat']
             @el.style.backgroundRepeat = @attrs.background_tile_mode.replace '_', '-'
         if utils.isDefinedStr @attrs.background_image_position
