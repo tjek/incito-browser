@@ -8,69 +8,91 @@ VideoView = require './views/video'
 AbsoluteLayout = require './views/absolute-layout'
 FlexLayout = require './views/flex-layout'
 
+views =
+    View: View
+    ImageView: ImageView
+    TextView: TextView
+    VideoEmbedView: VideoEmbedView
+    VideoView: VideoView
+    AbsoluteLayout: AbsoluteLayout
+    FlexLayout: FlexLayout
+
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
-        @entries = []
         @ids = {}
+        @incito = @options.incito or {}
+        @views = @flattenViews [], @incito.root_view
+        @viewIndex = 0
+        @entries = []
+        @lazyloader = utils.throttle @lazyload.bind(@), 150
 
         return
 
     start: ->
-        incito = @options.incito or {}
-
         @el.className = 'incito'
-        @el.setAttribute 'lang', incito.locale if incito.locale?
+        @el.setAttribute 'lang', @incito.locale if @incito.locale?
 
-        @loadFonts incito.font_assets
-        @applyTheme incito.theme
-        @render @el, incito.root_view
+        @loadFonts @incito.font_assets
+        @applyTheme @incito.theme
+        @render 150
 
         @containerEl.appendChild @el
 
+        window.addEventListener 'scroll', @lazyloader, false
+        window.addEventListener 'resize', @lazyloader, false
+
         @lazyload()
+
+        lazyHtml = =>
+            @render 150
+
+            if @viewIndex < @views.length - 1
+                requestAnimationFrame lazyHtml
+            
+            return
+        
+        requestAnimationFrame lazyHtml
         
         @
     
     destroy: ->
         @containerEl.removeChild @el
 
-        if @lazyloadCheck?
-            window.removeEventListener 'scroll', @lazyloadCheck, false
-            window.removeEventListener 'resize', @lazyloadCheck, false
+        window.removeEventListener 'scroll', @lazyloader, false
+        window.removeEventListener 'resize', @lazyloader, false
 
         @trigger 'destroyed'
         
         return
 
-    render: (el, attrs = {}) ->
-        match = null
-        viewName = attrs.view_name
-        views =
-            View: View
-            ImageView: ImageView
-            TextView: TextView
-            VideoEmbedView: VideoEmbedView
-            VideoView: VideoView
-            AbsoluteLayout: AbsoluteLayout
-            FlexLayout: FlexLayout
-        match = views[viewName] ? View
-        view = new match(attrs).render()
+    render: (viewCount) ->
+        i = @viewIndex
 
-        @entries.push view.el if view.lazyload is true
+        while i < Math.min(@viewIndex + viewCount, @views.length - 1)
+            item = @views[i]
+            attrs = item.attrs
+            viewName = attrs.view_name
+            match = views[viewName] ? View
+            view = new match(attrs).render()
 
-        if attrs.id? and typeof attrs.meta is 'object'
-            @ids[attrs.id] = attrs.meta
+            if attrs.id? and typeof attrs.meta is 'object'
+                @ids[attrs.id] = attrs.meta
+            
+            item.view = view
 
-        if Array.isArray(attrs.child_views)
-            attrs.child_views.forEach (childView) =>
-                @render(view.el, childView)
+            @entries.push view.el if view.lazyload is true
 
-                return
+            if item.parent? and item.parent.view?
+                item.parent.view.el.appendChild view.el
+            else
+                @el.appendChild view.el
+            
+            i++
         
-        el.appendChild view.el
+        @viewIndex = i
     
-        view.el
+        return
     
     applyTheme: (theme = {}) ->
         if Array.isArray theme.font_family
@@ -86,6 +108,20 @@ class Incito
             @el.style.lineHeight = theme.line_spacing_multiplier
         
         return
+    
+    flattenViews: (views, attrs, parent) ->
+        item =
+            attrs: attrs
+            view: null
+            parent: parent
+        
+        views.push item
+        
+        if Array.isArray(attrs.child_views)
+            attrs.child_views.forEach (childAttrs) =>
+                @flattenViews views, childAttrs, item
+        
+        views
 
     loadFonts: (fontAssets = {}) ->
         if 'FontFace' of window
@@ -118,47 +154,22 @@ class Incito
         
         return
     
-    lazyload: ->
+    isInsideViewport: (el) ->
         threshold = 1000
+        rect = el.getBoundingClientRect()
+        windowHeight = window.innerHeight ? document.documentElement.clientHeight
 
-        if 'IntersectionObserver' of window
-            observer = new IntersectionObserver (entries) =>
-                entries.forEach (entry) =>
-                    if entry.isIntersecting or entry.intersectionRatio > 0
-                        @revealElement entry.target
-                        observer.unobserve entry.target
+        rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
+    
+    lazyload: ->
+        @entries = @entries.filter (el) =>
+            if @isInsideViewport el
+                @revealElement el
 
-                    return
-
-                return
-            ,
-                rootMargin: "#{threshold}px"
-
-            @entries.forEach observer.observe.bind(observer)
-        else
-            isInsideViewport = (el) ->
-                rect = el.getBoundingClientRect()
-                windowHeight = window.innerHeight ? document.documentElement.clientHeight
-
-                rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
-            check = =>
-                @entries = @entries.filter (el) =>
-                    if isInsideViewport el
-                        @revealElement el
-
-                        false
-                    else
-                        true
-                
-                return
-            
-            @lazyloadCheck = utils.throttle check, 150
-
-            window.addEventListener 'scroll', @lazyloadCheck, false
-            window.addEventListener 'resize', @lazyloadCheck, false
-
-            setTimeout check, 0
-
+                false
+            else
+                true
+        
         return
     
     revealElement: (el) ->
