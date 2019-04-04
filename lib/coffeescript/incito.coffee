@@ -17,9 +17,6 @@ views =
     AbsoluteLayout: AbsoluteLayout
     FlexLayout: FlexLayout
 
-requestAnimFrameFallback = (fn) -> window.setTimeout fn, 1000 / 60
-requestAnimFrame = if 'requestAnimationFrame' of window then window.requestAnimationFrame else requestAnimFrameFallback
-
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
@@ -33,6 +30,8 @@ class Incito
         return
 
     start: ->
+        requestAnimFrameFallback = (fn) -> window.setTimeout fn, 1000 / 60
+        requestAnimFrame = if 'requestAnimationFrame' of window then window.requestAnimationFrame else requestAnimFrameFallback
         render = =>
             @render()
             requestAnimFrame render if @viewIndex < @views.length - 1

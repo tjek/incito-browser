@@ -1,6 +1,6 @@
 {
   "name": "incito-browser",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "description": "The browser implementation of the Incito format.",
   "main": "dist/incito.cjs.js",
   "browser": "dist/incito.js",
