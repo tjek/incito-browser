@@ -32,8 +32,13 @@ class Incito
     start: ->
         requestAnimFrameFallback = (fn) -> window.setTimeout fn, 1000 / 60
         requestAnimFrame = if 'requestAnimationFrame' of window then window.requestAnimationFrame else requestAnimFrameFallback
+        renders = 0
         render = =>
             @render()
+            @lazyload 100 if renders is 0
+
+            renders++
+
             requestAnimFrame render if @viewIndex < @views.length - 1
             
             return
@@ -43,11 +48,8 @@ class Incito
 
         @loadFonts @incito.font_assets
         @applyTheme @incito.theme
-        @render()
 
         @containerEl.appendChild @el
-
-        @lazyload()
 
         requestAnimFrame render
         
@@ -152,16 +154,16 @@ class Incito
         
         return
     
-    isInsideViewport: (el) ->
+    isInsideViewport: (el, threshold) ->
         windowHeight = window.innerHeight ? document.documentElement.clientHeight
-        threshold = windowHeight
+        threshold = threshold ? windowHeight
         rect = el.getBoundingClientRect()
 
         rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
     
-    lazyload: ->
+    lazyload: (threshold) ->
         @lazyloadables = @lazyloadables.filter (el) =>
-            if @isInsideViewport el
+            if @isInsideViewport el, threshold
                 @revealElement el
 
                 false
