@@ -17,6 +17,9 @@ views =
     AbsoluteLayout: AbsoluteLayout
     FlexLayout: FlexLayout
 
+requestAnimFrameFallback = (fn) -> window.setTimeout fn, 1000 / 60
+requestAnimFrame = if 'requestAnimationFrame' of window then window.requestAnimationFrame else requestAnimFrameFallback
+
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
@@ -24,36 +27,34 @@ class Incito
         @incito = @options.incito or {}
         @views = @flattenViews [], @incito.root_view
         @viewIndex = 0
-        @entries = []
+        @lazyloadables = []
         @lazyloader = utils.throttle @lazyload.bind(@), 150
 
         return
 
     start: ->
+        render = =>
+            @render()
+            requestAnimFrame render if @viewIndex < @views.length - 1
+            
+            return
+
         @el.className = 'incito'
         @el.setAttribute 'lang', @incito.locale if @incito.locale?
 
         @loadFonts @incito.font_assets
         @applyTheme @incito.theme
-        @render 150
+        @render()
 
         @containerEl.appendChild @el
 
+        @lazyload()
+
+        requestAnimFrame render
+        
         window.addEventListener 'scroll', @lazyloader, false
         window.addEventListener 'resize', @lazyloader, false
 
-        @lazyload()
-
-        lazyHtml = =>
-            @render 150
-
-            if @viewIndex < @views.length - 1
-                requestAnimationFrame lazyHtml
-            
-            return
-        
-        requestAnimationFrame lazyHtml
-        
         @
     
     destroy: ->
@@ -66,22 +67,20 @@ class Incito
         
         return
 
-    render: (viewCount) ->
+    render: ->
         i = @viewIndex
 
-        while i < Math.min(@viewIndex + viewCount, @views.length - 1)
+        while i < @viewIndex + 100 and i < @views.length - 1
             item = @views[i]
             attrs = item.attrs
-            viewName = attrs.view_name
-            match = views[viewName] ? View
+            match = views[attrs.view_name] ? View
             view = new match(attrs).render()
 
-            if attrs.id? and typeof attrs.meta is 'object'
-                @ids[attrs.id] = attrs.meta
-            
-            item.view = view
+            @ids[attrs.id] = attrs.meta if attrs.id? and typeof attrs.meta is 'object'
 
-            @entries.push view.el if view.lazyload is true
+            @lazyloadables.push view.el if view.lazyload is true
+
+            item.view = view
 
             if item.parent? and item.parent.view?
                 item.parent.view.el.appendChild view.el
@@ -155,14 +154,14 @@ class Incito
         return
     
     isInsideViewport: (el) ->
-        threshold = 1000
-        rect = el.getBoundingClientRect()
         windowHeight = window.innerHeight ? document.documentElement.clientHeight
+        threshold = windowHeight
+        rect = el.getBoundingClientRect()
 
         rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
     
     lazyload: ->
-        @entries = @entries.filter (el) =>
+        @lazyloadables = @lazyloadables.filter (el) =>
             if @isInsideViewport el
                 @revealElement el
 
