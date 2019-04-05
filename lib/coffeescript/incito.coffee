@@ -88,8 +88,6 @@ class Incito
     render: (IdleDeadline) ->
         i = @viewIndex
 
-        batchFragment = document.createDocumentFragment()
-
         while IdleDeadline.timeRemaining() > 0 and i < @viewsLength - 1
             item = @views[i]
             attrs = item.attrs
@@ -105,11 +103,10 @@ class Incito
             if item.parent? and item.parent.view?
                 item.parent.view.el.appendChild view.el
             else
-                batchFragment.appendChild view.el
+                @el.appendChild view.el
             
             i++
         
-        @el.appendChild batchFragment
         
         @viewIndex = i
     
