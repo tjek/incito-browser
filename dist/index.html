@@ -23,7 +23,10 @@
                     var incito = new Incito(document.getElementById('container'), {
                         incito: data
                     });
-
+                    incito.bind("allrendered", function () {
+                        console.timeEnd("start -> all rendered")
+                    })
+                    console.time("start -> all rendered")
                     incito.start();
                 });
         </script>

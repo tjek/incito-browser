@@ -39,7 +39,9 @@ class Incito
 
             renders++
 
-            requestAnimFrame render if @viewIndex < @views.length - 1
+            if @viewIndex < @views.length - 1
+                requestAnimFrame render
+            else @trigger 'allrendered'
             
             return
 
