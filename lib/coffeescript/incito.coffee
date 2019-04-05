@@ -17,30 +17,49 @@ views =
     AbsoluteLayout: AbsoluteLayout
     FlexLayout: FlexLayout
 
+if typeof window != "undefined" and typeof window.requestIdleCallback == "function"
+    requestIdleCallback = window.requestIdleCallback
+else
+    requestIdleCallback = (cb) ->
+        setTimeout(->
+            start = Date.now()
+            cb
+                didTimeout: false
+                timeRemaining: -> Math.max(0, 50 - (Date.now() - start))
+
+        , 1)
+
+if typeof window != "undefined" and typeof window.cancelIdleCallback == "function"
+    cancelIdleCallback = window.cancelIdleCallback
+else
+    (id) -> clearTimeout(id)
+
 class Incito
     constructor: (@containerEl, @options = {}) ->
         @el = document.createElement 'div'
         @ids = {}
         @incito = @options.incito or {}
         @views = @flattenViews [], @incito.root_view
+        @viewsLength = @views.length
         @viewIndex = 0
         @lazyloadables = []
         @lazyloader = utils.throttle @lazyload.bind(@), 150
+        @renderedOutsideOfViewport = false
 
         return
 
     start: ->
-        requestAnimFrameFallback = (fn) -> window.setTimeout fn, 1000 / 60
-        requestAnimFrame = if 'requestAnimationFrame' of window then window.requestAnimationFrame else requestAnimFrameFallback
-        renders = 0
-        render = =>
-            @render()
-            @lazyload 100 if renders is 0
+        triggeredVisiblerendered = false
+        render = (IdleDeadline) =>
+            @render IdleDeadline
+            @lazyload() if @renderedOutsideOfViewport
 
-            renders++
+            if @renderedOutsideOfViewport and not triggeredVisiblerendered
+                @trigger 'visiblerendered'
+                triggeredVisiblerendered = true
 
-            if @viewIndex < @views.length - 1
-                requestAnimFrame render
+            if @viewIndex < @viewsLength - 1
+                requestIdleCallback render
             else @trigger 'allrendered'
             
             return
@@ -53,8 +72,10 @@ class Incito
 
         @containerEl.appendChild @el
 
-        requestAnimFrame render
-        
+        startTime = Date.now()
+        render
+            timeRemaining: -> Number.MAX_VALUE
+
         window.addEventListener 'scroll', @lazyloader, false
         window.addEventListener 'resize', @lazyloader, false
 
@@ -70,10 +91,10 @@ class Incito
         
         return
 
-    render: ->
+    render: (IdleDeadline) ->
         i = @viewIndex
 
-        while i < @viewIndex + 100 and i < @views.length - 1
+        while IdleDeadline.timeRemaining() > 0 and i < @viewsLength - 1
             item = @views[i]
             attrs = item.attrs
             match = views[attrs.view_name] ? View
@@ -90,7 +111,12 @@ class Incito
             else
                 @el.appendChild view.el
             
+            if not @renderedOutsideOfViewport and not @isInsideViewport(@views[i].view.el)
+                @renderedOutsideOfViewport = true
+                break
+
             i++
+        
         
         @viewIndex = i
     
