@@ -44,16 +44,20 @@ class Incito
         @viewIndex = 0
         @lazyloadables = []
         @lazyloader = utils.throttle @lazyload.bind(@), 150
+        @renderedOutsideOfViewport = false
 
         return
 
     start: ->
-        renders = 0
+        triggeredVisiblerendered = false
         render = (IdleDeadline) =>
             @render IdleDeadline
-            @lazyload() if renders is 0
+            @lazyload() if @renderedOutsideOfViewport
 
-            renders++
+            if @renderedOutsideOfViewport and not triggeredVisiblerendered
+                @trigger 'visiblerendered'
+                triggeredVisiblerendered = true
+
             if @viewIndex < @viewsLength - 1
                 requestIdleCallback render
             else @trigger 'allrendered'
@@ -68,8 +72,10 @@ class Incito
 
         @containerEl.appendChild @el
 
-        requestIdleCallback render
-        
+        startTime = Date.now()
+        render
+            timeRemaining: -> Number.MAX_VALUE
+
         window.addEventListener 'scroll', @lazyloader, false
         window.addEventListener 'resize', @lazyloader, false
 
@@ -105,6 +111,10 @@ class Incito
             else
                 @el.appendChild view.el
             
+            if not @renderedOutsideOfViewport and not @isInsideViewport(@views[i].view.el)
+                @renderedOutsideOfViewport = true
+                break
+
             i++
         
         
