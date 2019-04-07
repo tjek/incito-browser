@@ -9,7 +9,14 @@
                 },
                 "corejs": 2,
                 "debug": true,
-                "exclude": ["transform-typeof-symbol"],
+                "exclude": [
+                    "transform-typeof-symbol",
+                    "es6.function.name",
+                    "es6.string.link",
+                    "es6.number.constructor",
+                    "es6.regexp.split",
+                    "es6.regexp.replace"
+                ],
                 "useBuiltIns": "usage"
             }
         ]
