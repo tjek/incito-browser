@@ -90,7 +90,6 @@
     "valid-url": "^1.0.9"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "microevent": "^1.0.0"
+    "core-js": "^2.6.5"
   }
 }

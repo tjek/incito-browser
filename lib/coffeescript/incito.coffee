@@ -1,4 +1,3 @@
-import MicroEvent from 'microevent'
 import { isDefinedStr, throttle } from './utils'
 import * as views from './views'
 
@@ -21,7 +20,7 @@ syncIdleCallback = (cb) ->
         didTimeout: false
     return
 
-class Incito
+export default class Incito
     constructor: (@containerEl, {
         @incito = {}
         @renderLaziness = 1 # 0: All synchronous. 1: Visible synchronous, rest lazy. 2: All lazy.
@@ -34,8 +33,21 @@ class Incito
         @lazyloadables = []
         @lazyloader = throttle @lazyload.bind(@), 150
         @renderedOutsideOfViewport = false
+        @_events = {}
 
         return
+
+    bind: (event, fn) ->
+        @_events[event] = @_events[event] or []
+        @_events[event].push fn
+
+    unbind: (event, fn) ->
+        if @_events[event]
+            @_events[event].splice(@_events[event].indexOf(fn), 1)
+
+    trigger: (event) ->
+        if @_events[event]
+            @_events[event].map (e) -> e.apply(this, Array.prototype.slice.call(arguments, 1))
 
     start: ->
         triggeredVisibleRendered = false
@@ -227,7 +239,3 @@ class Incito
             el.style.backgroundImage = "url(#{src})"
 
         return
-
-MicroEvent.mixin Incito
-
-export default Incito
