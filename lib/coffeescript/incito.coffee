@@ -43,15 +43,15 @@ class Incito
         return
 
     start: ->
-        triggeredVisiblerendered = false
+        triggeredVisibleRendered = false
         render = (IdleDeadline) =>
             @render IdleDeadline
             @lazyload 0 if @renderedOutsideOfViewport
 
-            if @renderedOutsideOfViewport and not triggeredVisiblerendered
+            if @renderedOutsideOfViewport and not triggeredVisibleRendered
                 @trigger 'visibleRendered'
 
-                triggeredVisiblerendered = true
+                triggeredVisibleRendered = true
 
             if @viewIndex < @viewsLength - 1
                 requestIdleCallback render
