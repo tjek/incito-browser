@@ -48,15 +48,18 @@ class Incito
             @render IdleDeadline
             @lazyload 0 if @renderedOutsideOfViewport
 
+            if @viewIndex < @viewsLength - 1
+                requestIdleCallback render
+            else
+                # make sure visibleRendered gets triggered even
+                # if renderedOutsideOfViewport wasn't
+                @renderedOutsideOfViewport = true
+                @trigger 'allRendered'
+
             if @renderedOutsideOfViewport and not triggeredVisibleRendered
                 @trigger 'visibleRendered'
 
                 triggeredVisibleRendered = true
-
-            if @viewIndex < @viewsLength - 1
-                requestIdleCallback render
-            else
-                @trigger 'allRendered'
             
             return
 
@@ -106,8 +109,11 @@ class Incito
                 item.parent.view.el.appendChild view.el
             else
                 @el.appendChild view.el
-            
-            if not @renderedOutsideOfViewport and not @isInsideViewport(@views[i].view.el)
+
+            # check if we rendered something out of the viewport for the first time and yield.
+            # the check is expensive so it's faster to only check every few iterations, the downside is that
+            # we might overrender a tiny bit but it comes out to faster than checking every iteration.
+            if (not (i % 10) and not @renderedOutsideOfViewport and not @isInsideViewport(@views[i].view.el))
                 @renderedOutsideOfViewport = true
 
                 break
