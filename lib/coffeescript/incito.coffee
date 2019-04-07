@@ -79,8 +79,6 @@ export default class Incito
 
         @containerEl.appendChild @el
 
-        startTime = Date.now()
-
         # do first render synchronously unless we're very lazy
         if @renderLaziness == 2
             @renderCallbackHandle = requestIdleCallback render
