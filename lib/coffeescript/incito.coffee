@@ -56,7 +56,7 @@ class Incito
             if @viewIndex < @viewsLength - 1
                 requestIdleCallback render
             else
-                @trigger 'allrendered'
+                @trigger 'allRendered'
             
             return
 

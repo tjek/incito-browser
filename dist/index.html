@@ -23,14 +23,19 @@
                     var incito = new Incito(document.getElementById('container'), {
                         incito: data
                     });
-                    incito.bind("allrendered", function () {
-                        console.timeEnd("start -> all rendered")
-                    })
-                    console.time("start -> all rendered")
-                    incito.bind("visiblerendered", function () {
-                        console.timeEnd("start -> visible rendered")
-                    })
-                    console.time("start -> visible rendered")
+
+                    incito.bind('allRendered', function () {
+                        console.timeEnd('start -> all rendered');
+                    });
+
+                    console.time('start -> all rendered');
+                    
+                    incito.bind('visiblerendered', function () {
+                        console.timeEnd('start -> visible rendered');
+                    });
+                    
+                    console.time('start -> visible rendered');
+                    
                     incito.start();
                 });
         </script>
