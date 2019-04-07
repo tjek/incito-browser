@@ -49,7 +49,7 @@ class Incito
             @lazyload 0 if @renderedOutsideOfViewport
 
             if @viewIndex < @viewsLength - 1
-                requestIdleCallback render
+                @renderCallbackHandle = requestIdleCallback render
             else
                 # make sure visibleRendered gets triggered even
                 # if renderedOutsideOfViewport wasn't
@@ -81,6 +81,7 @@ class Incito
         @
     
     destroy: ->
+        cancelIdleCallback @renderCallbackHandle
         @containerEl.removeChild @el
 
         window.removeEventListener 'scroll', @lazyloader, false
