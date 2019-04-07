@@ -28,9 +28,18 @@ else
                 timeRemaining: -> Math.max(0, 50 - (Date.now() - start))
         , 1)
 
+# like requestIdleCallback but effectively synchronous
+# as we give infinite time to run
+syncIdleCallback = (cb) ->
+    cb
+        timeRemaining: -> Number.MAX_VALUE
+        didTimeout: false
+    return
+
 class Incito
     constructor: (@containerEl, {
         @incito = {}
+        @renderLaziness = 1 # 0: All synchronous. 1: Visible synchronous, rest lazy. 2: All lazy.
     }) ->
         @el = document.createElement 'div'
         @ids = {}
@@ -47,7 +56,6 @@ class Incito
         triggeredVisibleRendered = false
         render = (IdleDeadline) =>
             @render IdleDeadline
-            @lazyload 0 if @renderedOutsideOfViewport
 
             if @viewIndex < @viewsLength - 1
                 @renderCallbackHandle = requestIdleCallback render
@@ -61,7 +69,9 @@ class Incito
                 @trigger 'visibleRendered'
 
                 triggeredVisibleRendered = true
-            
+                
+            @lazyload 0 if @renderedOutsideOfViewport
+
             return
 
         @el.className = 'incito'
@@ -73,8 +83,12 @@ class Incito
         @containerEl.appendChild @el
 
         startTime = Date.now()
-        render
-            timeRemaining: -> Number.MAX_VALUE
+
+        # do first render synchronously unless we're very lazy
+        if @renderLaziness == 2
+            @renderCallbackHandle = requestIdleCallback render
+        else
+            syncIdleCallback render
 
         window.addEventListener 'scroll', @lazyloader, false
         window.addEventListener 'resize', @lazyloader, false
@@ -115,7 +129,8 @@ class Incito
             # check if we rendered something out of the viewport for the first time and yield.
             # the check is expensive so it's faster to only check every few iterations, the downside is that
             # we might overrender a tiny bit but it comes out to faster than checking every iteration.
-            if not (@viewIndex % 20) and not @renderedOutsideOfViewport and not @isInsideViewport(view.el)
+            if @renderLaziness and not (@viewIndex % 20) \
+            and not @renderedOutsideOfViewport and not @isInsideViewport(view.el)
                 @renderedOutsideOfViewport = true
 
                 break
