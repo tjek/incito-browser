@@ -17,7 +17,7 @@ views =
     AbsoluteLayout: AbsoluteLayout
     FlexLayout: FlexLayout
 
-if typeof window != "undefined" and typeof window.requestIdleCallback == "function"
+if typeof window != 'undefined' and typeof window.requestIdleCallback == 'function'
     requestIdleCallback = window.requestIdleCallback
 else
     requestIdleCallback = (cb) ->
@@ -26,13 +26,7 @@ else
             cb
                 didTimeout: false
                 timeRemaining: -> Math.max(0, 50 - (Date.now() - start))
-
         , 1)
-
-if typeof window != "undefined" and typeof window.cancelIdleCallback == "function"
-    cancelIdleCallback = window.cancelIdleCallback
-else
-    (id) -> clearTimeout(id)
 
 class Incito
     constructor: (@containerEl, @options = {}) ->
@@ -52,15 +46,17 @@ class Incito
         triggeredVisiblerendered = false
         render = (IdleDeadline) =>
             @render IdleDeadline
-            @lazyload() if @renderedOutsideOfViewport
+            @lazyload 0 if @renderedOutsideOfViewport
 
             if @renderedOutsideOfViewport and not triggeredVisiblerendered
-                @trigger 'visiblerendered'
+                @trigger 'visibleRendered'
+
                 triggeredVisiblerendered = true
 
             if @viewIndex < @viewsLength - 1
                 requestIdleCallback render
-            else @trigger 'allrendered'
+            else
+                @trigger 'allrendered'
             
             return
 
@@ -113,10 +109,10 @@ class Incito
             
             if not @renderedOutsideOfViewport and not @isInsideViewport(@views[i].view.el)
                 @renderedOutsideOfViewport = true
+
                 break
 
             i++
-        
         
         @viewIndex = i
     
@@ -183,7 +179,7 @@ class Incito
         return
     
     isInsideViewport: (el, threshold) ->
-        windowHeight = window.innerHeight ? document.documentElement.clientHeight
+        windowHeight = window.innerHeight
         threshold = threshold ? windowHeight
         rect = el.getBoundingClientRect()
 
