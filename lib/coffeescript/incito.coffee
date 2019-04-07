@@ -91,10 +91,8 @@ class Incito
         return
 
     render: (IdleDeadline) ->
-        i = @viewIndex
-
-        while IdleDeadline.timeRemaining() > 0 and i < @viewsLength - 1
-            item = @views[i]
+        while IdleDeadline.timeRemaining() > 0 and @viewIndex < @viewsLength - 1
+            item = @views[@viewIndex]
             attrs = item.attrs
             match = views[attrs.view_name] ? View
             view = new match(attrs).render()
@@ -110,18 +108,16 @@ class Incito
             else
                 @el.appendChild view.el
 
+            @viewIndex++
+
             # check if we rendered something out of the viewport for the first time and yield.
             # the check is expensive so it's faster to only check every few iterations, the downside is that
             # we might overrender a tiny bit but it comes out to faster than checking every iteration.
-            if (not (i % 10) and not @renderedOutsideOfViewport and not @isInsideViewport(@views[i].view.el))
+            if not (@viewIndex % 20) and not @renderedOutsideOfViewport and not @isInsideViewport(view.el)
                 @renderedOutsideOfViewport = true
 
                 break
 
-            i++
-        
-        @viewIndex = i
-    
         return
     
     applyTheme: (theme = {}) ->
