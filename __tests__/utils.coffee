@@ -1,4 +1,4 @@
-{ escapeHTML, formatUnit, isDefinedStr } = require '../lib/coffeescript/utils'
+import { escapeHTML, formatUnit, isDefinedStr } from '../lib/coffeescript/utils'
 
 describe 'Utils', ->
     test 'formatUnit', ->
