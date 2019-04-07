@@ -29,10 +29,11 @@ else
         , 1)
 
 class Incito
-    constructor: (@containerEl, @options = {}) ->
+    constructor: (@containerEl, {
+        @incito = {}
+    }) ->
         @el = document.createElement 'div'
         @ids = {}
-        @incito = @options.incito or {}
         @views = @flattenViews [], @incito.root_view
         @viewsLength = @views.length
         @viewIndex = 0
