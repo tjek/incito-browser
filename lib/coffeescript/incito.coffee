@@ -1,21 +1,6 @@
-MicroEvent = require 'microevent'
-utils = require './utils'
-View = require './views/view'
-ImageView = require './views/image'
-TextView = require './views/text'
-VideoEmbedView = require './views/video-embed'
-VideoView = require './views/video'
-AbsoluteLayout = require './views/absolute-layout'
-FlexLayout = require './views/flex-layout'
-
-views =
-    View: View
-    ImageView: ImageView
-    TextView: TextView
-    VideoEmbedView: VideoEmbedView
-    VideoView: VideoView
-    AbsoluteLayout: AbsoluteLayout
-    FlexLayout: FlexLayout
+import MicroEvent from 'microevent'
+import { isDefinedStr, throttle } from './utils'
+import * as views from './views'
 
 if typeof window != 'undefined' and typeof window.requestIdleCallback == 'function'
     requestIdleCallback = window.requestIdleCallback
@@ -47,7 +32,7 @@ class Incito
         @viewsLength = @views.length
         @viewIndex = 0
         @lazyloadables = []
-        @lazyloader = utils.throttle @lazyload.bind(@), 150
+        @lazyloader = throttle @lazyload.bind(@), 150
         @renderedOutsideOfViewport = false
 
         return
@@ -110,7 +95,7 @@ class Incito
         while IdleDeadline.timeRemaining() > 0 and @viewIndex < @viewsLength - 1
             item = @views[@viewIndex]
             attrs = item.attrs
-            match = views[attrs.view_name] ? View
+            match = views[attrs.view_name] ? views.View
             view = new match(attrs).render()
 
             @ids[attrs.id] = attrs.meta if attrs.id? and typeof attrs.meta is 'object'
@@ -141,10 +126,10 @@ class Incito
         if Array.isArray theme.font_family
             @el.style.fontFamily = theme.font_family.join(', ')
         
-        if utils.isDefinedStr theme.background_color
+        if isDefinedStr theme.background_color
             @el.style.backgroundColor = theme.background_color
 
-        if utils.isDefinedStr theme.text_color
+        if isDefinedStr theme.text_color
             @el.style.color = theme.text_color
         
         if typeof theme.line_spacing_multiplier is 'number'
@@ -245,4 +230,4 @@ class Incito
 
 MicroEvent.mixin Incito
 
-module.exports = Incito
+export default Incito

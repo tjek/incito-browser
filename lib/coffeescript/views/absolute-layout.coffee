@@ -1,6 +1,6 @@
-View = require './view'
+import View from './view'
 
-module.exports = class AbsoluteLayout extends View
+export default class AbsoluteLayout extends View
     className: 'incito__absolute-layout-view'
 
     render: ->

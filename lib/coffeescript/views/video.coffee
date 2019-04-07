@@ -1,7 +1,7 @@
-View = require './view'
-utils = require '../utils'
+import View from './view'
+import { isDefinedStr } from "../utils"
 
-module.exports = class Video extends View
+export default class Video extends View
     className: 'incito__video-view'
 
     tagName: 'video'
@@ -9,7 +9,7 @@ module.exports = class Video extends View
     lazyload: true
 
     render: ->
-        return if not utils.isDefinedStr @attrs.src
+        return if not isDefinedStr @attrs.src
 
         @el.muted = true
         @el.preload = 'metadata'

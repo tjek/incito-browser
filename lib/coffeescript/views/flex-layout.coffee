@@ -1,11 +1,10 @@
-View = require './view'
-utils = require '../utils'
+import View from './view'
 
 alignItemModes = ['stretch', 'center', 'flex-start', 'flex-end', 'baseline']
 flexJustifyModes = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around']
 flexDirectionModes = ['row', 'column']
 
-module.exports = class FlexLayout extends View
+export default class FlexLayout extends View
     className: 'incito__flex-layout-view'
 
     render: ->
