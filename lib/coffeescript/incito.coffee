@@ -27,7 +27,7 @@ export default class Incito
     }) ->
         @el = document.createElement 'div'
         @ids = {}
-        @views = @flattenViews [], @incito.root_view
+        @views = flattenViews [], @incito.root_view
         @viewsLength = @views.length
         @viewIndex = 0
         @lazyloadables = []
@@ -36,7 +36,7 @@ export default class Incito
         @_events = {}
 
         return
-
+    
     bind: (event, fn) ->
         @_events[event] = @_events[event] or []
         @_events[event].push fn
@@ -74,7 +74,7 @@ export default class Incito
         @el.className = 'incito'
         @el.setAttribute 'lang', @incito.locale if @incito.locale?
 
-        @loadFonts @incito.font_assets
+        loadFonts @incito.font_assets
         @applyTheme @incito.theme
 
         @containerEl.appendChild @el
@@ -126,8 +126,7 @@ export default class Incito
             # check if we rendered something out of the viewport for the first time and yield.
             # the check is expensive so it's faster to only check every few iterations, the downside is that
             # we might overrender a tiny bit but it comes out to faster than checking every iteration.
-            if @renderLaziness and not (@viewIndex % 20) \
-            and not @renderedOutsideOfViewport and not @isInsideViewport(view.el)
+            if @renderLaziness and not (@viewIndex % 20) and not @renderedOutsideOfViewport and not isInsideViewport(view.el)
                 @renderedOutsideOfViewport = true
 
                 break
@@ -149,93 +148,93 @@ export default class Incito
         
         return
     
-    flattenViews: (views, attrs, parent) ->
-        item =
-            attrs: attrs
-            view: null
-            parent: parent
-        
-        views.push item
-        
-        if Array.isArray(attrs.child_views)
-            attrs.child_views.forEach (childAttrs) =>
-                @flattenViews views, childAttrs, item
-        
-        views
-
-    loadFonts: (fontAssets = {}) ->
-        if 'FontFace' of window
-            for key, value of fontAssets
-                urls = value.src.map((src) -> "url(#{src[1]})").join ', '
-                font = new FontFace key, urls,
-                    style: value.style ? 'normal'
-                    weight: value.weight ? 'normal'
-                    display: 'swap'
-
-                document.fonts.add font
-
-                font.load()
-        else
-            styleEl = document.createElement 'style'
-
-            for key, value of fontAssets
-                urls = value.src.map((src) -> "url('#{src[1]}') format('#{src[0]}')").join ', '
-                text = """
-                    @font-face {
-                        font-family: '#{key}';
-                        font-display: swap;
-                        src: #{urls};
-                    }
-                """
-                
-                styleEl.appendChild document.createTextNode(text)
-
-            document.head.appendChild styleEl
-        
-        return
-    
-    isInsideViewport: (el, threshold) ->
-        windowHeight = window.innerHeight
-        threshold = threshold ? windowHeight
-        rect = el.getBoundingClientRect()
-
-        rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
-    
     lazyload: (threshold) ->
-        @lazyloadables = @lazyloadables.filter (el) =>
-            if @isInsideViewport el, threshold
-                @revealElement el
+        @lazyloadables = @lazyloadables.filter (el) ->
+            if isInsideViewport el, threshold
+                revealElement el
 
                 false
             else
                 true
         
         return
+
+flattenViews = (views, attrs, parent) ->
+    item =
+        attrs: attrs
+        view: null
+        parent: parent
     
-    revealElement: (el) ->
-        src = el.getAttribute 'data-src'
+    views.push item
+    
+    if Array.isArray(attrs.child_views)
+        attrs.child_views.forEach (childAttrs) ->
+            flattenViews views, childAttrs, item
+    
+    views
 
-        if el.tagName.toLowerCase() is 'img'
-            el.addEventListener 'load', ->
-                el.className += ' incito--loaded'
+loadFonts = (fontAssets = {}) ->
+    if 'FontFace' of window
+        for key, value of fontAssets
+            urls = value.src.map((src) -> "url(#{src[1]})").join ', '
+            font = new FontFace key, urls,
+                style: value.style ? 'normal'
+                weight: value.weight ? 'normal'
+                display: 'swap'
 
-                return
-            el.setAttribute 'src', src
-        else if el.tagName.toLowerCase() is 'video'
-            sourceEl = document.createElement 'source'
+            document.fonts.add font
 
-            sourceEl.setAttribute 'src', src
-            sourceEl.setAttribute 'type', el.getAttribute('data-mime')
+            font.load()
+    else
+        styleEl = document.createElement 'style'
 
-            el.appendChild sourceEl
-        else if /incito__video-embed-view/gi.test(el.className)
-            iframeEl = document.createElement 'iframe'
+        for key, value of fontAssets
+            urls = value.src.map((src) -> "url('#{src[1]}') format('#{src[0]}')").join ', '
+            text = """
+                @font-face {
+                    font-family: '#{key}';
+                    font-display: swap;
+                    src: #{urls};
+                }
+            """
+            
+            styleEl.appendChild document.createTextNode(text)
 
-            iframeEl.setAttribute 'allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-            iframeEl.setAttribute 'src', src
+        document.head.appendChild styleEl
+    
+    return
+    
+isInsideViewport = (el, threshold) ->
+    windowHeight = window.innerHeight
+    threshold = threshold ? windowHeight
+    rect = el.getBoundingClientRect()
 
-            el.appendChild iframeEl
-        else
-            el.style.backgroundImage = "url(#{src})"
+    rect.top <= windowHeight + threshold and rect.top + rect.height >= -threshold
 
-        return
+revealElement = (el) ->
+    src = el.getAttribute 'data-src'
+
+    if el.tagName.toLowerCase() is 'img'
+        el.addEventListener 'load', ->
+            el.className += ' incito--loaded'
+
+            return
+        el.setAttribute 'src', src
+    else if el.tagName.toLowerCase() is 'video'
+        sourceEl = document.createElement 'source'
+
+        sourceEl.setAttribute 'src', src
+        sourceEl.setAttribute 'type', el.getAttribute('data-mime')
+
+        el.appendChild sourceEl
+    else if /incito__video-embed-view/gi.test(el.className)
+        iframeEl = document.createElement 'iframe'
+
+        iframeEl.setAttribute 'allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+        iframeEl.setAttribute 'src', src
+
+        el.appendChild iframeEl
+    else
+        el.style.backgroundImage = "url(#{src})"
+
+    return
