@@ -1,15 +1,15 @@
-View = require './view'
-utils = require '../utils'
+import View from './view'
+import { isDefinedStr } from "../utils"
 
 allowedHostnames = ['www.youtube.com', 'www.vimeo.com', 'video.twentythree.net']
 
-module.exports = class FlexLayout extends View
+export default class FlexLayout extends View
     className: 'incito__video-embed-view'
 
     lazyload: false
 
     render: ->
-        if utils.isDefinedStr @attrs.src
+        if isDefinedStr @attrs.src
             src = @attrs.src
             linkEl = document.createElement 'a'
 

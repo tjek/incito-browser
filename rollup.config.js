@@ -1,10 +1,8 @@
-import coffeescript from 'rollup-plugin-coffee-script';
-import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
-import {terser} from 'rollup-plugin-terser';
 import path from 'path';
 import babel from 'rollup-plugin-babel';
-import globals from 'rollup-plugin-node-globals';
+import coffeescript from 'rollup-plugin-coffee-script';
+import commonjs from 'rollup-plugin-commonjs';
+import {terser} from 'rollup-plugin-terser';
 
 var input = path.join(__dirname, 'lib', 'coffeescript', 'incito.coffee');
 
@@ -61,16 +59,9 @@ let configs = [
         },
         plugins: [
             coffeescript(),
-            resolve({
-                jsnext: true,
-                main: true,
-                browser: true,
-                preferBuiltins: false
-            }),
             commonjs({
                 extensions: ['.js', '.coffee']
             }),
-            globals(),
             getBabelPlugin()
         ]
     },
@@ -83,16 +74,9 @@ let configs = [
         },
         plugins: [
             coffeescript(),
-            resolve({
-                jsnext: true,
-                main: true,
-                browser: true,
-                preferBuiltins: false
-            }),
             commonjs({
                 extensions: ['.js', '.coffee']
             }),
-            globals(),
             getBabelPlugin(),
             terser()
         ]

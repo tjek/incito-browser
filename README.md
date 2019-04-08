@@ -16,6 +16,17 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+## Version NEXT
+
+- Small rendering speedup
+- Size reduction(about half)
+- Introduced a `renderLaziness` options, which lets a rendering mode be chosen:
+    - `renderLaziness: 0`: Render completely synchronously, this can percievably lock up a browser from user input but is the fastest way to render.
+    - `renderLaziness: 1`: **DEFAULT** Render stuff in the browser viewport synchronously, but the rest of the incito lazily.
+    - `renderLaziness: 2`: Render everything lazily. This ensures absolutely smooth user experience, but takes longer to show the user anything.
+- Internal refactor for ES6 modules.
+- Shed microevent dependency.
+
 ## Version 1.1.21
 
 - Revert to core-js 2 for now

@@ -1,7 +1,7 @@
-View = require './view'
-utils = require '../utils'
+import View from './view'
+import { isDefinedStr } from "../utils"
 
-module.exports = class Image extends View
+export default class Image extends View
     tagName: 'img'
 
     className: 'incito__image-view'
@@ -9,10 +9,10 @@ module.exports = class Image extends View
     lazyload: true
     
     render: ->
-        if utils.isDefinedStr @attrs.src
+        if isDefinedStr @attrs.src
             @el.setAttribute 'data-src', @attrs.src
         
-        if utils.isDefinedStr @attrs.label
+        if isDefinedStr @attrs.label
             @el.setAttribute 'alt', @attrs.label
         else
             @el.setAttribute 'alt', ''
