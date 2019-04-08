@@ -16,7 +16,7 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
-## Version NEXT
+## Version 1.1.28
 
 - Small rendering speedup
 - Size reduction(about half)
