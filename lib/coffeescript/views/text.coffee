@@ -30,9 +30,11 @@ export default class TextView extends View
             text = escapeHTML text
 
         if @attrs.text_prevent_widow
-            @el.innerHTML = text.replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
+            text = text.replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
         else
-            @el.innerHTML = text
+            text = text
+        
+        @el.innerHTML = text.replace /\n/g, '<br>'
 
         # Font family.
         if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0
