@@ -1,7 +1,7 @@
-View = require './view'
-utils = require '../utils'
+import View from './view'
+import { escapeHTML, isDefinedStr } from "../utils"
 
-module.exports = class TextView extends View
+export default class TextView extends View
     tagName: 'p'
 
     className: 'incito__text-view'
@@ -15,7 +15,7 @@ module.exports = class TextView extends View
         if Array.isArray(@attrs.spans) and @attrs.spans.length > 0
             parsedText = @parseSpans text, @attrs.spans
             text = parsedText.map (item) ->
-                escapedText = utils.escapeHTML item.text or ''
+                escapedText = escapeHTML item.text or ''
 
                 if item.span? and item.span.name is 'link' and item.span.url?
                     '<a href="' + encodeURI(item.span.url) + '" rel="external" target="_blank">' + escapedText + '</a>'
@@ -27,12 +27,14 @@ module.exports = class TextView extends View
                     escapedText
             text = text.join ''
         else
-            text = utils.escapeHTML text
+            text = escapeHTML text
 
         if @attrs.text_prevent_widow
-            @el.innerHTML = text.replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
+            text = text.replace(/\&nbsp;([^\s]+)$/,' $1').replace(/\s([^\s]+)\s*$/,'&nbsp;$1')
         else
-            @el.innerHTML = text
+            text = text
+        
+        @el.innerHTML = text.replace /\n/g, '<br>'
 
         # Font family.
         if Array.isArray(@attrs.font_family) and @attrs.font_family.length > 0
@@ -117,7 +119,7 @@ module.exports = class TextView extends View
         result
     
     getTextShadow: ->
-        if utils.isDefinedStr @attrs.text_shadow_color
+        if isDefinedStr @attrs.text_shadow_color
             dx = if typeof @attrs.text_shadow_dx is 'number' then @attrs.text_shadow_dx else 0
             dy = if typeof @attrs.text_shadow_dy is 'number' then @attrs.text_shadow_dy else 0
             radius = if typeof @attrs.text_shadow_radius is 'number' then @attrs.text_shadow_radius else 0
