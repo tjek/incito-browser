@@ -16,7 +16,10 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
-## Version 1.1.28
+### Version ?.?.?
+- Upgrade to core-js 3
+
+### Version 1.1.28
 
 - Small rendering speedup
 - Size reduction(about half)
@@ -27,7 +30,7 @@ This library can render the Incito format into HTML elements.
 - Internal refactor for ES6 modules.
 - Shed microevent dependency.
 
-## Version 1.1.21
+### Version 1.1.21
 
 - Revert to core-js 2 for now
 
