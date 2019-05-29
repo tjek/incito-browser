@@ -7,14 +7,22 @@
                     "browsers": ["> 3%", "IE 11"],
                     "node": 8
                 },
-                "corejs": 2,
+                "corejs": 3,
+                "debug": true,
                 "exclude": [
                     "transform-typeof-symbol",
-                    "es6.function.name",
-                    "es6.string.link",
-                    "es6.number.constructor",
-                    "es6.regexp.split",
-                    "es6.regexp.replace"
+                    "es.function.name",
+                    "es.string.link",
+                    "es.number.constructor",
+                    "es.string.split",
+                    "es.string.replace",
+                    "es.array.concat",
+                    "es.array.filter",
+                    "es.array.join",
+                    "es.array.map",
+                    "es.array.slice",
+                    "es.array.splice",
+                    "web.dom-collections.for-each"
                 ],
                 "useBuiltIns": "usage"
             }
