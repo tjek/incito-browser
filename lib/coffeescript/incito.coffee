@@ -54,7 +54,7 @@ export default class Incito
         render = (IdleDeadline) =>
             @render IdleDeadline
 
-            if @viewIndex < @viewsLength - 1
+            if @viewIndex <= @viewsLength - 1
                 @renderCallbackHandle = requestIdleCallback render
             else
                 # make sure visibleRendered gets triggered even
@@ -102,7 +102,7 @@ export default class Incito
         return
 
     render: (IdleDeadline) ->
-        while IdleDeadline.timeRemaining() > 0 and @viewIndex < @viewsLength - 1
+        while IdleDeadline.timeRemaining() > 0 and @viewIndex <= @viewsLength - 1
             item = @views[@viewIndex]
             attrs = item.attrs
             match = views[attrs.view_name] ? views.View
