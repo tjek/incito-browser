@@ -9,14 +9,15 @@ export default class FlexLayout extends View
     lazyload: false
 
     render: ->
-        if isDefinedStr @attrs.src
-            src = @attrs.src
-            linkEl = document.createElement 'a'
+        return @ if not isDefinedStr @attrs.src
 
-            linkEl.setAttribute 'href', src
+        src = @attrs.src
+        linkEl = document.createElement 'a'
 
-            if linkEl.hostname in allowedHostnames
-                @el.setAttribute 'data-src', src
-                @lazyload = true
+        linkEl.setAttribute 'href', src
 
+        if linkEl.hostname in allowedHostnames
+            @el.setAttribute 'data-src', src
+            @lazyload = true
+        
         @

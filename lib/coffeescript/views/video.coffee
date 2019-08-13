@@ -9,7 +9,7 @@ export default class Video extends View
     lazyload: true
 
     render: ->
-        return if not isDefinedStr @attrs.src
+        return @ if not isDefinedStr @attrs.src
 
         @el.muted = true
         @el.preload = 'metadata'
