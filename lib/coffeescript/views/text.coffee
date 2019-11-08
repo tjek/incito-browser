@@ -7,7 +7,7 @@ export default class TextView extends View
     className: 'incito__text-view'
 
     render: ->
-        return @ if typeof @attrs.text isnt 'string'
+        return @ if not isDefinedStr @attrs.text
 
         textStyles = (@attrs.text_style || '').split '|'
         text = @attrs.text
