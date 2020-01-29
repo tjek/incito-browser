@@ -60,6 +60,9 @@ export default class TextView extends View
         if 'italic' in textStyles
             @el.style.fontStyle = 'italic'
         
+        if Array.isArray @attrs.text_decoration_line
+            @el.style.textDecorationLine = @attrs.text_decoration_line.join ' '
+        
         # Text shadow.
         textShadow = @getTextShadow()
 
