@@ -28,4 +28,13 @@ export default class Video extends View
         if @attrs.controls is true
             @el.controls = true
 
+        # Link.
+        if isDefinedStr @attrs.link
+            @el.setAttribute 'data-link', ''
+            @el.addEventListener 'click', =>
+                window.open @attrs.link, '_blank'
+
+                return
+            , false
+
         @
