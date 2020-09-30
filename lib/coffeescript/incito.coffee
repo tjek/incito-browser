@@ -85,7 +85,7 @@ export default class Incito
         else
             syncIdleCallback render
 
-        window.addEventListener 'scroll', @lazyloader, false
+        document.addEventListener 'scroll', @lazyloader, true
         window.addEventListener 'resize', @lazyloader, false
 
         @
@@ -94,7 +94,7 @@ export default class Incito
         cancelIdleCallback @renderCallbackHandle
         @containerEl.removeChild @el
 
-        window.removeEventListener 'scroll', @lazyloader, false
+        document.removeEventListener 'scroll', @lazyloader, true
         window.removeEventListener 'resize', @lazyloader, false
 
         @trigger 'destroyed'

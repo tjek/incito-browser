@@ -16,7 +16,10 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
-### Version ?.?.?
+### Version 1.1.34
+- Fix scroll detection for lazy loading when mounted within a scroll container.
+
+### Version 1.1.30
 - Upgrade to core-js 3
 
 ### Version 1.1.28
