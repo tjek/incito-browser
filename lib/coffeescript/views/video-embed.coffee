@@ -1,7 +1,7 @@
 import View from './view'
 import { isDefinedStr } from "../utils"
 
-allowedHostnames = ['www.youtube.com', 'www.vimeo.com', 'video.twentythree.net']
+allowedHostnames = ['.youtube.com', '.vimeo.com', '.twentythree.net']
 
 export default class FlexLayout extends View
     className: 'incito__video-embed-view'
@@ -16,7 +16,10 @@ export default class FlexLayout extends View
 
         linkEl.setAttribute 'href', src
 
-        if linkEl.hostname in allowedHostnames
+        isSupported = allowedHostnames.find (hostname) ->
+            linkEl.hostname.slice(-hostname.length) is hostname
+
+        if isSupported
             @el.setAttribute 'data-src', src
             @lazyload = true
         
