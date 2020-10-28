@@ -5,7 +5,7 @@
             {
                 "targets": {
                     "browsers": ["> 3%", "IE 11"],
-                    "node": 8
+                    "node": 10
                 },
                 "corejs": 3,
                 "debug": true,
@@ -18,11 +18,15 @@
                     "es.string.replace",
                     "es.array.concat",
                     "es.array.filter",
+                    "es.array.find",
+                    "es.array.for-each",
+                    "es.array.index-of",
                     "es.array.join",
                     "es.array.map",
                     "es.array.slice",
                     "es.array.splice",
-                    "web.dom-collections.for-each"
+                    "web.dom-collections.for-each",
+                    "es.regexp.exec"
                 ],
                 "useBuiltIns": "usage"
             }
