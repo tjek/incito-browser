@@ -50,10 +50,6 @@ export default class View
         if isDefinedStr @attrs.title
             @el.setAttribute 'title', @attrs.title
 
-        # Metadata Title
-        if isDefinedStr @attrs.meta.title
-            @el.setAttribute 'data-title', @attrs.meta.title
-
         # Gravity.
         if isDefinedStr @attrs.gravity
             @el.setAttribute 'data-gravity', @attrs.gravity
