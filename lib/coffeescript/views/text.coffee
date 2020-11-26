@@ -66,7 +66,9 @@ export default class TextView extends View
         # Text shadow.
         textShadow = @getTextShadow()
 
-        if textShadow?
+        if isDefinedStr @attrs.text_shadow
+            @el.style.textShadow = @attrs.text_shadow
+        else if textShadow?
             @el.style.textShadow = "#{textShadow.dx}px #{textShadow.dy}px #{textShadow.radius}px #{textShadow.color}"
         
         # Text alignment.
