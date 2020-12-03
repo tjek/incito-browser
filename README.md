@@ -16,6 +16,9 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.1.37
+- Add support for composite text-shadow property in incito.
+
 ### Version 1.1.36
 - Fix bundling to properly resolve modules within UMD bundles.
 
