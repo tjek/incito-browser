@@ -16,6 +16,12 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.1.36
+- Fix bundling to properly resolve modules within UMD bundles.
+
+### Version 1.1.35
+- Fix VideoEmbed view where Vimeo embeds didn't work
+
 ### Version 1.1.34
 - Fix scroll detection for lazy loading when mounted within a scroll container.
 

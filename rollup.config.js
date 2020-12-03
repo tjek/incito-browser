@@ -3,6 +3,7 @@ import babel from 'rollup-plugin-babel';
 import coffeescript from 'rollup-plugin-coffee-script';
 import commonjs from 'rollup-plugin-commonjs';
 import {terser} from 'rollup-plugin-terser';
+import resolve from 'rollup-plugin-node-resolve';
 
 var input = path.join(__dirname, 'lib', 'coffeescript', 'incito.coffee');
 
@@ -62,7 +63,8 @@ let configs = [
             commonjs({
                 extensions: ['.js', '.coffee']
             }),
-            getBabelPlugin()
+            getBabelPlugin(),
+            resolve({browser: true})
         ]
     },
     {
@@ -78,6 +80,7 @@ let configs = [
                 extensions: ['.js', '.coffee']
             }),
             getBabelPlugin(),
+            resolve({browser: true}),
             terser()
         ]
     }
