@@ -1,6 +1,6 @@
 {
   "name": "incito-browser",
-  "version": "1.1.37",
+  "version": "1.2.0-beta.1",
   "description": "The browser implementation of the Incito format.",
   "main": "dist/incito.cjs.js",
   "browser": "dist/incito.js",
@@ -26,32 +26,18 @@
   ],
   "scripts": {
     "test": "npm run test:lint && npm run test:ci && npm run test:size",
-    "test:lint": "coffeelint lib/coffeescript __tests__",
+    "test:lint": "eslint lib __tests__",
     "test:ci": "jest --ci",
     "test:size": "bundlesize",
     "build:js": "rollup -c -m --environment NODE_ENV:production",
-    "build:css": "stylus lib/stylus/incito.styl -o dist/incito.css --include-css -m",
-    "build:css-min": "stylus lib/stylus/incito.styl -o dist/incito.min.css --include-css -m -c",
+    "build:css": "stylus lib/incito.styl -o dist/incito.css --include-css -m",
+    "build:css-min": "stylus lib/incito.styl -o dist/incito.min.css --include-css -m -c",
     "build": "run-p -l build:js build:css build:css-min",
     "dev:js": "rollup -c -m inline --no-treeshake --environment NODE_ENV:development --watch",
-    "dev:css": "stylus lib/stylus/incito.styl -o dist/incito.css --include-css --sourcemap-inline --watch",
+    "dev:css": "stylus lib/incito.styl -o dist/incito.css --include-css --sourcemap-inline --watch",
     "dev": "run-p -l dev:js dev:css serve",
     "serve": "serve",
     "prepublishOnly": "npm run build"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "coffee",
-      "node"
-    ],
-    "transform": {
-      "^.+\\.(coffee)$": "<rootDir>/jest-preprocessor.js"
-    },
-    "testMatch": [
-      "**/__tests__/*.(coffee|js)"
-    ]
   },
   "repository": {
     "type": "git",
@@ -64,26 +50,28 @@
   },
   "homepage": "https://github.com/shopgun/incito-browser#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "babel-jest": "^24.8.0",
-    "bundlesize": "^0.17.2",
-    "coffeelint": "^2.1.0",
-    "coffeescript": "^2.4.1",
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.10",
+    "babel-jest": "^26.6.3",
+    "bundlesize": "^0.18.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
     "incito": "git+https://github.com/shopgun/incito.git",
-    "jest": "^24.8.0",
+    "jest": "^26.6.3",
     "nib": "^1.1.2",
     "npm-run-all": "^4.1.5",
-    "regenerator-runtime": "^0.13.2",
-    "rollup": "^1.12.4",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-coffee-script": "^2.0.0",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-terser": "^5.0.0",
-    "serve": "^11.0.1",
-    "stylus": "^0.54.5"
+    "regenerator-runtime": "^0.13.7",
+    "rollup": "^2.34.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "serve": "^11.3.2",
+    "stylus": "^0.54.8"
   },
   "dependencies": {
-    "core-js": "^3.1.3"
+    "core-js": "^3.8.1"
   }
 }

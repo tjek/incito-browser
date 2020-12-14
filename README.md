@@ -16,6 +16,11 @@ This library can render the Incito format into HTML elements.
 
 ## Changelog
 
+### Version 1.2.0
+* Internal refactor to vanilla JS
+  
+  No breaking changes anticipated but a minor version bump to avoid automagic patches, just in case.
+
 ### Version 1.1.37
 - Add support for composite text-shadow property in incito.
 

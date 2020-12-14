@@ -1,11 +1,10 @@
 import path from 'path';
 import babel from 'rollup-plugin-babel';
-import coffeescript from 'rollup-plugin-coffee-script';
 import commonjs from 'rollup-plugin-commonjs';
 import {terser} from 'rollup-plugin-terser';
 import resolve from 'rollup-plugin-node-resolve';
 
-var input = path.join(__dirname, 'lib', 'coffeescript', 'incito.coffee');
+var input = path.join(__dirname, 'lib', 'incito.js');
 
 var outputs = {
     // Exclusive bundles(external `require`s untouched), for node, webpack etc.
@@ -19,7 +18,7 @@ var outputs = {
 const getBabelPlugin = () =>
     babel({
         exclude: ['node_modules/**'],
-        extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.coffee']
+        extensions: ['.js', '.jsx', '.es6', '.es', '.mjs']
     });
 
 let configs = [
@@ -30,9 +29,8 @@ let configs = [
             format: 'cjs'
         },
         plugins: [
-            coffeescript(),
             commonjs({
-                extensions: ['.js', '.coffee']
+                extensions: ['.js']
             }),
             getBabelPlugin()
         ]
@@ -44,9 +42,8 @@ let configs = [
             format: 'es'
         },
         plugins: [
-            coffeescript(),
             commonjs({
-                extensions: ['.js', '.coffee']
+                extensions: ['.js']
             }),
             getBabelPlugin()
         ]
@@ -59,9 +56,8 @@ let configs = [
             name: 'Incito'
         },
         plugins: [
-            coffeescript(),
             commonjs({
-                extensions: ['.js', '.coffee']
+                extensions: ['.js']
             }),
             getBabelPlugin(),
             resolve({browser: true})
@@ -75,9 +71,8 @@ let configs = [
             name: 'Incito'
         },
         plugins: [
-            coffeescript(),
             commonjs({
-                extensions: ['.js', '.coffee']
+                extensions: ['.js']
             }),
             getBabelPlugin(),
             resolve({browser: true}),
